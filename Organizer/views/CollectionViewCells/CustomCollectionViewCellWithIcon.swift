@@ -21,7 +21,7 @@ class CustomCollectionViewCellWithIcon: UICollectionViewCell {
     let categoryLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.darkGray
-        l.text = "Cat test"
+//        l.text = "Cat test"
 //        l.backgroundColor = .black
         l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.medium)
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +81,7 @@ class CustomCollectionViewCellWithIcon: UICollectionViewCell {
             arrowIcon.heightAnchor.constraint(equalToConstant: 21),
             arrowIcon.widthAnchor.constraint(equalToConstant: 13),
             arrowIcon.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
-            arrowIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            arrowIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
 
             labelsStackView.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
             labelsStackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
