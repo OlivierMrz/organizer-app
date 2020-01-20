@@ -1,5 +1,5 @@
 //
-//  CustomCollectionViewCellWithIcon.swift
+//  MainCollectionViewCell.swift
 //  Organizer
 //
 //  Created by Olivier Miserez on 17/01/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomCollectionViewCellWithIcon: UICollectionViewCell {
+class MainCollectionViewCell: UICollectionViewCell {
 
     let icon: UIImageView = {
         let i = UIImageView()

@@ -39,7 +39,7 @@ class CategoryViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isScrollEnabled = true
-        collectionView.register(CustomCollectionViewCellWithIcon.self, forCellWithReuseIdentifier: ReuseIdentifier.mainCell)
+        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.mainCell)
         collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.mainHeaderCell)
 
 //        let barButtonLeft = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(leftBarButtonTapped))
@@ -87,7 +87,7 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.mainCell, for: indexPath) as! CustomCollectionViewCellWithIcon
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.mainCell, for: indexPath) as! MainCollectionViewCell
 
         cell.categoryLabel.text = cellTitles[indexPath.row]
         cell.icon.image = IconCellArray[indexPath.row]
