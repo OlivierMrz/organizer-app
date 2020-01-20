@@ -9,32 +9,30 @@
 import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
-    let itemLabel: UILabel = {
+
+    let icon: UIImageView = {
+        let i = UIImageView()
+//        i.backgroundColor = .black
+        i.contentMode = .scaleAspectFit
+        i.translatesAutoresizingMaskIntoConstraints = false
+        return i
+    }()
+
+    let categoryLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.darkGray
-        l.text = "item title test"
+//        l.text = "Cat test"
 //        l.backgroundColor = .black
         l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.medium)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
-
-    let itemSubLabel: UILabel = {
+    let catItemCountLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.midGray
 //        l.backgroundColor = .black
-        l.text = "Sub title test"
-        l.font = UIFont.systemFont(ofSize: FontSize.small, weight: FontWeight.regular)
-        l.translatesAutoresizingMaskIntoConstraints = false
-        return l
-    }()
-
-    let itemSub2Label: UILabel = {
-        let l = UILabel()
-        l.textColor = Color.midGray
-        //        l.backgroundColor = .black
-        l.text = "Sub title 2 test"
-        l.font = UIFont.systemFont(ofSize: FontSize.xSmall, weight: FontWeight.regular)
+        l.text = "12 items"
+        l.font = UIFont.systemFont(ofSize: FontSize.xxSmall, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -62,30 +60,38 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
 
     func setupView() {
-        labelsStackView.addArrangedSubview(itemLabel)
-        labelsStackView.addArrangedSubview(itemSubLabel)
-        labelsStackView.addArrangedSubview(itemSub2Label)
+
+        labelsStackView.addArrangedSubview(categoryLabel)
+        labelsStackView.addArrangedSubview(catItemCountLabel)
 
         backgroundColor = Color.lightGray
         layer.cornerRadius = CornerRadius.collectionCell
         layer.masksToBounds = true
 
+        addSubview(icon)
         addSubview(labelsStackView)
         addSubview(arrowIcon)
 
         NSLayoutConstraint.activate([
+            icon.heightAnchor.constraint(equalToConstant: 80),
+            icon.widthAnchor.constraint(equalToConstant: 80),
+            icon.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
+            icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+
             arrowIcon.heightAnchor.constraint(equalToConstant: 21),
             arrowIcon.widthAnchor.constraint(equalToConstant: 13),
             arrowIcon.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
             arrowIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
 
-            labelsStackView.leadingAnchor.constraint(equalTo: trailingAnchor, constant: 10),
+            labelsStackView.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
             labelsStackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
-            labelsStackView.trailingAnchor.constraint(equalTo: arrowIcon.leadingAnchor, constant: -10),
+            labelsStackView.trailingAnchor.constraint(equalTo: arrowIcon.leadingAnchor, constant: -10)
         ])
+
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
 }

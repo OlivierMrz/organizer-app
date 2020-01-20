@@ -26,7 +26,7 @@ class CategoryViewController: UIViewController {
     let searchBar = UISearchBar()
     
     var IconCellArray: [UIImage] = [UIImage(named: "box")!, UIImage(named: "shelf")!, UIImage(named: "boxshelf")!, UIImage(named: "borrow")!, UIImage(named: "lent")!]
-    var cellTitles: [String] = ["Boxes", "Books", "Garage", "Borrowed", "Lent"]
+    var cellTitles: [String] = ["Storage", "Basement", "Garage", "Office", "Cellar"]
 
 
     override func viewDidLoad() {
@@ -39,8 +39,10 @@ class CategoryViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isScrollEnabled = true
-        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.mainCell)
-        collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.mainHeaderCell)
+        collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
+        collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
+        collectionView.register(DetailedCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.detailedCell)
+
 
 //        let barButtonLeft = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(leftBarButtonTapped))
 //        navigationItem.leftBarButtonItem = barButtonLeft
@@ -87,10 +89,9 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.mainCell, for: indexPath) as! MainCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as! DetailedCollectionViewCell
 
-        cell.categoryLabel.text = cellTitles[indexPath.row]
-        cell.icon.image = IconCellArray[indexPath.row]
+        cell.placeLabel.text = cellTitles[indexPath.row]
 
         return cell
     }
@@ -112,9 +113,9 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.mainHeaderCell, for: indexPath) as! CollectionHeaderView
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell, for: indexPath) as! CollectionHeaderView
 
-        view.titleLabel.text = "Choose category"
+        view.setupHeaderView(titleCount: 2, firstTitle: "Item", secondTitle: "place", thirdTitle: nil)
 
         return view
     }

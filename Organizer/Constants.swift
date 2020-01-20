@@ -67,8 +67,9 @@ struct BorderWidth {
 struct ReuseIdentifier {
     static let loginCell = "LoginCell"
     static let registerCell = "RegisterCell"
-    static let mainCell = "MainCell"
-    static let mainHeaderCell = "MainHeaderCell"
+    static let categoryCell = "CategoryCell"
+    static let detailedCell = "DetailedCell"
+    static let headerCell = "HeaderCell"
 }
 
 struct Device {
