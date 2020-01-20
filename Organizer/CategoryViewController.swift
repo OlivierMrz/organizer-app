@@ -77,6 +77,7 @@ class CategoryViewController: UIViewController {
 
     @IBAction func newCategoryButtonTapped() {
         print("New category button tapped")
+        CustomPopUpView(id: 1, name: "name test", title: "title test", loc: "card.location").show(animated: true)
     }
 
     // MARK: AddSearchBar

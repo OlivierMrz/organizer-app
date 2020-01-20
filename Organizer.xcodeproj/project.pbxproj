@@ -25,6 +25,8 @@
 		699B52AC23CE14B300EAFE33 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699B52AB23CE14B200EAFE33 /* Constants.swift */; };
 		69CC404023D5EBBE00F25E5C /* CategoryItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC403F23D5EBBE00F25E5C /* CategoryItemViewController.swift */; };
 		69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404123D5ECBB00F25E5C /* AddButton.swift */; };
+		69CC404523D600A400F25E5C /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404423D600A400F25E5C /* Modal.swift */; };
+		69CC404723D600BF00F25E5C /* CustomPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404623D600BF00F25E5C /* CustomPopUpView.swift */; };
 		6C8C940285E334714A7BF15A /* Pods_Organizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B69419FF67F873BA995123 /* Pods_Organizer.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,8 @@
 		699B52AB23CE14B200EAFE33 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		69CC403F23D5EBBE00F25E5C /* CategoryItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryItemViewController.swift; sourceTree = "<group>"; };
 		69CC404123D5ECBB00F25E5C /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
+		69CC404423D600A400F25E5C /* Modal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
+		69CC404623D600BF00F25E5C /* CustomPopUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPopUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 		69002AE123CF48B700B1C577 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				69CC404323D6004700F25E5C /* Popover */,
 				6943186C23D5D0B8002A673A /* TextFields */,
 				6943186E23D5D0D3002A673A /* CollectionViewCells */,
 				6943186D23D5D0C1002A673A /* Buttons */,
@@ -156,6 +161,15 @@
 				697D232623D1AAF800F9C2C7 /* FirebaseAuthManager.swift */,
 			);
 			name = Helper;
+			sourceTree = "<group>";
+		};
+		69CC404323D6004700F25E5C /* Popover */ = {
+			isa = PBXGroup;
+			children = (
+				69CC404423D600A400F25E5C /* Modal.swift */,
+				69CC404623D600BF00F25E5C /* CustomPopUpView.swift */,
+			);
+			path = Popover;
 			sourceTree = "<group>";
 		};
 		748C5739C13845B829A531F3 /* Pods */ = {
@@ -292,7 +306,9 @@
 			files = (
 				6905DCCE23CFBED0007D3558 /* LoginCollectionViewCell.swift in Sources */,
 				697D232923D1E1D800F9C2C7 /* CategoryViewController.swift in Sources */,
+				69CC404723D600BF00F25E5C /* CustomPopUpView.swift in Sources */,
 				69CC404023D5EBBE00F25E5C /* CategoryItemViewController.swift in Sources */,
+				69CC404523D600A400F25E5C /* Modal.swift in Sources */,
 				69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */,
 				699B529823CE145300EAFE33 /* AppDelegate.swift in Sources */,
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
