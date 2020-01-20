@@ -31,37 +31,24 @@ class CategoryViewController: UIViewController {
         return b
     }()
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // setNeedsStatusBarAppearanceUpdate()
-
-        let test = Auth.auth().currentUser?.email
-        if test != nil {
-            let x = UserDefaults.standard
-            x.set(test!, forKey: "lastLoggedInUser")
-            x.synchronize()
-            print(test!)
-        } else {
-            print(test ?? "no user")
-        }
-
-        let x = UserDefaults.standard.bool(forKey: "userSignedIn")
-        if !x {
-            let y = LoginViewController()
-            y.modalPresentationStyle = .fullScreen
-            present(y, animated: true, completion: nil)
-        }
-    }
-
     var IconCellArray: [UIImage] = [UIImage(named: "box")!, UIImage(named: "shelf")!, UIImage(named: "boxshelf")!, UIImage(named: "borrow")!, UIImage(named: "lent")!]
     var cellTitles: [String] = ["Boxes", "Books", "Garage", "Borrowed", "Lent"]
 
+    // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Categories"
-        // setNeedsStatusBarAppearanceUpdate()
         view.backgroundColor = Color.blue
 
+        addSearchBar()
+        addCollectionView()
+        addNavigation()
+
+        addNewCategoryButton()
+    }
+
+    // MARK: AddCollectionView
+    private func addCollectionView() {
         view.addSubview(collectionView)
 
         collectionView.delegate = self
@@ -70,29 +57,57 @@ class CategoryViewController: UIViewController {
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
         collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
 
-        let barButtonLeft = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(leftBarButtonTapped))
-        navigationItem.leftBarButtonItem = barButtonLeft
-        navigationController?.navigationBar.tintColor = Color.white
-
-        addSearchBar()
-
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
         ])
+    }
 
-//        navigationController?.navigationBar.isTranslucent = false
+    // MARK: AddNewCategoryButton
+    private func addNewCategoryButton() {
+        view.addSubview(addCategoryButton)
+        addCategoryButton.addTarget(self, action: #selector(newCategoryButtonTapped), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
+        ])
+    }
+
+    @IBAction func newCategoryButtonTapped() {
+        print("New category button tapped")
+    }
+
+    // MARK: AddSearchBar
+    fileprivate func addSearchBar() {
+        searchBar.placeholder = "Search"
+        searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
+        searchBar.backgroundColor = Color.white
+        searchBar.barStyle = .default
+        searchBar.isTranslucent = false
+        searchBar.barTintColor = Color.blue
+        searchBar.backgroundImage = UIImage()
+        view.addSubview(searchBar)
+
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.backgroundColor = Color.white
+    }
+
+    // MARK: AddNavigation
+    private func addNavigation() {
+        let barButtonLeft = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(leftBarButtonTapped))
+        navigationItem.leftBarButtonItem = barButtonLeft
+        navigationController?.navigationBar.tintColor = Color.white
+
+        //        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        navigationController?.navigationBar.barStyle = .default
+        //        navigationController?.navigationBar.barStyle = .default
         navigationController?.navigationBar.barTintColor = Color.blue
         navigationController?.navigationBar.shadowImage = UIImage()
 
         navigationController?.navigationBar.tintColor = Color.white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-
-        addNewCategoryButton()
     }
 
     @IBAction func leftBarButtonTapped() {
@@ -111,40 +126,37 @@ class CategoryViewController: UIViewController {
         }
     }
 
-    private func addNewCategoryButton() {
-        view.addSubview(addCategoryButton)
-        addCategoryButton.addTarget(self, action: #selector(newCategoryButtonTapped), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
-        ])
-    }
-
-    @IBAction func newCategoryButtonTapped() {
-        print("New category button tapped")
-    }
-
-    fileprivate func addSearchBar() {
-        searchBar.placeholder = "Search"
-        searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
-        searchBar.backgroundColor = Color.white
-        searchBar.barStyle = .default
-        searchBar.isTranslucent = false
-        searchBar.barTintColor = Color.blue
-        searchBar.backgroundImage = UIImage()
-        view.addSubview(searchBar)
-
-        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.backgroundColor = Color.white
-    }
-
+    // MARK: Functions
     func pushView(controller: UIViewController, title: String) {
         let controller = controller
         controller.title = title
         navigationController?.pushViewController(controller, animated: true)
     }
+
+    // MARK: ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let test = Auth.auth().currentUser?.email
+        if test != nil {
+            let x = UserDefaults.standard
+            x.set(test!, forKey: "lastLoggedInUser")
+            x.synchronize()
+            print(test!)
+        } else {
+            print(test ?? "no user")
+        }
+
+        let x = UserDefaults.standard.bool(forKey: "userSignedIn")
+        if !x {
+            let y = LoginViewController()
+            y.modalPresentationStyle = .fullScreen
+            present(y, animated: true, completion: nil)
+        }
+    }
 }
 
+// MARK: CollectionView extensions
 extension CategoryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5

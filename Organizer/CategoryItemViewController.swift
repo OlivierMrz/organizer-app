@@ -28,12 +28,19 @@ class CategoryItemViewController: UIViewController {
     var IconCellArray: [UIImage] = [UIImage(named: "box")!, UIImage(named: "shelf")!, UIImage(named: "boxshelf")!, UIImage(named: "borrow")!, UIImage(named: "lent")!]
     var cellTitles: [String] = ["Storage", "Basement", "Garage", "Office", "Cellar"]
 
-
+    // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = Color.blue
 
+        addSearchBar()
+        addCollectionView()
+        addNavigation()
+    }
+
+    // MARK: AddCollectionView
+    fileprivate func addCollectionView() {
         view.addSubview(collectionView)
 
         collectionView.delegate = self
@@ -43,30 +50,15 @@ class CategoryItemViewController: UIViewController {
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
         collectionView.register(DetailedCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.detailedCell)
 
-
-//        let barButtonLeft = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(leftBarButtonTapped))
-//        navigationItem.leftBarButtonItem = barButtonLeft
-//        navigationController?.navigationBar.tintColor = Color.white
-
-        addSearchBar()
-
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
         ])
-
-        //        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        //        navigationController?.navigationBar.barStyle = .default
-        navigationController?.navigationBar.barTintColor = Color.blue
-        navigationController?.navigationBar.shadowImage = UIImage()
-
-        navigationController?.navigationBar.tintColor = Color.white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
 
+    // MARK: AddSearchBar
     fileprivate func addSearchBar() {
         searchBar.placeholder = "Search"
         searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
@@ -81,8 +73,20 @@ class CategoryItemViewController: UIViewController {
         textFieldInsideSearchBar?.backgroundColor = Color.white
     }
 
+    // MARK: AddNavigation
+    fileprivate func addNavigation() {
+        //        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        //        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.barTintColor = Color.blue
+        navigationController?.navigationBar.shadowImage = UIImage()
+
+        navigationController?.navigationBar.tintColor = Color.white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+    }
 }
 
+// MARK: CollectionView extensions
 extension CategoryItemViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
