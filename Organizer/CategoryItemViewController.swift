@@ -47,8 +47,8 @@ class CategoryItemViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.isScrollEnabled = true
         collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
-        collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
-        collectionView.register(DetailedCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.detailedCell)
+        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
+        collectionView.register(DetailedCell.self, forCellWithReuseIdentifier: ReuseIdentifier.detailedCell)
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
@@ -93,7 +93,7 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as! DetailedCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as! DetailedCell
 
         cell.placeLabel.text = cellTitles[indexPath.row]
 

@@ -1,5 +1,5 @@
 //
-//  DetailedCollectionViewCell.swift
+//  DetailedCell.swift
 //  Organizer
 //
 //  Created by Olivier Miserez on 17/01/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailedCollectionViewCell: UICollectionViewCell {
+class DetailedCell: UICollectionViewCell {
     let itemLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.darkGray

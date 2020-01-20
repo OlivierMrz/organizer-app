@@ -14,11 +14,14 @@ struct Color {
     static let darkGray = UIColor(named: "DarkGray")
     static let midGray = UIColor(named: "MidGray")
     static let lightGray = UIColor(named: "LightGray")
+    static let black = UIColor(named: "Black")
 }
 
 struct Margins {
-    static let xSmall: CGFloat = 2
+    static let xxSmall: CGFloat = 2
+    static let xSmall: CGFloat = 4
     static let small: CGFloat = 8
+    static let largeSmall: CGFloat = 16
     static let medium: CGFloat = 20
     static let large: CGFloat = 21
     static let xLarge: CGFloat = 38
@@ -70,6 +73,7 @@ struct ReuseIdentifier {
     static let categoryCell = "CategoryCell"
     static let detailedCell = "DetailedCell"
     static let headerCell = "HeaderCell"
+    static let selectIconCell = "SelectIconCell"
 }
 
 struct Device {
@@ -89,4 +93,9 @@ struct Device {
     static let IS_IPHONE_XS = IS_IPHONE && SCREEN_MAX_LENGTH == 812 // X, XS, 11 Pro
     static let IS_IPHONE_XS_MAX = IS_IPHONE && SCREEN_MAX_LENGTH == 896 // XR, XS Max, 11, 11 Pro Max
     static let IS_IPHONE_6P_OR_GREATHER = IS_IPHONE && SCREEN_MAX_LENGTH >= 736 // 6+, 6S+, 7+, 8+, AND greather ...
+}
+
+enum PopoverType {
+    case addNewCategory
+    case addNewItem
 }

@@ -1,5 +1,5 @@
 //
-//  CategoryCollectionViewCell.swift
+//  CategoryCell.swift
 //  Organizer
 //
 //  Created by Olivier Miserez on 17/01/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CategoryCollectionViewCell: UICollectionViewCell {
+class CategoryCell: UICollectionViewCell {
     let icon: UIImageView = {
         let i = UIImageView()
 //        i.backgroundColor = .black

@@ -54,7 +54,7 @@ class CategoryViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isScrollEnabled = true
-        collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
+        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
         collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
 
         NSLayoutConstraint.activate([
@@ -76,8 +76,7 @@ class CategoryViewController: UIViewController {
     }
 
     @IBAction func newCategoryButtonTapped() {
-        print("New category button tapped")
-        CustomPopUpView(id: 1, name: "name test", title: "title test", loc: "card.location").show(animated: true)
+        newCategoryPopoverView().show(animated: true)
     }
 
     // MARK: AddSearchBar
@@ -164,7 +163,7 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.categoryCell, for: indexPath) as! CategoryCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.categoryCell, for: indexPath) as! CategoryCell
 
         cell.categoryLabel.text = cellTitles[indexPath.row]
         cell.icon.image = IconCellArray[indexPath.row]

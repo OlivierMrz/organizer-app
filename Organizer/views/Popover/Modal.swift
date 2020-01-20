@@ -16,20 +16,13 @@ protocol Modal {
     var dialogView:UIView {get set}
 }
 
-class cardModal {
-
-    var id: Int
-    var fullname: String
-    var jobTitle: String
-    var location: String
-
-    init(id: Int, fullname: String, jobTitle: String, location: String) {
-        self.id = id
-        self.fullname = fullname
-        self.jobTitle = jobTitle
-        self.location = location
-    }
-}
+//class cardModal {
+//    var modalTitle: String
+//
+//    init(modalTitle: String) {
+//        self.modalTitle = modalTitle
+//    }
+//}
 
 extension Modal where Self:UIView{
     func show(animated:Bool){
@@ -48,7 +41,7 @@ extension Modal where Self:UIView{
             UIView.animate(withDuration: 0.33, animations: {
                 self.backgroundView.alpha = 0.66
             })
-            UIView.animate(withDuration: 0.33, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: UIView.AnimationOptions(rawValue: 0), animations: {
+            UIView.animate(withDuration: 0.23, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: UIView.AnimationOptions(rawValue: 0), animations: {
                 self.dialogView.center  = self.center
             }, completion: { (completed) in
 
