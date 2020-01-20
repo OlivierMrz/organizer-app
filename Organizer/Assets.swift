@@ -20,10 +20,11 @@ struct Margins {
     static let xSmall: CGFloat = 2
     static let small: CGFloat = 8
     static let medium: CGFloat = 20
-    static let large: CGFloat = 24
+    static let large: CGFloat = 21
     static let xLarge: CGFloat = 38
     static let xxLarge: CGFloat = 40
     static let xxxLarge: CGFloat = 46
+    static let collectionCellMargin: CGFloat = 48
     static let bigTitle: CGFloat = 80
     static let bigTitleSmallScreen: CGFloat = 30
 }
@@ -50,6 +51,8 @@ struct CornerRadius {
     static let medium: CGFloat = 12
     static let large: CGFloat = 14
     static let xxLarge: CGFloat = 40
+
+    static let collectionCell: CGFloat = 16
 }
 
 struct BorderWidth {
@@ -64,6 +67,8 @@ struct BorderWidth {
 struct ReuseIdentifier {
     static let loginCell = "LoginCell"
     static let registerCell = "RegisterCell"
+    static let mainCell = "MainCell"
+    static let mainHeaderCell = "MainHeaderCell"
 }
 
 struct Device {

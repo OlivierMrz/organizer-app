@@ -19,21 +19,6 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         return cv
     }()
 
-    var scrollOffset: CGFloat = 0.0
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-
-    override var prefersStatusBarHidden: Bool {
-        if Device.IS_IPHONE_6P_OR_GREATHER && scrollOffset >= 53.0 {
-            return true
-        } else if !Device.IS_IPHONE_6P_OR_GREATHER && scrollOffset >= 23.0 {
-            return true
-        }
-        return false
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -95,7 +80,7 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         }
 
         guard let email = textField[0].text,
-        let password = textField[1].text else { return }
+            let password = textField[1].text else { return }
 
         Auth.auth().signIn(withEmail: email, password: password) { _, error in
 
@@ -127,7 +112,6 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         } else if textField[2].text!.isEmpty {
             message = "Confirm password is empty"
         }
-        
 
         guard message.isEmpty else {
             let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -229,12 +213,5 @@ extension LoginViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
-    }
-}
-
-extension LoginViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollOffset = scrollView.contentOffset.y
-        setNeedsStatusBarAppearanceUpdate()
     }
 }

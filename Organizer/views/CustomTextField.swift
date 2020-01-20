@@ -17,6 +17,7 @@ class CustomTextField: UITextField {
 
     func setup() {
         backgroundColor = Color.lightGray
+        textColor = Color.darkGray
         leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 32))
         leftViewMode = .always
         layer.cornerRadius = CornerRadius.xSmall

@@ -17,8 +17,8 @@ class RegisterCollectionViewCell: UICollectionViewCell {
     let mainView: UIView = {
         let v = UIView()
         v.backgroundColor = Color.white
-        v.layer.cornerRadius = CornerRadius.xxLarge
-        v.layer.maskedCorners = [.layerMinXMaxYCorner]
+//        v.layer.cornerRadius = CornerRadius.xxLarge
+//        v.layer.maskedCorners = [.layerMinXMaxYCorner]
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()

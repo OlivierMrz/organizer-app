@@ -49,6 +49,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
     let emailTextField: CustomTextField = {
         let t = CustomTextField()
         t.setup(placeHolder: "your@email.com")
+        t.text = "test@test.com"
         return t
     }()
 
@@ -65,6 +66,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
         let t = CustomTextField()
         t.setup(placeHolder: "******")
         t.isSecureTextEntry = true
+        t.text = "123456"
         return t
     }()
 
