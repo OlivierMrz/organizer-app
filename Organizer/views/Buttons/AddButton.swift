@@ -9,24 +9,40 @@
 import UIKit
 
 class AddButton: UIButton {
+    private var shadowLayer: CAShapeLayer!
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if shadowLayer == nil {
+            shadowLayer = CAShapeLayer()
+            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: CornerRadius.medium).cgPath
+            shadowLayer.fillColor = Color.blue?.cgColor
+
+            shadowLayer.shadowColor = Color.blue?.cgColor
+            shadowLayer.shadowPath = shadowLayer.path
+            shadowLayer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+            shadowLayer.shadowOpacity = 0.7
+            shadowLayer.shadowRadius = 3
+
+            layer.insertSublayer(shadowLayer, at: 0)
+        }
+    }
+
     func setup() {
         backgroundColor = .clear
-
-        layer.cornerRadius = CornerRadius.small
-        layer.masksToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = Color.blue
 
         let title = UILabel()
         title.text = "+"
         title.textColor = Color.white
-        title.font = UIFont.systemFont(ofSize: 32, weight: FontWeight.regular)
+        title.font = UIFont.systemFont(ofSize: 36, weight: FontWeight.regular)
         title.translatesAutoresizingMaskIntoConstraints = false
         addSubview(title)
 
         NSLayoutConstraint.activate([
             title.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
-            title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2),
+            title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -3),
         ])
     }
 
