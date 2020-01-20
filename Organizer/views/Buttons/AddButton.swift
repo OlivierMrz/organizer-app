@@ -9,9 +9,8 @@
 import UIKit
 
 class AddButton: UIButton {
-
     func setup() {
-        self.backgroundColor = .clear
+        backgroundColor = .clear
 
         layer.cornerRadius = CornerRadius.small
         layer.masksToBounds = true
@@ -27,9 +26,8 @@ class AddButton: UIButton {
 
         NSLayoutConstraint.activate([
             title.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
-            title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2)
+            title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2),
         ])
-
     }
 
     override init(frame: CGRect) {
@@ -43,7 +41,5 @@ class AddButton: UIButton {
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
     }
-
 }

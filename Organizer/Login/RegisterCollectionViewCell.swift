@@ -22,7 +22,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
-    
+
     let bigRegisterTitleLabel1: UILabel = {
         let l = UILabel()
         l.text = "Hello"
@@ -31,6 +31,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
+
     let bigRegisterTitleLabel2: UILabel = {
         let l = UILabel()
         l.text = "again..."
@@ -39,6 +40,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
+
     let smallRegisterTitleLabel: UILabel = {
         let l = UILabel()
         l.text = "Create your account"
@@ -47,6 +49,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
+
     let emailLabel: UILabel = {
         let l = UILabel()
         l.text = "Email"
@@ -136,7 +139,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
             confirmPasswordLabel,
             confirmPasswordTextField,
             registerAccountButton,
-            scrollToLoginButton
+            scrollToLoginButton,
         ]
 
         addSubViews(views, to: mainView)
@@ -152,14 +155,14 @@ class RegisterCollectionViewCell: UICollectionViewCell {
                 bigRegisterTitleLabel1.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.bigTitle),
                 bigRegisterTitleLabel1.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 46),
                 mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.large),
-                emailLabel.topAnchor.constraint(equalTo: smallRegisterTitleLabel.bottomAnchor, constant: 54)
+                emailLabel.topAnchor.constraint(equalTo: smallRegisterTitleLabel.bottomAnchor, constant: 54),
             ])
         } else {
             NSLayoutConstraint.activate([
                 bigRegisterTitleLabel1.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.bigTitleSmallScreen),
                 bigRegisterTitleLabel1.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 46),
                 mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.large),
-                emailLabel.topAnchor.constraint(equalTo: smallRegisterTitleLabel.bottomAnchor, constant: 30)
+                emailLabel.topAnchor.constraint(equalTo: smallRegisterTitleLabel.bottomAnchor, constant: 30),
             ])
         }
 
@@ -217,7 +220,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
     }
 
     func addSubViews(_ views: [UIView], to parentView: UIView) {
-        views.forEach{ parentView.addSubview($0) }
+        views.forEach { parentView.addSubview($0) }
     }
 
     required init?(coder: NSCoder) {

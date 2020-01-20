@@ -57,7 +57,7 @@ class CollectionHeaderView: UICollectionReusableView {
             firstLabel.text = firstTitle
             stackView.addArrangedSubview(secondLabel)
             secondLabel.text = secondTitle
-            
+
         case 3:
             stackView.addArrangedSubview(firstLabel)
             firstLabel.text = firstTitle
@@ -69,8 +69,6 @@ class CollectionHeaderView: UICollectionReusableView {
         default:
             fatalError()
         }
-
-
     }
 
     override init(frame: CGRect) {
@@ -83,7 +81,7 @@ class CollectionHeaderView: UICollectionReusableView {
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 0),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30)
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
         ])
     }
 

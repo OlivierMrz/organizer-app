@@ -9,10 +9,9 @@
 import UIKit
 
 class CustomTextField: UITextField {
-
     func setup(placeHolder: String) {
         attributedPlaceholder =
-        NSAttributedString(string: placeHolder, attributes: [NSAttributedString.Key.foregroundColor: Color.midGray as Any])
+            NSAttributedString(string: placeHolder, attributes: [NSAttributedString.Key.foregroundColor: Color.midGray as Any])
     }
 
     func setup() {
@@ -23,7 +22,7 @@ class CustomTextField: UITextField {
         layer.cornerRadius = CornerRadius.xSmall
         layer.masksToBounds = true
         clearButtonMode = .whileEditing
-        self.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
     }
 
     override init(frame: CGRect) {

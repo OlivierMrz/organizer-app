@@ -135,12 +135,11 @@ class LoginCollectionViewCell: UICollectionViewCell {
                 bigLoginTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 46),
                 mainView.topAnchor.constraint(equalTo: smallLoginTitleLabel.bottomAnchor, constant: 24),
                 mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.large),
-                emailLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 30)
+                emailLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 30),
             ])
         }
 
         NSLayoutConstraint.activate([
-
             bigLoginTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 46),
 
             smallLoginTitleLabel.topAnchor.constraint(equalTo: bigLoginTitleLabel.bottomAnchor, constant: Margins.small),

@@ -9,7 +9,6 @@
 import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
-
     let icon: UIImageView = {
         let i = UIImageView()
 //        i.backgroundColor = .black
@@ -27,6 +26,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
+
     let catItemCountLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.midGray
@@ -60,7 +60,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
 
     func setupView() {
-
         labelsStackView.addArrangedSubview(categoryLabel)
         labelsStackView.addArrangedSubview(catItemCountLabel)
 
@@ -85,13 +84,11 @@ class CategoryCollectionViewCell: UICollectionViewCell {
 
             labelsStackView.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
             labelsStackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
-            labelsStackView.trailingAnchor.constraint(equalTo: arrowIcon.leadingAnchor, constant: -10)
+            labelsStackView.trailingAnchor.constraint(equalTo: arrowIcon.leadingAnchor, constant: -10),
         ])
-
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }

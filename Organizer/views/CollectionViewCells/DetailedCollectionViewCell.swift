@@ -138,7 +138,7 @@ class DetailedCollectionViewCell: UICollectionViewCell {
             placeLabel.heightAnchor.constraint(equalToConstant: 22),
 
             placeStorageLabel.heightAnchor.constraint(equalToConstant: 37),
-            placeStorageLabel.widthAnchor.constraint(equalToConstant: 37)
+            placeStorageLabel.widthAnchor.constraint(equalToConstant: 37),
         ])
     }
 
