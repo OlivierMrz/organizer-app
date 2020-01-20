@@ -9,28 +9,26 @@
 import UIKit
 
 class CustomButton: UIButton {
-
     func setup(title: String, backgroundColor: UIColor, borderColor: UIColor) {
-        self.setTitle(title, for: .normal)
+        setTitle(title, for: .normal)
 
         if backgroundColor == Color.blue {
-            self.setTitleColor(Color.white, for: .normal)
-            self.titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.bold)
+            setTitleColor(Color.white, for: .normal)
+            titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.bold)
         } else {
-            self.setTitleColor(Color.blue, for: .normal)
-            self.titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.medium)
+            setTitleColor(Color.blue, for: .normal)
+            titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.medium)
         }
 
-
         self.backgroundColor = backgroundColor
-        self.layer.borderWidth = BorderWidth.large
-        self.layer.borderColor = borderColor.cgColor
+        layer.borderWidth = BorderWidth.large
+        layer.borderColor = borderColor.cgColor
     }
 
     func setup() {
         layer.cornerRadius = CornerRadius.xSmall
         layer.masksToBounds = true
-        self.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
     }
 
     override init(frame: CGRect) {

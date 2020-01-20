@@ -26,9 +26,14 @@ class CategoryViewController: UIViewController {
 
     let searchBar = UISearchBar()
 
+    let addCategoryButton: AddButton = {
+        let b = AddButton()
+        return b
+    }()
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //setNeedsStatusBarAppearanceUpdate()
+        // setNeedsStatusBarAppearanceUpdate()
 
         let test = Auth.auth().currentUser?.email
         if test != nil {
@@ -48,13 +53,13 @@ class CategoryViewController: UIViewController {
         }
     }
 
-    var IconCellArray: [UIImage] = [UIImage(named: "box")!, UIImage(named: "shelf")!, UIImage(named: "boxshelf")!,  UIImage(named: "borrow")!, UIImage(named: "lent")!]
+    var IconCellArray: [UIImage] = [UIImage(named: "box")!, UIImage(named: "shelf")!, UIImage(named: "boxshelf")!, UIImage(named: "borrow")!, UIImage(named: "lent")!]
     var cellTitles: [String] = ["Boxes", "Books", "Garage", "Borrowed", "Lent"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Categories"
-        //setNeedsStatusBarAppearanceUpdate()
+        // setNeedsStatusBarAppearanceUpdate()
         view.backgroundColor = Color.blue
 
         view.addSubview(collectionView)
@@ -86,6 +91,8 @@ class CategoryViewController: UIViewController {
 
         navigationController?.navigationBar.tintColor = Color.white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+
+        addNewCategoryButton()
     }
 
     @IBAction func leftBarButtonTapped() {
@@ -104,6 +111,19 @@ class CategoryViewController: UIViewController {
         }
     }
 
+    private func addNewCategoryButton() {
+        view.addSubview(addCategoryButton)
+        addCategoryButton.addTarget(self, action: #selector(newCategoryButtonTapped), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
+        ])
+    }
+
+    @IBAction func newCategoryButtonTapped() {
+        print("New category button tapped")
+    }
+
     fileprivate func addSearchBar() {
         searchBar.placeholder = "Search"
         searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
@@ -119,9 +139,9 @@ class CategoryViewController: UIViewController {
     }
 
     func pushView(controller: UIViewController, title: String) {
-        let controller =  controller
+        let controller = controller
         controller.title = title
-        self.navigationController?.pushViewController(controller, animated:true)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 

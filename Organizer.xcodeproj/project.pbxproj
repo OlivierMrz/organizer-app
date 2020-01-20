@@ -24,6 +24,7 @@
 		699B52A423CE145400EAFE33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699B52A223CE145400EAFE33 /* LaunchScreen.storyboard */; };
 		699B52AC23CE14B300EAFE33 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699B52AB23CE14B200EAFE33 /* Constants.swift */; };
 		69CC404023D5EBBE00F25E5C /* CategoryItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC403F23D5EBBE00F25E5C /* CategoryItemViewController.swift */; };
+		69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404123D5ECBB00F25E5C /* AddButton.swift */; };
 		6C8C940285E334714A7BF15A /* Pods_Organizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B69419FF67F873BA995123 /* Pods_Organizer.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,7 @@
 		699B52A523CE145400EAFE33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		699B52AB23CE14B200EAFE33 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		69CC403F23D5EBBE00F25E5C /* CategoryItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryItemViewController.swift; sourceTree = "<group>"; };
+		69CC404123D5ECBB00F25E5C /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				697A853E23CF529F00ACC35C /* CustomButton.swift */,
+				69CC404123D5ECBB00F25E5C /* AddButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				6905DCCE23CFBED0007D3558 /* LoginCollectionViewCell.swift in Sources */,
 				697D232923D1E1D800F9C2C7 /* CategoryViewController.swift in Sources */,
 				69CC404023D5EBBE00F25E5C /* CategoryItemViewController.swift in Sources */,
+				69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */,
 				699B529823CE145300EAFE33 /* AppDelegate.swift in Sources */,
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
 				697D232723D1AAF800F9C2C7 /* FirebaseAuthManager.swift in Sources */,
