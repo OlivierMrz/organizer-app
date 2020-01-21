@@ -7,6 +7,7 @@
 //
 
 import FirebaseAuth
+import Firebase
 import UIKit
 
 class CategoryViewController: UIViewController {
@@ -34,17 +35,43 @@ class CategoryViewController: UIViewController {
     var IconCellArray: [UIImage] = [UIImage(named: "box")!, UIImage(named: "shelf")!, UIImage(named: "boxshelf")!, UIImage(named: "borrow")!, UIImage(named: "lent")!]
     var cellTitles: [String] = ["Boxes", "Books", "Garage", "Borrowed", "Lent"]
 
+    var categories: [NewCategory] = []
+    var ref: DatabaseReference!
+
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Categories"
         view.backgroundColor = Color.blue
 
+        fetchCategoriesFromFb()
+
         addSearchBar()
         addCollectionView()
         addNavigation()
 
         addNewCategoryButton()
+
+
+    }
+
+    func fetchCategoriesFromFb() {
+        let userEmail = (Auth.auth().currentUser?.uid)!
+        ref = Database.database().reference(withPath: "users/\(userEmail)/categories")
+
+        ref.observe(.value, with: { snapshot in
+          var newCategories: [NewCategory] = []
+
+          for child in snapshot.children {
+            if let snapshot = child as? DataSnapshot,
+               let categoryItem = NewCategory(snapshot: snapshot) {
+              newCategories.append(categoryItem)
+            }
+          }
+
+          self.categories = newCategories
+          self.collectionView.reloadData()
+        })
     }
 
     // MARK: AddCollectionView
@@ -159,14 +186,21 @@ class CategoryViewController: UIViewController {
 // MARK: CollectionView extensions
 extension CategoryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return categories.isEmpty ? 1 : categories.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.categoryCell, for: indexPath) as! CategoryCell
 
-        cell.categoryLabel.text = cellTitles[indexPath.row]
-        cell.icon.image = IconCellArray[indexPath.row]
+        if categories.isEmpty {
+            cell.categoryLabel.text = "No categories yet"
+            cell.icon.image = UIImage()
+            return cell
+        }
+
+        cell.categoryLabel.text = categories[indexPath.row].catName
+        cell.icon.image = UIImage(named: categories[indexPath.row].icon)
 
         return cell
     }

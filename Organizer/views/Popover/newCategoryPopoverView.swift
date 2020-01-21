@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import FirebaseDatabase
+import FirebaseAuth
 import UIKit
 
 class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeDelegate {
@@ -59,7 +61,6 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         return b
     }()
 
-
     var imageArray: [String] = ["box", "shelf", "boxshelf", "borrow", "lent"]
     var cellTypeArray: [UIImage] = [
         UIImage(named: "iconCell")!,
@@ -67,8 +68,14 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         UIImage(named: "detailedCell")!
     ]
 
+    var ref: DatabaseReference?
+
     convenience init() {
         self.init(frame: UIScreen.main.bounds)
+
+        let userEmail = (Auth.auth().currentUser?.uid)!
+        ref = Database.database().reference(withPath: "users/\(userEmail)/categories")
+
         addView()
     }
 
@@ -243,8 +250,10 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         if let categoryText = categoryNameTextField.text, categoryText.isEmpty {
             errors.append(categoryNameTextField)
         }
-        if selectIconButton.image == UIImage(named: "placeholder") {
-            errors.append(selectIconButton)
+        if selectIconHeightConstraint.constant != 0 {
+            if selectIconButton.image == UIImage(named: "placeholder") {
+                errors.append(selectIconButton)
+            }
         }
         if selectCellTypeButton.image == UIImage(named: "placeholder") {
             errors.append(selectCellTypeButton)
@@ -254,7 +263,15 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
             error.layer.borderColor = UIColor.red.cgColor
         }
 
-        guard errors.isEmpty else { return }
+        guard errors.isEmpty, let ref = ref else { return }
+
+
+        let newCategory = NewCategory(catName: categoryNameTextField.text!, icon: "shelf", cellType: "detailedCell")
+
+        let uuid = UUID().uuidString
+        let ItemRef = ref.child(uuid)
+
+        ItemRef.setValue(newCategory.toAnyObject())
 
         self.dismiss(animated: true)
     }
