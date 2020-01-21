@@ -50,6 +50,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
     let categoryNameTextField = CustomTextField()
     let selectIconButton = UIImageView()
+    let selectIcon = PopoverLabel()
     let selectCellTypeButton = UIImageView()
 
     let addButton: CustomButton = {
@@ -84,9 +85,33 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         selectIconButton.image = UIImage(named: imageArray[icon])
     }
 
+    lazy var selectIconButtonHeightConstraint = NSLayoutConstraint(item: selectIconButton, attribute: .height, relatedBy: .equal, toItem: .none, attribute: .height, multiplier: 0, constant: 0)
+    lazy var selectIconHeightConstraint = NSLayoutConstraint(item: selectIcon, attribute: .height, relatedBy: .equal, toItem: .none, attribute: .height, multiplier: 0, constant: 0)
+
     func didSelectCell(type: Int) {
         selectCellTypeButton.layer.borderColor = Color.lightGray?.cgColor
         selectCellTypeButton.image = cellTypeArray[type]
+
+        if type == 0 {
+
+            selectIconHeightConstraint.constant = 46
+            selectIconButtonHeightConstraint.constant = 116
+
+            selectIcon.layoutIfNeeded()
+            selectIconButton.layoutIfNeeded()
+
+
+        } else {
+
+            selectIconHeightConstraint.constant = 0
+            selectIconButtonHeightConstraint.constant = 0
+
+            selectIcon.layoutIfNeeded()
+            selectIconButton.layoutIfNeeded()
+
+        }
+
+
     }
 
     func addView() {
@@ -102,7 +127,6 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         addSubview(dialogView)
         NSLayoutConstraint.activate([
             dialogView.widthAnchor.constraint(equalToConstant: dialogViewWidth),
-//            dialogView.heightAnchor.constraint(equalToConstant: 400),
             dialogView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor, constant: 0),
             dialogView.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor, constant: 0),
         ])
@@ -119,7 +143,6 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
             subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Margins.small),
             subTitleLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             subTitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
-//            subTitleLabel.bottomAnchor.constraint(equalTo: dialogView.bottomAnchor, constant: -Margins.medium)
         ])
 
         let categoryNameLabel = PopoverLabel()
@@ -128,7 +151,6 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
         categoryNameTextField.setup(placeHolder: "Borrowed")
 
-        let selectIcon = PopoverLabel()
         selectIcon.setup(title: "Select icon")
 
         selectIconButton.layer.cornerRadius = CornerRadius.xSmall
@@ -163,10 +185,10 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
         dialogView.addSubview(categoryNameLabel)
         dialogView.addSubview(categoryNameTextField)
-        dialogView.addSubview(selectIcon)
-        dialogView.addSubview(selectIconButton)
         dialogView.addSubview(selectCellTypeLabel)
         dialogView.addSubview(selectCellTypeButton)
+        dialogView.addSubview(selectIcon)
+        dialogView.addSubview(selectIconButton)
         dialogView.addSubview(addButton)
 
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
@@ -180,16 +202,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
             categoryNameTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             categoryNameTextField.heightAnchor.constraint(equalToConstant: 46),
 
-            selectIcon.topAnchor.constraint(equalTo: categoryNameTextField.bottomAnchor, constant: Margins.medium),
-            selectIcon.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
-            selectIcon.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
-
-            selectIconButton.topAnchor.constraint(equalTo: selectIcon.bottomAnchor, constant: Margins.xSmall),
-            selectIconButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
-            selectIconButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
-            selectIconButton.heightAnchor.constraint(equalToConstant: 116),
-
-            selectCellTypeLabel.topAnchor.constraint(equalTo: selectIconButton.bottomAnchor, constant: Margins.medium),
+            selectCellTypeLabel.topAnchor.constraint(equalTo: categoryNameTextField.bottomAnchor, constant: Margins.medium),
             selectCellTypeLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             selectCellTypeLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
 
@@ -198,13 +211,30 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
             selectCellTypeButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             selectCellTypeButton.heightAnchor.constraint(equalToConstant: 46),
 
-            addButton.topAnchor.constraint(equalTo: selectCellTypeButton.bottomAnchor, constant: Margins.medium),
+            selectIcon.topAnchor.constraint(equalTo: selectCellTypeButton.bottomAnchor, constant: Margins.medium),
+            selectIcon.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            selectIcon.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0), // 46 height
+
+            selectIconButton.topAnchor.constraint(equalTo: selectIcon.bottomAnchor, constant: Margins.xSmall),
+            selectIconButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            selectIconButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+
+//            selectIconButton.heightAnchor.constraint(equalToConstant: 0), //116
+
+            addButton.topAnchor.constraint(equalTo: selectIconButton.bottomAnchor, constant: Margins.medium),
             addButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             addButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             addButton.heightAnchor.constraint(equalToConstant: 46),
 
             addButton.bottomAnchor.constraint(equalTo: dialogView.bottomAnchor, constant: -Margins.medium),
         ])
+
+        selectIconHeightConstraint.constant = 0
+        selectIconHeightConstraint.isActive = true
+
+        selectIconButtonHeightConstraint.constant = 0
+        selectIconButtonHeightConstraint.isActive = true
+
     }
 
     // MARK: Add Button Tapped
