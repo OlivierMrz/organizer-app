@@ -68,7 +68,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         UIImage(named: "cell3")!,
     ]
     var ref: DatabaseReference?
-    var userCategories: [NewCategory] = []
+    var userCategories: [Category] = []
 
     var selectedCellType: Int = 0
     var selectedCellIcon: Int = 0
@@ -247,7 +247,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         let x = checkIfNewCategoryExists(catName: catName)
 
         if !x {
-            let newCategory = NewCategory(catName: catName,
+            let newCategory = Category(catName: catName,
                                           icon: "icon\(selectedCellIcon)",
                                           cellType: "cell\(selectedCellType)")
 
@@ -283,12 +283,12 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
         transactionRef.observeSingleEvent(of: .value, with: { snapshot in
 
-            var userCategories: [NewCategory] = []
+            var userCategories: [Category] = []
 
             if snapshot.childrenCount > 0 {
                 for child in snapshot.children {
                     if let snapshot = child as? DataSnapshot,
-                        let categoryItem = NewCategory(snapshot: snapshot) {
+                        let categoryItem = Category(snapshot: snapshot) {
                         userCategories.append(categoryItem)
                     }
                 }

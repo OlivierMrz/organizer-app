@@ -35,7 +35,7 @@ class CategoryViewController: UIViewController {
     var IconCellArray: [UIImage] = [UIImage(named: "icon1")!, UIImage(named: "icon2")!, UIImage(named: "icon3")!, UIImage(named: "icon4")!, UIImage(named: "icon5")!]
     var cellTitles: [String] = ["cell1", "cell2", "cell3", "cell4", "cell5"]
 
-    var categories: [NewCategory] = []
+    var categories: [Category] = []
     var ref: DatabaseReference!
 
     // MARK: LoadView
@@ -65,11 +65,11 @@ class CategoryViewController: UIViewController {
         ref = Database.database().reference(withPath: "users/\(userEmail)/categories")
 
         ref.observe(.value, with: { snapshot in
-          var newCategories: [NewCategory] = []
+          var newCategories: [Category] = []
 
           for child in snapshot.children {
             if let snapshot = child as? DataSnapshot,
-               let categoryItem = NewCategory(snapshot: snapshot) {
+               let categoryItem = Category(snapshot: snapshot) {
               newCategories.append(categoryItem)
             }
           }

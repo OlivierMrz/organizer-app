@@ -9,7 +9,7 @@
 import Firebase
 import Foundation
 
-struct NewCategory {
+struct Category {
     let ref: DatabaseReference?
     let key: String
 
@@ -48,41 +48,4 @@ struct NewCategory {
             "cellType": cellType,
         ]
     }
-
-//
-//    let name: String
-//    let email: String
-//    var message: String
-//
-//    init(name: String, email: String, message: String, key: String = "") {
-//        ref = nil
-//        self.key = key
-//        self.name = name
-//        self.email = email
-//        self.message = message
-//    }
-//
-//    init?(snapshot: DataSnapshot) {
-//        guard
-//            let value = snapshot.value as? [String: AnyObject],
-//            let name = value["name"] as? String,
-//            let email = value["email"] as? String,
-//            let message = value["message"] as? String else {
-//            return nil
-//        }
-//
-//        ref = snapshot.ref
-//        key = snapshot.key
-//        self.name = name
-//        self.email = email
-//        self.message = message
-//    }
-//
-//    func toAnyObject() -> Any {
-//        return [
-//            "name": name,
-//            "email": email,
-//            "message": message,
-//        ]
-//    }
 }

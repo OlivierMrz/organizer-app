@@ -16,14 +16,6 @@ protocol Modal {
     var dialogView:UIView {get set}
 }
 
-//class cardModal {
-//    var modalTitle: String
-//
-//    init(modalTitle: String) {
-//        self.modalTitle = modalTitle
-//    }
-//}
-
 extension Modal where Self:UIView{
     func show(animated:Bool){
         self.backgroundView.alpha = 0
