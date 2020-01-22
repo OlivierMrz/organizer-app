@@ -24,7 +24,6 @@ class SelectCellTypeViewController: UIViewController {
     }()
 
     var cellTypeArray: [UIImage] = [
-        UIImage(named: "cell1")!,
         UIImage(named: "cell2")!,
         UIImage(named: "cell3")!
     ]

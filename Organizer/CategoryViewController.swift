@@ -239,6 +239,11 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard !categories.isEmpty else {
+            newCategoryPopoverView().show(animated: true)
+            return
+        }
+        
         pushView(controller: CategoryItemViewController(), title: cellTitles[indexPath.row])
     }
 }

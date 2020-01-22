@@ -6,9 +6,9 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import Foundation
-import FirebaseDatabase
 import FirebaseAuth
+import FirebaseDatabase
+import Foundation
 import UIKit
 
 class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeDelegate {
@@ -64,22 +64,25 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     var imageArray: [String] = ["icon1", "icon2", "icon3", "icon4", "icon5"]
 
     var cellTypeArray: [UIImage] = [
-        UIImage(named: "cell1")!,
         UIImage(named: "cell2")!,
-        UIImage(named: "cell3")!
+        UIImage(named: "cell3")!,
     ]
     var ref: DatabaseReference?
+    var userCategories: [NewCategory] = []
 
     var selectedCellType: Int = 0
     var selectedCellIcon: Int = 0
 
+    // MARK: Init()
     convenience init() {
         self.init(frame: UIScreen.main.bounds)
 
-        let userEmail = (Auth.auth().currentUser?.uid)!
-        ref = Database.database().reference(withPath: "users/\(userEmail)/categories")
+        let userUid = (Auth.auth().currentUser?.uid)!
+        ref = Database.database().reference(withPath: "users/\(userUid)/categories")
 
         addView()
+
+        fetchUserCategories(userUid: userUid)
     }
 
     override init(frame: CGRect) {
@@ -92,40 +95,16 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
     // MARK: DidSelectCell ICON
     func didSelectCell(icon: Int) {
-        selectedCellIcon = icon
+        selectedCellIcon = (icon + 1)
         selectIconButton.layer.borderColor = Color.lightGray?.cgColor
         selectIconButton.image = UIImage(named: imageArray[icon])
     }
 
-    lazy var selectIconButtonHeightConstraint = NSLayoutConstraint(item: selectIconButton, attribute: .height, relatedBy: .equal, toItem: .none, attribute: .height, multiplier: 0, constant: 0)
-    lazy var selectIconHeightConstraint = NSLayoutConstraint(item: selectIcon, attribute: .height, relatedBy: .equal, toItem: .none, attribute: .height, multiplier: 0, constant: 0)
-
     // MARK: DidSelectCell TYPE
     func didSelectCell(type: Int) {
-        selectedCellType = type
+        selectedCellType = (type + 1)
         selectCellTypeButton.layer.borderColor = Color.lightGray?.cgColor
         selectCellTypeButton.image = cellTypeArray[type]
-
-        if type == 0 {
-
-            selectIconHeightConstraint.constant = 46
-            selectIconButtonHeightConstraint.constant = 116
-
-            selectIcon.layoutIfNeeded()
-            selectIconButton.layoutIfNeeded()
-
-
-        } else {
-
-            selectIconHeightConstraint.constant = 0
-            selectIconButtonHeightConstraint.constant = 0
-
-            selectIcon.layoutIfNeeded()
-            selectIconButton.layoutIfNeeded()
-
-        }
-
-
     }
 
     // MARK: addView
@@ -163,10 +142,9 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         let categoryNameLabel = PopoverLabel()
         categoryNameLabel.setup(title: "Category name")
 
-
         categoryNameTextField.setup(placeHolder: "Borrowed")
 
-        selectIcon.setup(title: "Select icon")
+        selectIcon.setup(title: "Choose category icon")
 
         selectIconButton.layer.cornerRadius = CornerRadius.xSmall
         selectIconButton.layer.masksToBounds = true
@@ -181,9 +159,8 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         let selectIconTap = UITapGestureRecognizer(target: self, action: #selector(selectIconTapped))
         selectIconButton.addGestureRecognizer(selectIconTap)
 
-
         let selectCellTypeLabel = PopoverLabel()
-        selectCellTypeLabel.setup(title: "Select cell type")
+        selectCellTypeLabel.setup(title: "Choose cell type")
 
         selectCellTypeButton.layer.cornerRadius = CornerRadius.xSmall
         selectCellTypeButton.layer.masksToBounds = true
@@ -200,13 +177,15 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
         dialogView.addSubview(categoryNameLabel)
         dialogView.addSubview(categoryNameTextField)
-        dialogView.addSubview(selectCellTypeLabel)
-        dialogView.addSubview(selectCellTypeButton)
         dialogView.addSubview(selectIcon)
         dialogView.addSubview(selectIconButton)
+        dialogView.addSubview(selectCellTypeLabel)
+        dialogView.addSubview(selectCellTypeButton)
         dialogView.addSubview(addButton)
 
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+
+        // MARK: NSLayoutConstraint
         NSLayoutConstraint.activate([
             categoryNameLabel.topAnchor.constraint(equalTo: subTitleLabel.bottomAnchor, constant: Margins.medium),
             categoryNameLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
@@ -217,7 +196,16 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
             categoryNameTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             categoryNameTextField.heightAnchor.constraint(equalToConstant: 46),
 
-            selectCellTypeLabel.topAnchor.constraint(equalTo: categoryNameTextField.bottomAnchor, constant: Margins.medium),
+            selectIcon.topAnchor.constraint(equalTo: categoryNameTextField.bottomAnchor, constant: Margins.medium),
+            selectIcon.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            selectIcon.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+
+            selectIconButton.topAnchor.constraint(equalTo: selectIcon.bottomAnchor, constant: Margins.xSmall),
+            selectIconButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            selectIconButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+            selectIconButton.heightAnchor.constraint(equalToConstant: 116),
+
+            selectCellTypeLabel.topAnchor.constraint(equalTo: selectIconButton.bottomAnchor, constant: Margins.medium),
             selectCellTypeLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             selectCellTypeLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
 
@@ -226,30 +214,13 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
             selectCellTypeButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             selectCellTypeButton.heightAnchor.constraint(equalToConstant: 46),
 
-            selectIcon.topAnchor.constraint(equalTo: selectCellTypeButton.bottomAnchor, constant: Margins.medium),
-            selectIcon.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
-            selectIcon.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0), // 46 height
-
-            selectIconButton.topAnchor.constraint(equalTo: selectIcon.bottomAnchor, constant: Margins.xSmall),
-            selectIconButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
-            selectIconButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
-
-//            selectIconButton.heightAnchor.constraint(equalToConstant: 0), //116
-
-            addButton.topAnchor.constraint(equalTo: selectIconButton.bottomAnchor, constant: Margins.medium),
+            addButton.topAnchor.constraint(equalTo: selectCellTypeButton.bottomAnchor, constant: Margins.medium),
             addButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             addButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             addButton.heightAnchor.constraint(equalToConstant: 46),
 
             addButton.bottomAnchor.constraint(equalTo: dialogView.bottomAnchor, constant: -Margins.medium),
         ])
-
-        selectIconHeightConstraint.constant = 0
-        selectIconHeightConstraint.isActive = true
-
-        selectIconButtonHeightConstraint.constant = 0
-        selectIconButtonHeightConstraint.isActive = true
-
     }
 
     // MARK: Add Button Tapped
@@ -258,10 +229,8 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         if let categoryText = categoryNameTextField.text, categoryText.isEmpty {
             errors.append(categoryNameTextField)
         }
-        if selectIconHeightConstraint.constant != 0 {
-            if selectIconButton.image == UIImage(named: "placeholder") {
-                errors.append(selectIconButton)
-            }
+        if selectIconButton.image == UIImage(named: "placeholder") {
+            errors.append(selectIconButton)
         }
         if selectCellTypeButton.image == UIImage(named: "placeholder") {
             errors.append(selectCellTypeButton)
@@ -273,19 +242,64 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
         guard errors.isEmpty, let ref = ref else { return }
 
+        let catName = categoryNameTextField.text!.lowercased()
 
-        let newCategory = NewCategory(catName: categoryNameTextField.text!,
-                                      icon: "icon\(selectedCellIcon)",
-                                      cellType: "cell\(selectedCellType)")
+        let x = checkIfNewCategoryExists(catName: catName)
 
-        let uuid = UUID().uuidString
-        let ItemRef = ref.child(uuid)
+        if !x {
+            let newCategory = NewCategory(catName: catName,
+                                          icon: "icon\(selectedCellIcon)",
+                                          cellType: "cell\(selectedCellType)")
 
-        ItemRef.setValue(newCategory.toAnyObject())
+            let ItemRef = ref.child(catName)
 
-        self.dismiss(animated: true)
+            ItemRef.setValue(newCategory.toAnyObject())
+
+            dismiss(animated: true)
+        } else {
+            let alert = UIAlertController(title: "⚠️ ALERT!", message: "Category name already in use.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+
+            let vc = getCurrentViewController()
+            vc?.present(alert, animated: true, completion: nil)
+
+            categoryNameTextField.layer.borderColor = UIColor.red.cgColor
+        }
     }
 
+    // MARK: check If New Category name Exists
+    func checkIfNewCategoryExists(catName: String) -> Bool {
+        for cat in userCategories {
+            if cat.catName == catName {
+                return true
+            }
+        }
+        return false
+    }
+
+    // MARK: fetch User Categories
+    func fetchUserCategories(userUid: String) {
+        let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
+
+        transactionRef.observeSingleEvent(of: .value, with: { snapshot in
+
+            var userCategories: [NewCategory] = []
+
+            if snapshot.childrenCount > 0 {
+                for child in snapshot.children {
+                    if let snapshot = child as? DataSnapshot,
+                        let categoryItem = NewCategory(snapshot: snapshot) {
+                        userCategories.append(categoryItem)
+                    }
+                }
+            }
+
+            self.userCategories = userCategories
+
+        })
+    }
+
+    // MARK: IBAction buttons
     @IBAction func viewTapped() {
         dialogView.endEditing(true)
     }
@@ -312,6 +326,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         dismiss(animated: true)
     }
 
+    // MARK: get Current ViewController
     func getCurrentViewController() -> UIViewController? {
         if let rootController = UIApplication.shared.keyWindow?.rootViewController {
             var currentController: UIViewController! = rootController
