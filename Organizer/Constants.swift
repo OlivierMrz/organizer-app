@@ -74,6 +74,7 @@ struct ReuseIdentifier {
     static let detailedCell = "DetailedCell"
     static let headerCell = "HeaderCell"
     static let selectIconCell = "SelectIconCell"
+    static let emptyCell = "EmptyCell"
 }
 
 struct Device {

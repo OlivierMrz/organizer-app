@@ -56,13 +56,14 @@ class CategoryViewController: UIViewController {
         title = "Categories"
         view.backgroundColor = Color.blue
 
-        fetchCategoriesFromFb()
+        fetchCategoriesFromDb()
 
     }
 
-    func fetchCategoriesFromFb() {
-        let userEmail = (Auth.auth().currentUser?.uid)!
-        ref = Database.database().reference(withPath: "users/\(userEmail)/categories")
+    // MARK: Fetch Categories form Database
+    func fetchCategoriesFromDb() {
+        let userEmail = (Auth.auth().currentUser?.uid)
+        ref = Database.database().reference(withPath: "users/\(userEmail!)/categories")
 
         ref.observe(.value, with: { snapshot in
           var newCategories: [Category] = []
@@ -244,6 +245,6 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
             return
         }
         
-        pushView(controller: CategoryItemViewController(), title: cellTitles[indexPath.row])
+        pushView(controller: CategoryItemViewController(), title: categories[indexPath.row].catName)
     }
 }

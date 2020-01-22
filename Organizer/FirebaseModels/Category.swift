@@ -28,9 +28,9 @@ struct Category {
     init?(snapshot: DataSnapshot) {
         guard
             let value = snapshot.value as? [String: AnyObject],
-            let catName = value["catName"] as? String,
+            let catName = value["cat_name"] as? String,
             let icon = value["icon"] as? String,
-            let cellType = value["cellType"] as? String else {
+            let cellType = value["cell_type"] as? String else {
             return nil
         }
 
@@ -43,9 +43,9 @@ struct Category {
 
     func toAnyObject() -> Any {
         return [
-            "catName": catName,
+            "cat_name": catName,
             "icon": icon,
-            "cellType": cellType,
+            "cell_type": cellType,
         ]
     }
 }

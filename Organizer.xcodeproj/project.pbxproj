@@ -32,6 +32,9 @@
 		69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404123D5ECBB00F25E5C /* AddButton.swift */; };
 		69CC404523D600A400F25E5C /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404423D600A400F25E5C /* Modal.swift */; };
 		69CC404723D600BF00F25E5C /* newCategoryPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404623D600BF00F25E5C /* newCategoryPopoverView.swift */; };
+		69D010B023D8AB7800DC20C9 /* CategoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010AF23D8AB7800DC20C9 /* CategoryItem.swift */; };
+		69D010B223D8AE7600DC20C9 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010B123D8AE7600DC20C9 /* EmptyCell.swift */; };
+		69D010B423D8E83700DC20C9 /* NewItemPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010B323D8E83700DC20C9 /* NewItemPopoverView.swift */; };
 		6C8C940285E334714A7BF15A /* Pods_Organizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B69419FF67F873BA995123 /* Pods_Organizer.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +69,9 @@
 		69CC404123D5ECBB00F25E5C /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 		69CC404423D600A400F25E5C /* Modal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
 		69CC404623D600BF00F25E5C /* newCategoryPopoverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = newCategoryPopoverView.swift; sourceTree = "<group>"; };
+		69D010AF23D8AB7800DC20C9 /* CategoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryItem.swift; sourceTree = "<group>"; };
+		69D010B123D8AE7600DC20C9 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		69D010B323D8E83700DC20C9 /* NewItemPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemPopoverView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,12 +109,13 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		691B6AAA23D7B38500D36799 /* FirebaseManager */ = {
+		691B6AAA23D7B38500D36799 /* FirebaseModels */ = {
 			isa = PBXGroup;
 			children = (
 				691B6AAB23D7B39F00D36799 /* Category.swift */,
+				69D010AF23D8AB7800DC20C9 /* CategoryItem.swift */,
 			);
-			path = FirebaseManager;
+			path = FirebaseModels;
 			sourceTree = "<group>";
 		};
 		691B6AAD23D7BCAC00D36799 /* Headers */ = {
@@ -149,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				697D232E23D1F4F300F9C2C7 /* CategoryCell.swift */,
+				69D010B123D8AE7600DC20C9 /* EmptyCell.swift */,
 				6943186F23D5D121002A673A /* DetailedCell.swift */,
 				69C5F6CF23D739F7003348E1 /* SelectIconCell.swift */,
 			);
@@ -192,7 +200,7 @@
 				6905DCCC23CFBEB3007D3558 /* Login */,
 				69002AE123CF48B700B1C577 /* Views */,
 				69CC403A23D5E47100F25E5C /* Helper */,
-				691B6AAA23D7B38500D36799 /* FirebaseManager */,
+				691B6AAA23D7B38500D36799 /* FirebaseModels */,
 				699B52AB23CE14B200EAFE33 /* Constants.swift */,
 				699B52A023CE145400EAFE33 /* Assets.xcassets */,
 				699B52A223CE145400EAFE33 /* LaunchScreen.storyboard */,
@@ -215,6 +223,7 @@
 			children = (
 				69CC404423D600A400F25E5C /* Modal.swift */,
 				69CC404623D600BF00F25E5C /* newCategoryPopoverView.swift */,
+				69D010B323D8E83700DC20C9 /* NewItemPopoverView.swift */,
 			);
 			path = Popover;
 			sourceTree = "<group>";
@@ -360,6 +369,7 @@
 				69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */,
 				699B529823CE145300EAFE33 /* AppDelegate.swift in Sources */,
 				691B6AAC23D7B39F00D36799 /* Category.swift in Sources */,
+				69D010B023D8AB7800DC20C9 /* CategoryItem.swift in Sources */,
 				6953795423D63E1200BA5F2F /* SelectIconViewController.swift in Sources */,
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
 				697D232723D1AAF800F9C2C7 /* FirebaseAuthManager.swift in Sources */,
@@ -367,8 +377,10 @@
 				6953795223D6346D00BA5F2F /* PopoverLabel.swift in Sources */,
 				6943187023D5D121002A673A /* DetailedCell.swift in Sources */,
 				699B529A23CE145300EAFE33 /* SceneDelegate.swift in Sources */,
+				69D010B223D8AE7600DC20C9 /* EmptyCell.swift in Sources */,
 				6905DCCB23CFBE23007D3558 /* LoginViewController.swift in Sources */,
 				69002AE023CF48B000B1C577 /* CustomTextField.swift in Sources */,
+				69D010B423D8E83700DC20C9 /* NewItemPopoverView.swift in Sources */,
 				69C5F6D023D739F7003348E1 /* SelectIconCell.swift in Sources */,
 				697D233123D1FD0D00F9C2C7 /* CollectionHeaderView.swift in Sources */,
 				693DF43723D06D7600186B7D /* RegisterCollectionViewCell.swift in Sources */,
