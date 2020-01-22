@@ -32,8 +32,8 @@ class CategoryViewController: UIViewController {
         return b
     }()
 
-    var IconCellArray: [UIImage] = [UIImage(named: "box")!, UIImage(named: "shelf")!, UIImage(named: "boxshelf")!, UIImage(named: "borrow")!, UIImage(named: "lent")!]
-    var cellTitles: [String] = ["Boxes", "Books", "Garage", "Borrowed", "Lent"]
+    var IconCellArray: [UIImage] = [UIImage(named: "icon1")!, UIImage(named: "icon2")!, UIImage(named: "icon3")!, UIImage(named: "icon4")!, UIImage(named: "icon5")!]
+    var cellTitles: [String] = ["cell1", "cell2", "cell3", "cell4", "cell5"]
 
     var categories: [NewCategory] = []
     var ref: DatabaseReference!

@@ -23,11 +23,11 @@ class SelectIconViewController: UIViewController {
     }()
 
     var imageArray: [UIImage] = [
-        UIImage(named: "box")!,
-        UIImage(named: "shelf")!,
-        UIImage(named: "boxshelf")!,
-        UIImage(named: "borrow")!,
-        UIImage(named: "lent")!,
+        UIImage(named: "icon1")!,
+        UIImage(named: "icon2")!,
+        UIImage(named: "icon3")!,
+        UIImage(named: "icon4")!,
+        UIImage(named: "icon5")!,
     ]
 
     weak var delegate: SelectIconDelegate?

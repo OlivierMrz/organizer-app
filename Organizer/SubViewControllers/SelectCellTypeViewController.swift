@@ -24,9 +24,9 @@ class SelectCellTypeViewController: UIViewController {
     }()
 
     var cellTypeArray: [UIImage] = [
-        UIImage(named: "iconCell")!,
-        UIImage(named: "placeCell")!,
-        UIImage(named: "detailedCell")!
+        UIImage(named: "cell1")!,
+        UIImage(named: "cell2")!,
+        UIImage(named: "cell3")!
     ]
 
     weak var delegate: SelectCellTypeDelegate?

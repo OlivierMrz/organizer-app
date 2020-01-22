@@ -25,7 +25,7 @@ class CategoryItemViewController: UIViewController {
 
     let searchBar = UISearchBar()
 
-    var IconCellArray: [UIImage] = [UIImage(named: "box")!, UIImage(named: "shelf")!, UIImage(named: "boxshelf")!, UIImage(named: "borrow")!, UIImage(named: "lent")!]
+    var IconCellArray: [UIImage] = [UIImage(named: "icon1")!, UIImage(named: "icon2")!, UIImage(named: "icon3")!, UIImage(named: "icon4")!, UIImage(named: "icon5")!]
     var cellTitles: [String] = ["Storage", "Basement", "Garage", "Office", "Cellar"]
 
     // MARK: ViewDidLoad

@@ -61,14 +61,17 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         return b
     }()
 
-    var imageArray: [String] = ["box", "shelf", "boxshelf", "borrow", "lent"]
-    var cellTypeArray: [UIImage] = [
-        UIImage(named: "iconCell")!,
-        UIImage(named: "placeCell")!,
-        UIImage(named: "detailedCell")!
-    ]
+    var imageArray: [String] = ["icon1", "icon2", "icon3", "icon4", "icon5"]
 
+    var cellTypeArray: [UIImage] = [
+        UIImage(named: "cell1")!,
+        UIImage(named: "cell2")!,
+        UIImage(named: "cell3")!
+    ]
     var ref: DatabaseReference?
+
+    var selectedCellType: Int = 0
+    var selectedCellIcon: Int = 0
 
     convenience init() {
         self.init(frame: UIScreen.main.bounds)
@@ -87,7 +90,9 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: DidSelectCell ICON
     func didSelectCell(icon: Int) {
+        selectedCellIcon = icon
         selectIconButton.layer.borderColor = Color.lightGray?.cgColor
         selectIconButton.image = UIImage(named: imageArray[icon])
     }
@@ -95,7 +100,9 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     lazy var selectIconButtonHeightConstraint = NSLayoutConstraint(item: selectIconButton, attribute: .height, relatedBy: .equal, toItem: .none, attribute: .height, multiplier: 0, constant: 0)
     lazy var selectIconHeightConstraint = NSLayoutConstraint(item: selectIcon, attribute: .height, relatedBy: .equal, toItem: .none, attribute: .height, multiplier: 0, constant: 0)
 
+    // MARK: DidSelectCell TYPE
     func didSelectCell(type: Int) {
+        selectedCellType = type
         selectCellTypeButton.layer.borderColor = Color.lightGray?.cgColor
         selectCellTypeButton.image = cellTypeArray[type]
 
@@ -121,6 +128,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
     }
 
+    // MARK: addView
     func addView() {
         titleLabel.text = "Add new category"
         subTitleLabel.text = "You can give me a number or place where you will store this item. (not required)"
@@ -266,7 +274,9 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         guard errors.isEmpty, let ref = ref else { return }
 
 
-        let newCategory = NewCategory(catName: categoryNameTextField.text!, icon: "shelf", cellType: "detailedCell")
+        let newCategory = NewCategory(catName: categoryNameTextField.text!,
+                                      icon: "icon\(selectedCellIcon)",
+                                      cellType: "cell\(selectedCellType)")
 
         let uuid = UUID().uuidString
         let ItemRef = ref.child(uuid)
