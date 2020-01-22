@@ -38,13 +38,9 @@ class CategoryViewController: UIViewController {
     var categories: [NewCategory] = []
     var ref: DatabaseReference!
 
-    // MARK: ViewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        title = "Categories"
-        view.backgroundColor = Color.blue
-
-        fetchCategoriesFromFb()
+    // MARK: LoadView
+    override func loadView() {
+        super.loadView()
 
         addSearchBar()
         addCollectionView()
@@ -52,6 +48,15 @@ class CategoryViewController: UIViewController {
 
         addNewCategoryButton()
 
+    }
+
+    // MARK: ViewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "Categories"
+        view.backgroundColor = Color.blue
+
+        fetchCategoriesFromFb()
 
     }
 
