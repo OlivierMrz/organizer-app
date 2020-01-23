@@ -160,9 +160,10 @@ class CategoryViewController: UIViewController {
     }
 
     // MARK: Functions
-    func pushView(controller: UIViewController, title: String) {
-        let controller = controller
+    func pushToCategoryItemVC(title: String, cellType: String) {
+        let controller = CategoryItemViewController()
         controller.title = title
+        controller.currentCategoryCellType = cellType
         navigationController?.pushViewController(controller, animated: true)
     }
 
@@ -245,6 +246,7 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
             return
         }
         
-        pushView(controller: CategoryItemViewController(), title: categories[indexPath.row].catName)
+        pushToCategoryItemVC(title: categories[indexPath.row].catName,
+                             cellType: categories[indexPath.row].cellType)
     }
 }

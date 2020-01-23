@@ -35,6 +35,8 @@ class CategoryItemViewController: UIViewController {
     
     var ref: DatabaseReference!
 
+    var currentCategoryCellType: String = ""
+
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,16 +148,33 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
 
             return cell
         }
+
+        switch currentCategoryCellType {
+        case "cell2": // DetailedCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as! DetailedCell
+
+            cell.itemLabel.text = categoryItems[indexPath.row].itemName
+            cell.itemSubLabel.text = categoryItems[indexPath.row].itemSubTitle
+            cell.itemSub2Label.text = categoryItems[indexPath.row].extraSubTitle
+            cell.placeLabel.text = categoryItems[indexPath.row].storagePlace
+            cell.placeStorageLabel.text = categoryItems[indexPath.row].storageNumber
+
+            return cell
+        case "cell3":
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
+
+            cell.title.text = "Empty Cell"
+            return cell
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
+
+            cell.title.text = "Empty Cell"
+            return cell
+        }
+
+
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as! DetailedCell
 
-        cell.itemLabel.text = categoryItems[indexPath.row].itemName
-        cell.itemSubLabel.text = categoryItems[indexPath.row].itemSubTitle
-        cell.itemSub2Label.text = categoryItems[indexPath.row].extraSubTitle
-        cell.placeLabel.text = categoryItems[indexPath.row].storagePlace
-        cell.placeStorageLabel.text = categoryItems[indexPath.row].storageNumber
-
-        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
