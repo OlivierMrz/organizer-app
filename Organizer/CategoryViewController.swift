@@ -6,8 +6,8 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import FirebaseAuth
 import Firebase
+import FirebaseAuth
 import UIKit
 
 class CategoryViewController: UIViewController {
@@ -36,6 +36,7 @@ class CategoryViewController: UIViewController {
     var cellTitles: [String] = ["cell1", "cell2", "cell3", "cell4", "cell5"]
 
     var categories: [Category] = []
+    var categoryItemsCount: [String] = []
     var ref: DatabaseReference!
 
     // MARK: LoadView
@@ -47,7 +48,6 @@ class CategoryViewController: UIViewController {
         addNavigation()
 
         addNewCategoryButton()
-
     }
 
     // MARK: ViewDidLoad
@@ -57,7 +57,6 @@ class CategoryViewController: UIViewController {
         view.backgroundColor = Color.blue
 
         fetchCategoriesFromDb()
-
     }
 
     // MARK: Fetch Categories form Database
@@ -66,18 +65,52 @@ class CategoryViewController: UIViewController {
         ref = Database.database().reference(withPath: "users/\(userEmail!)/categories")
 
         ref.observe(.value, with: { snapshot in
-          var newCategories: [Category] = []
+            var newCategories: [Category] = []
 
-          for child in snapshot.children {
-            if let snapshot = child as? DataSnapshot,
-               let categoryItem = Category(snapshot: snapshot) {
-              newCategories.append(categoryItem)
+            for child in snapshot.children {
+                if let snapshot = child as? DataSnapshot,
+                    let categoryItem = Category(snapshot: snapshot) {
+
+                    newCategories.append(categoryItem)
+
+                    guard let value = snapshot.value as? [String: AnyObject],
+                        let items = value["items"] as? [String: AnyObject] else { return }
+
+                    self.categoryItemsCount.append(String(items.count))
+
+                }
             }
-          }
 
-          self.categories = newCategories
-          self.collectionView.reloadData()
+            self.categories = newCategories
+            self.collectionView.reloadData()
         })
+    }
+
+    func fetchCategoryItemsFromDb() {
+        let userEmail = (Auth.auth().currentUser?.uid)
+        ref = Database.database().reference(withPath: "users/\(userEmail!)/categories/")
+
+        ref.observe(.childChanged, with: { snapshot in
+
+            var newCategoryItemsCount: [String] = []
+
+            for child in snapshot.children {
+                if let snapshot = child as? DataSnapshot {
+
+                    guard let value = snapshot.value as? [String: AnyObject],
+                        let items = value["items"] as? [String: AnyObject] else { return }
+
+                    newCategoryItemsCount.append(String(items.count))
+
+                }
+            }
+
+            self.categoryItemsCount = newCategoryItemsCount
+            self.collectionView.reloadData()
+
+        })
+
+
     }
 
     // MARK: AddCollectionView
@@ -176,7 +209,6 @@ class CategoryViewController: UIViewController {
             let x = UserDefaults.standard
             x.set(test!, forKey: "lastLoggedInUser")
             x.synchronize()
-            print(test!)
         } else {
             print(test ?? "no user")
         }
@@ -187,6 +219,8 @@ class CategoryViewController: UIViewController {
             y.modalPresentationStyle = .fullScreen
             present(y, animated: true, completion: nil)
         }
+
+        fetchCategoryItemsFromDb()
     }
 }
 
@@ -197,7 +231,6 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.categoryCell, for: indexPath) as! CategoryCell
 
         if categories.isEmpty {
@@ -208,6 +241,12 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
 
         cell.categoryLabel.text = categories[indexPath.row].catName
         cell.icon.image = UIImage(named: categories[indexPath.row].icon)
+        if categoryItemsCount[indexPath.row] == "1" {
+            cell.catItemCountLabel.text = "\(categoryItemsCount[indexPath.row]) item"
+        } else {
+            cell.catItemCountLabel.text = "\(categoryItemsCount[indexPath.row]) items"
+        }
+
 
         return cell
     }
@@ -245,7 +284,8 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
             newCategoryPopoverView().show(animated: true)
             return
         }
-        
+
+        categoryItemsCount = []
         pushToCategoryItemVC(title: categories[indexPath.row].catName,
                              cellType: categories[indexPath.row].cellType)
     }
