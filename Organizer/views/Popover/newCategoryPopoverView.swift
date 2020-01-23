@@ -142,7 +142,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         let categoryNameLabel = PopoverLabel()
         categoryNameLabel.setup(title: "Category name")
 
-        categoryNameTextField.setup(placeHolder: "Borrowed")
+        categoryNameTextField.setup(placeHolder: "Books")
 
         selectIcon.setup(title: "Choose category icon")
 
@@ -212,7 +212,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
             selectCellTypeButton.topAnchor.constraint(equalTo: selectCellTypeLabel.bottomAnchor, constant: Margins.xSmall),
             selectCellTypeButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             selectCellTypeButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
-            selectCellTypeButton.heightAnchor.constraint(equalToConstant: 46),
+            selectCellTypeButton.heightAnchor.constraint(equalToConstant: 66),
 
             addButton.topAnchor.constraint(equalTo: selectCellTypeButton.bottomAnchor, constant: Margins.medium),
             addButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),

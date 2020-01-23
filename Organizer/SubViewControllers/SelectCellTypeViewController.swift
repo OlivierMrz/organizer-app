@@ -14,6 +14,16 @@ protocol SelectCellTypeDelegate: AnyObject {
 
 class SelectCellTypeViewController: UIViewController {
 
+    let titleLabel: UILabel = {
+        let l = UILabel()
+        l.textColor = Color.darkGray
+        l.text = "Choose the type of cell"
+        l.textAlignment = .center
+        l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.regular)
+        l.translatesAutoresizingMaskIntoConstraints = false
+        return l
+    }()
+
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -33,7 +43,7 @@ class SelectCellTypeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.white
-
+        addTitleLabel()
         addCollectionView()
     }
     
@@ -42,13 +52,22 @@ class SelectCellTypeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SelectIconCell.self, forCellWithReuseIdentifier: ReuseIdentifier.selectIconCell)
-        collectionView.contentInset = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+        ])
+    }
+
+    func addTitleLabel() {
+        view.addSubview(titleLabel)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
         ])
     }
 }
