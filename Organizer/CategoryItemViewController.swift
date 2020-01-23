@@ -6,8 +6,8 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import UIKit
 import Firebase
+import UIKit
 
 class CategoryItemViewController: UIViewController {
     let collectionView: UICollectionView = {
@@ -32,7 +32,7 @@ class CategoryItemViewController: UIViewController {
     let searchBar = UISearchBar()
 
     var categoryItems: [CategoryItem] = []
-    
+
     var ref: DatabaseReference!
 
     var currentCategoryCellType: String = ""
@@ -58,17 +58,17 @@ class CategoryItemViewController: UIViewController {
         ref = Database.database().reference(withPath: "users/\(userEmail)/categories/\(currentCategory)/items")
 
         ref.observe(.value, with: { snapshot in
-          var tempCategoryItems: [CategoryItem] = []
+            var tempCategoryItems: [CategoryItem] = []
 
-          for child in snapshot.children {
-            if let snapshot = child as? DataSnapshot,
-               let categoryItem = CategoryItem(snapshot: snapshot) {
-              tempCategoryItems.append(categoryItem)
+            for child in snapshot.children {
+                if let snapshot = child as? DataSnapshot,
+                    let categoryItem = CategoryItem(snapshot: snapshot) {
+                    tempCategoryItems.append(categoryItem)
+                }
             }
-          }
 
-          self.categoryItems = tempCategoryItems
-          self.collectionView.reloadData()
+            self.categoryItems = tempCategoryItems
+            self.collectionView.reloadData()
         })
     }
 
@@ -81,11 +81,12 @@ class CategoryItemViewController: UIViewController {
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
         ])
     }
+
     @IBAction func newItemButtonTapped() {
 //        NewItemPopoverView().show(animated: true)
         NewItemPopoverView(category: title!).show(animated: true)
     }
-    
+
     // MARK: AddCollectionView
     fileprivate func addCollectionView() {
         view.addSubview(collectionView)
@@ -94,9 +95,10 @@ class CategoryItemViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.isScrollEnabled = true
         collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
-        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
+//        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
         collectionView.register(DetailedCell.self, forCellWithReuseIdentifier: ReuseIdentifier.detailedCell)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: ReuseIdentifier.emptyCell)
+        collectionView.register(TitleCell.self, forCellWithReuseIdentifier: ReuseIdentifier.titleCell)
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
@@ -141,7 +143,6 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
         if categoryItems.count == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
             cell.title.text = "No items yes"
@@ -150,6 +151,13 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
         }
 
         switch currentCategoryCellType {
+        case "cell1": // TitleCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.titleCell, for: indexPath) as! TitleCell
+
+            cell.title.text = categoryItems[indexPath.row].itemName
+            cell.storagePlaceLabel.text = categoryItems[indexPath.row].storagePlace
+            cell.storageNumberLabel.text = categoryItems[indexPath.row].storageNumber
+            return cell
         case "cell2": // DetailedCell
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as! DetailedCell
 
@@ -160,21 +168,12 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
             cell.placeStorageLabel.text = categoryItems[indexPath.row].storageNumber
 
             return cell
-        case "cell3":
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
-
-            cell.title.text = "Empty Cell"
-            return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
 
             cell.title.text = "Empty Cell"
             return cell
         }
-
-
-        
-
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -213,5 +212,4 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
 
 //        pushView(controller: CategoryItemViewController(), title: cellTitles[indexPath.row])
     }
-    
 }

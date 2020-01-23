@@ -89,16 +89,6 @@ class DetailedCell: UICollectionViewCell {
         return i
     }()
 
-//    let mainStackView: UIStackView = {
-//        let s = UIStackView()
-//        s.alignment = .fill
-//        s.axis = .horizontal
-//        s.distribution = .fillEqually
-//        s.spacing = 0
-//        s.translatesAutoresizingMaskIntoConstraints = false
-//        return s
-//    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -131,7 +121,7 @@ class DetailedCell: UICollectionViewCell {
             itemStackView.trailingAnchor.constraint(equalTo: placeStackView.leadingAnchor, constant: -10),
 
 //            placeStackView.leadingAnchor.constraint(equalTo: itemStackView.tra, constant: 30),
-            placeStackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
+            placeStackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2),
             placeStackView.widthAnchor.constraint(equalToConstant: 74),
             placeStackView.trailingAnchor.constraint(equalTo: arrowIcon.leadingAnchor, constant: -14),
 
