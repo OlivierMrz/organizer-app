@@ -19,7 +19,7 @@ class SelectCellTypeViewController: UIViewController {
         l.textColor = Color.darkGray
         l.text = "Choose the type of cell"
         l.textAlignment = .center
-        l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.regular)
+        l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.medium)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -52,7 +52,7 @@ class SelectCellTypeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SelectIconCell.self, forCellWithReuseIdentifier: ReuseIdentifier.selectIconCell)
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        collectionView.contentInset = UIEdgeInsets(top: 30, left: 20, bottom: 0, right: 20)
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
