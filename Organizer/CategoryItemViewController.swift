@@ -18,8 +18,6 @@ class CategoryItemViewController: UIViewController {
         cv.backgroundColor = Color.white
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.layer.masksToBounds = true
-        cv.layer.cornerRadius = CornerRadius.xxLarge
-        cv.layer.maskedCorners = [.layerMinXMinYCorner]
         cv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return cv
     }()
