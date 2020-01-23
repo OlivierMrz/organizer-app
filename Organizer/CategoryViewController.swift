@@ -56,13 +56,15 @@ class CategoryViewController: UIViewController {
         title = "Categories"
         view.backgroundColor = Color.blue
 
-        fetchCategoriesFromDb()
+        let userUid = Auth.auth().currentUser?.uid
+
+        guard let userId = userUid else { return }
+        fetchCategoriesFromDb(userUid: userId)
     }
 
     // MARK: Fetch Categories form Database
-    func fetchCategoriesFromDb() {
-        let userEmail = (Auth.auth().currentUser?.uid)
-        ref = Database.database().reference(withPath: "users/\(userEmail!)/categories")
+    func fetchCategoriesFromDb(userUid: String) {
+        ref = Database.database().reference(withPath: "users/\(userUid)/categories")
 
         ref.observe(.value, with: { snapshot in
             var newCategories: [Category] = []
@@ -86,9 +88,8 @@ class CategoryViewController: UIViewController {
         })
     }
 
-    func fetchCategoryItemsFromDb() {
-        let userEmail = (Auth.auth().currentUser?.uid)
-        ref = Database.database().reference(withPath: "users/\(userEmail!)/categories/")
+    func fetchCategoryItemsFromDb(userUid: String) {
+        ref = Database.database().reference(withPath: "users/\(userUid)/categories/")
 
         ref.observe(.childChanged, with: { snapshot in
 
@@ -220,7 +221,10 @@ class CategoryViewController: UIViewController {
             present(y, animated: true, completion: nil)
         }
 
-        fetchCategoryItemsFromDb()
+        let userUid = Auth.auth().currentUser?.uid
+
+        guard let userId = userUid else { return }
+        fetchCategoryItemsFromDb(userUid: userId)
     }
 }
 
