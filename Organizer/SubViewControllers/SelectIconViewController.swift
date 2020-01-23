@@ -13,6 +13,17 @@ protocol SelectIconDelegate: AnyObject {
 }
 
 class SelectIconViewController: UIViewController {
+
+    let titleLabel: UILabel = {
+        let l = UILabel()
+        l.textColor = Color.darkGray
+        l.text = "Choose the icon you want to use"
+        l.textAlignment = .center
+        l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.medium)
+        l.translatesAutoresizingMaskIntoConstraints = false
+        return l
+    }()
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -36,6 +47,7 @@ class SelectIconViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = Color.white
 
+        addTitleLabel()
         addCollectionView()
     }
 
@@ -43,15 +55,24 @@ class SelectIconViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
+    func addTitleLabel() {
+        view.addSubview(titleLabel)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+        ])
+    }
+
     func addCollectionView() {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SelectIconCell.self, forCellWithReuseIdentifier: ReuseIdentifier.selectIconCell)
-        collectionView.contentInset = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        collectionView.contentInset = UIEdgeInsets(top: 30, left: 20, bottom: 0, right: 20)
 
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
