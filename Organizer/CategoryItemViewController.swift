@@ -81,16 +81,14 @@ class CategoryItemViewController: UIViewController {
     }
 
     @IBAction func newItemButtonTapped() {
-
         switch currentCategoryCellType {
         case "cell1": // Standard PopoverView
             StandardPopoverView(category: title!).show(animated: true)
-        case "cell2":   // Detailed PopoverView
+        case "cell2": // Detailed PopoverView
             DetailedPopoverView(category: title!).show(animated: true)
         default:
             StandardPopoverView(category: title!).show(animated: true)
         }
-
 
 //        DetailedPopoverView(category: title!).show(animated: true)
     }
@@ -213,7 +211,14 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !categoryItems.isEmpty else {
-            DetailedPopoverView(category: title!).show(animated: true)
+            switch currentCategoryCellType {
+            case "cell1": // Standard PopoverView
+                StandardPopoverView(category: title!).show(animated: true)
+            case "cell2": // Detailed PopoverView
+                DetailedPopoverView(category: title!).show(animated: true)
+            default:
+                StandardPopoverView(category: title!).show(animated: true)
+            }
             return
         }
 
