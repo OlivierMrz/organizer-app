@@ -82,7 +82,7 @@ class CategoryItemViewController: UIViewController {
 
     @IBAction func newItemButtonTapped() {
 //        NewItemPopoverView().show(animated: true)
-        NewItemPopoverView(category: title!).show(animated: true)
+        DetailedPopoverView(category: title!).show(animated: true)
     }
 
     // MARK: AddCollectionView
@@ -204,7 +204,7 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !categoryItems.isEmpty else {
-            NewItemPopoverView(category: title!).show(animated: true)
+            DetailedPopoverView(category: title!).show(animated: true)
             return
         }
 
