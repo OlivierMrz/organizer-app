@@ -81,8 +81,18 @@ class CategoryItemViewController: UIViewController {
     }
 
     @IBAction func newItemButtonTapped() {
-//        NewItemPopoverView().show(animated: true)
-        DetailedPopoverView(category: title!).show(animated: true)
+
+        switch currentCategoryCellType {
+        case "cell1": // Standard PopoverView
+            StandardPopoverView(category: title!).show(animated: true)
+        case "cell2":   // Detailed PopoverView
+            DetailedPopoverView(category: title!).show(animated: true)
+        default:
+            StandardPopoverView(category: title!).show(animated: true)
+        }
+
+
+//        DetailedPopoverView(category: title!).show(animated: true)
     }
 
     // MARK: AddCollectionView
@@ -93,7 +103,6 @@ class CategoryItemViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.isScrollEnabled = true
         collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
-//        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
         collectionView.register(DetailedCell.self, forCellWithReuseIdentifier: ReuseIdentifier.detailedCell)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: ReuseIdentifier.emptyCell)
         collectionView.register(TitleCell.self, forCellWithReuseIdentifier: ReuseIdentifier.titleCell)

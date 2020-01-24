@@ -36,6 +36,7 @@
 		69D010B023D8AB7800DC20C9 /* CategoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010AF23D8AB7800DC20C9 /* CategoryItem.swift */; };
 		69D010B223D8AE7600DC20C9 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010B123D8AE7600DC20C9 /* EmptyCell.swift */; };
 		69D010B423D8E83700DC20C9 /* DetailedPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010B323D8E83700DC20C9 /* DetailedPopoverView.swift */; };
+		69D8A3E823DAFA7100C480D3 /* StandardPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D8A3E723DAFA7100C480D3 /* StandardPopoverView.swift */; };
 		6C8C940285E334714A7BF15A /* Pods_Organizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B69419FF67F873BA995123 /* Pods_Organizer.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		69D010AF23D8AB7800DC20C9 /* CategoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryItem.swift; sourceTree = "<group>"; };
 		69D010B123D8AE7600DC20C9 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
 		69D010B323D8E83700DC20C9 /* DetailedPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedPopoverView.swift; sourceTree = "<group>"; };
+		69D8A3E723DAFA7100C480D3 /* StandardPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardPopoverView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +229,7 @@
 				69CC404423D600A400F25E5C /* Modal.swift */,
 				69CC404623D600BF00F25E5C /* newCategoryPopoverView.swift */,
 				69D010B323D8E83700DC20C9 /* DetailedPopoverView.swift */,
+				69D8A3E723DAFA7100C480D3 /* StandardPopoverView.swift */,
 			);
 			path = Popover;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
 				697D232723D1AAF800F9C2C7 /* FirebaseAuthManager.swift in Sources */,
 				699B52AC23CE14B300EAFE33 /* Constants.swift in Sources */,
+				69D8A3E823DAFA7100C480D3 /* StandardPopoverView.swift in Sources */,
 				6953795223D6346D00BA5F2F /* PopoverLabel.swift in Sources */,
 				6943187023D5D121002A673A /* DetailedCell.swift in Sources */,
 				690EB95723D9AB4A0038320C /* TitleCell.swift in Sources */,
