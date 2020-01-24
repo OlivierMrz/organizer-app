@@ -30,10 +30,20 @@ class CategoryItemViewController: UIViewController {
     let searchBar = UISearchBar()
 
     var categoryItems: [CategoryItem] = []
-
     var ref: DatabaseReference!
 
     var currentCategoryCellType: String = ""
+
+    private let refreshControl: UIRefreshControl = {
+        let r = UIRefreshControl()
+        r.tintColor = Color.blue
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: FontSize.xSmall),
+            .foregroundColor: Color.blue!,
+        ]
+        r.attributedTitle = NSAttributedString(string: "Fetching data", attributes: attributes)
+        return r
+    }()
 
     // MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -68,6 +78,10 @@ class CategoryItemViewController: UIViewController {
             self.categoryItems = tempCategoryItems
             self.collectionView.reloadData()
         })
+
+        DispatchQueue.main.async {
+            self.refreshControl.endRefreshing()
+        }
     }
 
     // MARK: AddNewCategoryButton
@@ -88,6 +102,7 @@ class CategoryItemViewController: UIViewController {
     // MARK: AddCollectionView
     fileprivate func addCollectionView() {
         view.addSubview(collectionView)
+        addPullToRefresh()
 
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -103,6 +118,24 @@ class CategoryItemViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
         ])
+    }
+
+    private func addPullToRefresh() {
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
+
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+    }
+
+    @objc private func refreshData(_ sender: Any) {
+        fetchCategoryItemsFromDb()
+
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 
     // MARK: AddSearchBar

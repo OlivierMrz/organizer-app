@@ -39,6 +39,17 @@ class CategoryViewController: UIViewController {
     var categoryItemsCount: [String] = []
     var ref: DatabaseReference!
 
+    private let refreshControl: UIRefreshControl = {
+        let r = UIRefreshControl()
+        r.tintColor = Color.blue
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: FontSize.xSmall),
+            .foregroundColor: Color.blue!,
+        ]
+        r.attributedTitle = NSAttributedString(string: "Fetching data", attributes: attributes)
+        return r
+    }()
+
     // MARK: LoadView
     override func loadView() {
         super.loadView()
@@ -57,7 +68,6 @@ class CategoryViewController: UIViewController {
         view.backgroundColor = Color.blue
 
         let userUid = Auth.auth().currentUser?.uid
-
         guard let userId = userUid else { return }
         fetchCategoriesFromDb(userUid: userId)
     }
@@ -106,11 +116,16 @@ class CategoryViewController: UIViewController {
             self.collectionView.reloadData()
 
         })
+
+        DispatchQueue.main.async {
+            self.refreshControl.endRefreshing()
+        }
     }
 
     // MARK: AddCollectionView
     private func addCollectionView() {
         view.addSubview(collectionView)
+        addPullToRefresh()
 
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -125,6 +140,27 @@ class CategoryViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
         ])
+    }
+
+    private func addPullToRefresh() {
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
+
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+    }
+
+    @objc private func refreshData(_ sender: Any) {
+        let userUid = Auth.auth().currentUser?.uid
+        guard let userId = userUid else { return }
+        fetchCategoriesFromDb(userUid: userId)
+        fetchCategoryItemsFromDb(userUid: userId)
+
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 
     // MARK: AddNewCategoryButton
@@ -243,7 +279,7 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
 
         cell.categoryLabel.text = categories[indexPath.row].catName
         cell.icon.image = UIImage(named: categories[indexPath.row].icon)
-        
+
         if !categoryItemsCount.isEmpty {
             if categoryItemsCount[indexPath.row] == "1" {
                 cell.catItemCountLabel.text = "\(categoryItemsCount[indexPath.row]) item"
