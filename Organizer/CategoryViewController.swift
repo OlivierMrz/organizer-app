@@ -72,14 +72,12 @@ class CategoryViewController: UIViewController {
             for child in snapshot.children {
                 if let snapshot = child as? DataSnapshot,
                     let categoryItem = Category(snapshot: snapshot) {
-
                     newCategories.append(categoryItem)
 
-                    guard let value = snapshot.value as? [String: AnyObject],
-                        let items = value["items"] as? [String: AnyObject] else { return }
+                    let value = snapshot.value as? [String: AnyObject]
+                    let items = value?["items"] as? [String: AnyObject]
 
-                    self.categoryItemsCount.append(String(items.count))
-
+                    self.categoryItemsCount.append("\(items?.count ?? 0)")
                 }
             }
 
@@ -97,12 +95,10 @@ class CategoryViewController: UIViewController {
 
             for child in snapshot.children {
                 if let snapshot = child as? DataSnapshot {
-
                     guard let value = snapshot.value as? [String: AnyObject],
                         let items = value["items"] as? [String: AnyObject] else { return }
 
                     newCategoryItemsCount.append(String(items.count))
-
                 }
             }
 
@@ -110,8 +106,6 @@ class CategoryViewController: UIViewController {
             self.collectionView.reloadData()
 
         })
-
-
     }
 
     // MARK: AddCollectionView
@@ -123,6 +117,7 @@ class CategoryViewController: UIViewController {
         collectionView.isScrollEnabled = true
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
         collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: ReuseIdentifier.emptyCell)
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
@@ -224,7 +219,9 @@ class CategoryViewController: UIViewController {
         let userUid = Auth.auth().currentUser?.uid
 
         guard let userId = userUid else { return }
-        fetchCategoryItemsFromDb(userUid: userId)
+        fetchCategoriesFromDb(userUid: userId)
+
+        collectionView.reloadData()
     }
 }
 
@@ -235,22 +232,25 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.categoryCell, for: indexPath) as! CategoryCell
-
         if categories.isEmpty {
-            cell.categoryLabel.text = "No categories yet"
-            cell.icon.image = UIImage()
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
+
+            cell.title.text = "No categories found"
             return cell
         }
 
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.categoryCell, for: indexPath) as! CategoryCell
+
         cell.categoryLabel.text = categories[indexPath.row].catName
         cell.icon.image = UIImage(named: categories[indexPath.row].icon)
-        if categoryItemsCount[indexPath.row] == "1" {
-            cell.catItemCountLabel.text = "\(categoryItemsCount[indexPath.row]) item"
-        } else {
-            cell.catItemCountLabel.text = "\(categoryItemsCount[indexPath.row]) items"
+        
+        if !categoryItemsCount.isEmpty {
+            if categoryItemsCount[indexPath.row] == "1" {
+                cell.catItemCountLabel.text = "\(categoryItemsCount[indexPath.row]) item"
+            } else {
+                cell.catItemCountLabel.text = "\(categoryItemsCount[indexPath.row]) items"
+            }
         }
-
 
         return cell
     }

@@ -178,7 +178,7 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
 
-            cell.title.text = "Empty Cell"
+            cell.title.text = "No items found"
             return cell
         }
     }

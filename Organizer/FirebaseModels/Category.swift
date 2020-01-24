@@ -45,7 +45,7 @@ struct Category {
         return [
             "cat_name": catName,
             "icon": icon,
-            "cell_type": cellType,
+            "cell_type": cellType
         ]
     }
 }

@@ -248,13 +248,14 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
         if !x {
             let newCategory = Category(catName: catName,
-                                          icon: "icon\(selectedCellIcon)",
-                                          cellType: "cell\(selectedCellType)")
+                                       icon: "icon\(selectedCellIcon)",
+                                       cellType: "cell\(selectedCellType)")
 
             let ItemRef = ref.child(catName)
 
             ItemRef.setValue(newCategory.toAnyObject())
-
+            let currentVc = CategoryViewController()
+            currentVc.collectionView.reloadData()
             dismiss(animated: true)
         } else {
             let alert = UIAlertController(title: "⚠️ ALERT!", message: "Category name already in use.", preferredStyle: .alert)
