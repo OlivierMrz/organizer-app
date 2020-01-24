@@ -81,15 +81,7 @@ class CategoryItemViewController: UIViewController {
     }
 
     @IBAction func newItemButtonTapped() {
-        switch currentCategoryCellType {
-        case "cell1": // Standard PopoverView
-            StandardPopoverView(category: title!).show(animated: true)
-        case "cell2": // Detailed PopoverView
-            DetailedPopoverView(category: title!).show(animated: true)
-        default:
-            StandardPopoverView(category: title!).show(animated: true)
-        }
-
+        checkCellType()
 //        DetailedPopoverView(category: title!).show(animated: true)
     }
 
@@ -138,6 +130,18 @@ class CategoryItemViewController: UIViewController {
 
         navigationController?.navigationBar.tintColor = Color.white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+    }
+
+    // MARK: Check Cell Type and show
+    private func checkCellType() {
+        switch currentCategoryCellType {
+        case "cell1": // Standard PopoverView
+            StandardPopoverView(category: title!).show(animated: true)
+        case "cell2":   // Detailed PopoverView
+            DetailedPopoverView(category: title!).show(animated: true)
+        default:
+            StandardPopoverView(category: title!).show(animated: true)
+        }
     }
 }
 
@@ -211,14 +215,7 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !categoryItems.isEmpty else {
-            switch currentCategoryCellType {
-            case "cell1": // Standard PopoverView
-                StandardPopoverView(category: title!).show(animated: true)
-            case "cell2": // Detailed PopoverView
-                DetailedPopoverView(category: title!).show(animated: true)
-            default:
-                StandardPopoverView(category: title!).show(animated: true)
-            }
+            checkCellType()
             return
         }
 
