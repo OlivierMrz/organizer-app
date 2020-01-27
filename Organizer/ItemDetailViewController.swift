@@ -9,14 +9,16 @@
 import UIKit
 
 class ItemDetailViewController: UIViewController {
-
     let tableView: UITableView = {
         let tv = UITableView()
         tv.backgroundColor = Color.white
         tv.separatorStyle = .none
+        tv.allowsSelection = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
+
+    var detailItem: CategoryItem?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,16 +27,17 @@ class ItemDetailViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(DetailImageCell.self, forCellReuseIdentifier: ReuseIdentifier.detailImageCell)
+        tableView.register(DetailInfoCell.self, forCellReuseIdentifier: ReuseIdentifier.detailInfoCell)
+        tableView.register(DetailButtonCell.self, forCellReuseIdentifier: ReuseIdentifier.detailButtonCell)
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0)
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
         ])
     }
-
 }
 
 extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
@@ -43,10 +46,42 @@ extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "test"
-        return cell
+
+        guard let item = detailItem else { return UITableViewCell() }
+
+        switch indexPath.row {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailImageCell, for: indexPath) as! DetailImageCell
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailInfoCell, for: indexPath) as! DetailInfoCell
+            cell.itemSubLabel.text = item.itemSubTitle
+            cell.itemExtraSubLabel.text = item.extraSubTitle
+            cell.storageLabel.text = item.storagePlace
+            cell.storageNumberLabel.text = item.storageNumber
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailButtonCell, for: indexPath) as! DetailButtonCell
+            cell.lentOutButton.setup(title: "Lent out", backgroundColor: Color.blue!, borderColor: Color.blue!)
+            return cell
+        case 3:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailButtonCell, for: indexPath) as! DetailButtonCell
+            cell.lentOutButton.setup(icon: true, iconImage: UIImage(named: "trash")!,title: "Delete item", backgroundColor: Color.red!, borderColor: Color.red!)
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailImageCell, for: indexPath) as! DetailImageCell
+            return cell
+        }
     }
 
-
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 0:
+            return 240
+        case 2, 3:
+            return 56
+        default:
+            return 100
+        }
+    }
 }

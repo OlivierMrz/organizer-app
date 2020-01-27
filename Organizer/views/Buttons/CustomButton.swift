@@ -9,15 +9,33 @@
 import UIKit
 
 class CustomButton: UIButton {
-    func setup(title: String, backgroundColor: UIColor, borderColor: UIColor) {
+    let iconView: UIImageView = {
+        let i = UIImageView()
+        i.contentMode = .scaleAspectFit
+        i.translatesAutoresizingMaskIntoConstraints = false
+        return i
+    }()
+
+    func setup(icon: Bool = false, iconImage: UIImage = UIImage(), title: String, backgroundColor: UIColor, borderColor: UIColor) {
         setTitle(title, for: .normal)
 
-        if backgroundColor == Color.blue {
-            setTitleColor(Color.white, for: .normal)
-            titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.bold)
-        } else {
+        if icon {
+            iconView.image = iconImage
+            addSubview(iconView)
+            NSLayoutConstraint.activate([
+                iconView.heightAnchor.constraint(equalToConstant: 30),
+                iconView.widthAnchor.constraint(equalToConstant: 20),
+                iconView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
+                iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
+            ])
+        }
+
+        if backgroundColor == Color.white {
             setTitleColor(Color.blue, for: .normal)
             titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.medium)
+        } else {
+            setTitleColor(Color.white, for: .normal)
+            titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.bold)
         }
 
         self.backgroundColor = backgroundColor

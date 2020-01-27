@@ -253,8 +253,8 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
         }
 
         let vc = ItemDetailViewController()
+        vc.detailItem = categoryItems[indexPath.row]
         vc.title = categoryItems[indexPath.row].itemName
         navigationController?.pushViewController(vc, animated: true)
-//        pushView(controller: CategoryItemViewController(), title: cellTitles[indexPath.row])
     }
 }
