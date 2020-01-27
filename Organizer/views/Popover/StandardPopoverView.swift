@@ -213,7 +213,7 @@ class StandardPopoverView: UIView, Modal {
             let storagePlace = itemStoragePlaceTextField.text,
             let storageNumber = itemStorageNumberTextField.text else { return }
 
-        let newItem = CategoryItem(itemName: itemName, itemSubTitle: "", extraSubTitle: "", storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "")
+        let newItem = CategoryItem(itemName: itemName, itemSubTitle: "", extraSubTitle: "", storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: nil)
 
         let uuid = UUID().uuidString
         let ItemRef = ref.child(uuid)

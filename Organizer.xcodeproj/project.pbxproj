@@ -12,6 +12,9 @@
 		6905DCCE23CFBED0007D3558 /* LoginCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6905DCCD23CFBED0007D3558 /* LoginCollectionViewCell.swift */; };
 		690BDB6423DBA22800E1E63D /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690BDB6323DBA22800E1E63D /* ItemDetailViewController.swift */; };
 		690EB95723D9AB4A0038320C /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690EB95623D9AB4A0038320C /* TitleCell.swift */; };
+		6912170F23DF010100E4D643 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912170E23DF010100E4D643 /* ImageCell.swift */; };
+		6912171123DF1FB500E4D643 /* DetailInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912171023DF1FB500E4D643 /* DetailInfoCell.swift */; };
+		6912171323DF269600E4D643 /* DetailButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912171223DF269600E4D643 /* DetailButtonCell.swift */; };
 		691B6AAC23D7B39F00D36799 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691B6AAB23D7B39F00D36799 /* Category.swift */; };
 		693DF43723D06D7600186B7D /* RegisterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DF43623D06D7600186B7D /* RegisterCollectionViewCell.swift */; };
 		693DF43B23D1A7EB00186B7D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 693DF43A23D1A7EB00186B7D /* GoogleService-Info.plist */; };
@@ -50,6 +53,9 @@
 		6905DCCD23CFBED0007D3558 /* LoginCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCollectionViewCell.swift; sourceTree = "<group>"; };
 		690BDB6323DBA22800E1E63D /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		690EB95623D9AB4A0038320C /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
+		6912170E23DF010100E4D643 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		6912171023DF1FB500E4D643 /* DetailInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfoCell.swift; sourceTree = "<group>"; };
+		6912171223DF269600E4D643 /* DetailButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailButtonCell.swift; sourceTree = "<group>"; };
 		691B6AAB23D7B39F00D36799 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		693DF43623D06D7600186B7D /* RegisterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCollectionViewCell.swift; sourceTree = "<group>"; };
 		693DF43A23D1A7EB00186B7D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -98,6 +104,7 @@
 				6953795023D6345300BA5F2F /* Labels */,
 				69CC404323D6004700F25E5C /* Popover */,
 				6943186C23D5D0B8002A673A /* TextFields */,
+				6912170D23DF00A900E4D643 /* TableViewCells */,
 				6943186E23D5D0D3002A673A /* CollectionViewCells */,
 				6943186D23D5D0C1002A673A /* Buttons */,
 				691B6AAD23D7BCAC00D36799 /* Headers */,
@@ -113,6 +120,16 @@
 				693DF43623D06D7600186B7D /* RegisterCollectionViewCell.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		6912170D23DF00A900E4D643 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				6912170E23DF010100E4D643 /* ImageCell.swift */,
+				6912171023DF1FB500E4D643 /* DetailInfoCell.swift */,
+				6912171223DF269600E4D643 /* DetailButtonCell.swift */,
+			);
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		691B6AAA23D7B38500D36799 /* FirebaseModels */ = {
@@ -379,11 +396,13 @@
 				699B529823CE145300EAFE33 /* AppDelegate.swift in Sources */,
 				691B6AAC23D7B39F00D36799 /* Category.swift in Sources */,
 				69D010B023D8AB7800DC20C9 /* CategoryItem.swift in Sources */,
+				6912171123DF1FB500E4D643 /* DetailInfoCell.swift in Sources */,
 				6953795423D63E1200BA5F2F /* SelectIconViewController.swift in Sources */,
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
 				697D232723D1AAF800F9C2C7 /* FirebaseAuthManager.swift in Sources */,
 				699B52AC23CE14B300EAFE33 /* Constants.swift in Sources */,
 				690BDB6423DBA22800E1E63D /* ItemDetailViewController.swift in Sources */,
+				6912170F23DF010100E4D643 /* ImageCell.swift in Sources */,
 				69D8A3E823DAFA7100C480D3 /* StandardPopoverView.swift in Sources */,
 				6953795223D6346D00BA5F2F /* PopoverLabel.swift in Sources */,
 				6943187023D5D121002A673A /* DetailedCell.swift in Sources */,
@@ -395,6 +414,7 @@
 				69D010B423D8E83700DC20C9 /* DetailedPopoverView.swift in Sources */,
 				69C5F6D023D739F7003348E1 /* SelectIconCell.swift in Sources */,
 				697D233123D1FD0D00F9C2C7 /* CollectionHeaderView.swift in Sources */,
+				6912171323DF269600E4D643 /* DetailButtonCell.swift in Sources */,
 				693DF43723D06D7600186B7D /* RegisterCollectionViewCell.swift in Sources */,
 				697D232F23D1F4F300F9C2C7 /* CategoryCell.swift in Sources */,
 			);

@@ -11,7 +11,7 @@ import FirebaseDatabase
 import Foundation
 import UIKit
 
-class DetailedPopoverView: UIView, Modal {
+class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     var backgroundView: UIView = {
         let v = UIView()
         v.backgroundColor = Color.black
@@ -60,6 +60,14 @@ class DetailedPopoverView: UIView, Modal {
 
     let itemStorageNumberLabel = PopoverLabel()
     let itemStorageNumberTextField = CustomTextField()
+
+    var itemImage: Data?
+
+    let addImageButton: CustomButton = {
+        let b = CustomButton()
+        b.setup(title: "Take picture", backgroundColor: Color.white!, borderColor: Color.blue!)
+        return b
+    }()
 
     let addButton: CustomButton = {
         let b = CustomButton()
@@ -151,6 +159,8 @@ class DetailedPopoverView: UIView, Modal {
         dialogView.addSubview(itemStorageNumberLabel)
         dialogView.addSubview(itemStorageNumberTextField)
 
+        dialogView.addSubview(addImageButton)
+        addImageButton.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
         dialogView.addSubview(addButton)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
 
@@ -193,7 +203,12 @@ class DetailedPopoverView: UIView, Modal {
             itemStorageNumberTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             itemStorageNumberTextField.heightAnchor.constraint(equalToConstant: 46),
 
-            addButton.topAnchor.constraint(equalTo: itemStorageNumberTextField.bottomAnchor, constant: Margins.medium),
+            addImageButton.topAnchor.constraint(equalTo: itemStorageNumberTextField.bottomAnchor, constant: Margins.medium),
+            addImageButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            addImageButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+            addImageButton.heightAnchor.constraint(equalToConstant: 46),
+
+            addButton.topAnchor.constraint(equalTo: addImageButton.bottomAnchor, constant: Margins.small),
             addButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             addButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             addButton.heightAnchor.constraint(equalToConstant: 46),
@@ -201,6 +216,33 @@ class DetailedPopoverView: UIView, Modal {
             addButton.bottomAnchor.constraint(equalTo: dialogView.bottomAnchor, constant: -Margins.medium),
         ])
     }
+
+    // MARK: Add Image button Tapped
+    @IBAction func addImageButtonTapped() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.allowsEditing = false
+        vc.delegate = self
+
+        let currentVc = getCurrentViewController()
+        currentVc?.present(vc, animated: true)
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+
+        guard let image = info[.originalImage] as? UIImage else {
+            print("No image found")
+            return
+        }
+
+        itemImage = image.pngData()
+
+
+        // print out the image size as a test
+//        print(itemImage)
+    }
+
 
     // MARK: Add Button Tapped
     @IBAction func addButtonTapped() {
@@ -232,7 +274,10 @@ class DetailedPopoverView: UIView, Modal {
         let subTitle = itemSubTextField.text ?? "-"
         let extraSubTitle = itemExtraSubTextField.text ?? "-"
 
-        let newItem = CategoryItem(itemName: itemName, itemSubTitle: subTitle, extraSubTitle: extraSubTitle, storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "")
+//        let imageData = itemImage
+
+
+        let newItem = CategoryItem(itemName: itemName, itemSubTitle: subTitle, extraSubTitle: extraSubTitle, storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: "")
 
         let uuid = UUID().uuidString
         let ItemRef = ref.child(uuid)

@@ -15,6 +15,7 @@ struct Color {
     static let midGray = UIColor(named: "MidGray")
     static let lightGray = UIColor(named: "LightGray")
     static let black = UIColor(named: "Black")
+    static let red = UIColor(named: "Red")
 }
 
 struct Margins {
@@ -76,6 +77,9 @@ struct ReuseIdentifier {
     static let selectIconCell = "SelectIconCell"
     static let emptyCell = "EmptyCell"
     static let titleCell = "TitleCell"
+    static let detailImageCell = "DetailImageCell"
+    static let detailInfoCell = "DetailInfoCell"
+    static let detailButtonCell = "DetailButtonCell"
 }
 
 struct Device {
