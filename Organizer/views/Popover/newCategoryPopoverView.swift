@@ -328,14 +328,14 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     }
 
     // MARK: get Current ViewController
-    func getCurrentViewController() -> UIViewController? {
-        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
-            var currentController: UIViewController! = rootController
-            while currentController.presentedViewController != nil {
-                currentController = currentController.presentedViewController
-            }
-            return currentController
-        }
-        return nil
-    }
+//    func getCurrentViewController() -> UIViewController? {
+//        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
+//            var currentController: UIViewController! = rootController
+//            while currentController.presentedViewController != nil {
+//                currentController = currentController.presentedViewController
+//            }
+//            return currentController
+//        }
+//        return nil
+//    }
 }

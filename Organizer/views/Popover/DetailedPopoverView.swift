@@ -226,6 +226,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         vc.allowsEditing = false
         vc.delegate = self
 
+
         let currentVc = getCurrentViewController()
         currentVc?.present(vc, animated: true)
     }
@@ -356,15 +357,4 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         dismiss(animated: true)
     }
 
-    // MARK: get Current ViewController
-    func getCurrentViewController() -> UIViewController? {
-        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
-            var currentController: UIViewController! = rootController
-            while currentController.presentedViewController != nil {
-                currentController = currentController.presentedViewController
-            }
-            return currentController
-        }
-        return nil
-    }
 }
