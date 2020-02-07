@@ -8,6 +8,7 @@
 
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 import Foundation
 import UIKit
 
@@ -61,7 +62,8 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
     let itemStorageNumberLabel = PopoverLabel()
     let itemStorageNumberTextField = CustomTextField()
 
-    var itemImage: Data?
+    var itemImage: UIImage?
+    var itemImageUrl: String?
 
     let addImageButton: CustomButton = {
         let b = CustomButton()
@@ -228,7 +230,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         currentVc?.present(vc, animated: true)
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         picker.dismiss(animated: true)
 
         guard let image = info[.originalImage] as? UIImage else {
@@ -236,13 +238,10 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
             return
         }
 
-        itemImage = image.pngData()
-
-
-        // print out the image size as a test
-//        print(itemImage)
+        print(image.size)
+        itemImage = image.resizeImage(200, opaque: false)
+        print(itemImage!.size)
     }
-
 
     // MARK: Add Button Tapped
     @IBAction func addButtonTapped() {
@@ -274,17 +273,42 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         let subTitle = itemSubTextField.text ?? "-"
         let extraSubTitle = itemExtraSubTextField.text ?? "-"
 
-//        let imageData = itemImage
-
-
-        let newItem = CategoryItem(itemName: itemName, itemSubTitle: subTitle, extraSubTitle: extraSubTitle, storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: "")
-
         let uuid = UUID().uuidString
+        let imageId = UUID().uuidString
+
+        let newItem = CategoryItem(itemName: itemName, itemSubTitle: subTitle, extraSubTitle: extraSubTitle, storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: imageId)
+
         let ItemRef = ref.child(uuid)
 
         ItemRef.setValue(newItem.toAnyObject())
 
+        guard let image = itemImage else {
+            dismiss(animated: true)
+            return
+        }
+
+        uploadImagePic(image: image, filePath: imageId)
+
         dismiss(animated: true)
+    }
+
+    func uploadImagePic(image: UIImage, filePath: String) {
+        guard let imageData: Data = image.pngData() else {
+            fatalError()
+        }
+
+        let metaDataConfig = StorageMetadata()
+        metaDataConfig.contentType = "image/jpg"
+
+        let storageRef = Storage.storage().reference(withPath: filePath)
+
+        storageRef.putData(imageData, metadata: metaDataConfig, completion: { _, error in
+            if let error = error {
+                print(error.localizedDescription)
+
+                return
+            }
+        })
     }
 
     // MARK: check If New Category name Exists
