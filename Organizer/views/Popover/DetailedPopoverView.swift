@@ -8,10 +8,11 @@
 
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 import Foundation
 import UIKit
 
-class DetailedPopoverView: UIView, Modal {
+class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     var backgroundView: UIView = {
         let v = UIView()
         v.backgroundColor = Color.black
@@ -60,6 +61,15 @@ class DetailedPopoverView: UIView, Modal {
 
     let itemStorageNumberLabel = PopoverLabel()
     let itemStorageNumberTextField = CustomTextField()
+
+    var itemImage: UIImage?
+    var itemImageUrl: String?
+
+    let addImageButton: CustomButton = {
+        let b = CustomButton()
+        b.setup(title: "Take picture", backgroundColor: Color.white!, borderColor: Color.blue!)
+        return b
+    }()
 
     let addButton: CustomButton = {
         let b = CustomButton()
@@ -151,6 +161,8 @@ class DetailedPopoverView: UIView, Modal {
         dialogView.addSubview(itemStorageNumberLabel)
         dialogView.addSubview(itemStorageNumberTextField)
 
+        dialogView.addSubview(addImageButton)
+        addImageButton.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
         dialogView.addSubview(addButton)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
 
@@ -193,13 +205,43 @@ class DetailedPopoverView: UIView, Modal {
             itemStorageNumberTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             itemStorageNumberTextField.heightAnchor.constraint(equalToConstant: 46),
 
-            addButton.topAnchor.constraint(equalTo: itemStorageNumberTextField.bottomAnchor, constant: Margins.medium),
+            addImageButton.topAnchor.constraint(equalTo: itemStorageNumberTextField.bottomAnchor, constant: Margins.medium),
+            addImageButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            addImageButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+            addImageButton.heightAnchor.constraint(equalToConstant: 46),
+
+            addButton.topAnchor.constraint(equalTo: addImageButton.bottomAnchor, constant: Margins.small),
             addButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             addButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             addButton.heightAnchor.constraint(equalToConstant: 46),
 
             addButton.bottomAnchor.constraint(equalTo: dialogView.bottomAnchor, constant: -Margins.medium),
         ])
+    }
+
+    // MARK: Add Image button Tapped
+    @IBAction func addImageButtonTapped() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.allowsEditing = false
+        vc.delegate = self
+
+
+        let currentVc = getCurrentViewController()
+        currentVc?.present(vc, animated: true)
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        picker.dismiss(animated: true)
+
+        guard let image = info[.originalImage] as? UIImage else {
+            print("No image found")
+            return
+        }
+
+        print(image.size)
+        itemImage = image.resizeImage(200, opaque: false)
+        print(itemImage!.size)
     }
 
     // MARK: Add Button Tapped
@@ -232,14 +274,42 @@ class DetailedPopoverView: UIView, Modal {
         let subTitle = itemSubTextField.text ?? "-"
         let extraSubTitle = itemExtraSubTextField.text ?? "-"
 
-        let newItem = CategoryItem(itemName: itemName, itemSubTitle: subTitle, extraSubTitle: extraSubTitle, storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "")
-
         let uuid = UUID().uuidString
+        let imageId = UUID().uuidString
+
+        let newItem = CategoryItem(itemName: itemName, itemSubTitle: subTitle, extraSubTitle: extraSubTitle, storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: imageId)
+
         let ItemRef = ref.child(uuid)
 
         ItemRef.setValue(newItem.toAnyObject())
 
+        guard let image = itemImage else {
+            dismiss(animated: true)
+            return
+        }
+
+        uploadImagePic(image: image, filePath: imageId)
+
         dismiss(animated: true)
+    }
+
+    func uploadImagePic(image: UIImage, filePath: String) {
+        guard let imageData: Data = image.pngData() else {
+            fatalError()
+        }
+
+        let metaDataConfig = StorageMetadata()
+        metaDataConfig.contentType = "image/jpg"
+
+        let storageRef = Storage.storage().reference(withPath: filePath)
+
+        storageRef.putData(imageData, metadata: metaDataConfig, completion: { _, error in
+            if let error = error {
+                print(error.localizedDescription)
+
+                return
+            }
+        })
     }
 
     // MARK: check If New Category name Exists
@@ -287,15 +357,4 @@ class DetailedPopoverView: UIView, Modal {
         dismiss(animated: true)
     }
 
-    // MARK: get Current ViewController
-    func getCurrentViewController() -> UIViewController? {
-        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
-            var currentController: UIViewController! = rootController
-            while currentController.presentedViewController != nil {
-                currentController = currentController.presentedViewController
-            }
-            return currentController
-        }
-        return nil
-    }
 }

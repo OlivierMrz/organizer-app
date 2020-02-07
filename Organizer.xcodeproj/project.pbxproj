@@ -21,6 +21,9 @@
 		6943187023D5D121002A673A /* DetailedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943186F23D5D121002A673A /* DetailedCell.swift */; };
 		6953795223D6346D00BA5F2F /* PopoverLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953795123D6346D00BA5F2F /* PopoverLabel.swift */; };
 		6953795423D63E1200BA5F2F /* SelectIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953795323D63E1200BA5F2F /* SelectIconViewController.swift */; };
+		696B190523EDB75F00848383 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190423EDB75F00848383 /* UIImageExtensions.swift */; };
+		696B190723EDB92E00848383 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190623EDB92E00848383 /* UIViewControllerExtensions.swift */; };
+		696B190923EDB99100848383 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190823EDB99100848383 /* UIViewExtensions.swift */; };
 		697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697A853E23CF529F00ACC35C /* CustomButton.swift */; };
 		697D232723D1AAF800F9C2C7 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D232623D1AAF800F9C2C7 /* FirebaseAuthManager.swift */; };
 		697D232923D1E1D800F9C2C7 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D232823D1E1D800F9C2C7 /* CategoryViewController.swift */; };
@@ -62,6 +65,9 @@
 		6943186F23D5D121002A673A /* DetailedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedCell.swift; sourceTree = "<group>"; };
 		6953795123D6346D00BA5F2F /* PopoverLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverLabel.swift; sourceTree = "<group>"; };
 		6953795323D63E1200BA5F2F /* SelectIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconViewController.swift; sourceTree = "<group>"; };
+		696B190423EDB75F00848383 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		696B190623EDB92E00848383 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		696B190823EDB99100848383 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		697A853E23CF529F00ACC35C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		697D232623D1AAF800F9C2C7 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
 		697D232823D1E1D800F9C2C7 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoryViewController.swift; path = Organizer/CategoryViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -195,6 +201,16 @@
 			path = Labels;
 			sourceTree = "<group>";
 		};
+		696B190323EDB73100848383 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				696B190423EDB75F00848383 /* UIImageExtensions.swift */,
+				696B190623EDB92E00848383 /* UIViewControllerExtensions.swift */,
+				696B190823EDB99100848383 /* UIViewExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		699B528B23CE145300EAFE33 = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +240,7 @@
 				691B6AAE23D7BCED00D36799 /* SubViewControllers */,
 				6905DCCC23CFBEB3007D3558 /* Login */,
 				69002AE123CF48B700B1C577 /* Views */,
+				696B190323EDB73100848383 /* Extensions */,
 				69CC403A23D5E47100F25E5C /* Helper */,
 				691B6AAA23D7B38500D36799 /* FirebaseModels */,
 				699B52AB23CE14B200EAFE33 /* Constants.swift */,
@@ -387,8 +404,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6905DCCE23CFBED0007D3558 /* LoginCollectionViewCell.swift in Sources */,
+				696B190723EDB92E00848383 /* UIViewControllerExtensions.swift in Sources */,
 				69A079F323D7412F00E2A8F7 /* SelectCellTypeViewController.swift in Sources */,
 				697D232923D1E1D800F9C2C7 /* CategoryViewController.swift in Sources */,
+				696B190523EDB75F00848383 /* UIImageExtensions.swift in Sources */,
 				69CC404723D600BF00F25E5C /* newCategoryPopoverView.swift in Sources */,
 				69CC404023D5EBBE00F25E5C /* CategoryItemViewController.swift in Sources */,
 				69CC404523D600A400F25E5C /* Modal.swift in Sources */,
@@ -398,6 +417,7 @@
 				69D010B023D8AB7800DC20C9 /* CategoryItem.swift in Sources */,
 				6912171123DF1FB500E4D643 /* DetailInfoCell.swift in Sources */,
 				6953795423D63E1200BA5F2F /* SelectIconViewController.swift in Sources */,
+				696B190923EDB99100848383 /* UIViewExtensions.swift in Sources */,
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
 				697D232723D1AAF800F9C2C7 /* FirebaseAuthManager.swift in Sources */,
 				699B52AC23CE14B300EAFE33 /* Constants.swift in Sources */,

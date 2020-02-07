@@ -20,8 +20,9 @@ struct CategoryItem {
     let storageNumber: String
     let borrowed: Bool
     let borrowedBy: String
+    let imageData: String?
 
-    init(itemName: String, itemSubTitle: String, extraSubTitle: String, storagePlace: String, storageNumber: String, borrowed: Bool, borrowedBy: String, key: String = "") {
+    init(itemName: String, itemSubTitle: String, extraSubTitle: String, storagePlace: String, storageNumber: String, borrowed: Bool, borrowedBy: String, imageData: String?, key: String = "") {
         ref = nil
         self.key = key
         self.itemName = itemName
@@ -31,6 +32,7 @@ struct CategoryItem {
         self.storageNumber = storageNumber
         self.borrowed = borrowed
         self.borrowedBy = borrowedBy
+        self.imageData = imageData
     }
 
     init?(snapshot: DataSnapshot) {
@@ -46,6 +48,8 @@ struct CategoryItem {
             return nil
         }
 
+        let imageData = value["image_data"] as? String
+
         ref = snapshot.ref
         key = snapshot.key
         self.itemName = itemName
@@ -55,6 +59,7 @@ struct CategoryItem {
         self.storageNumber = storageNumber
         self.borrowed = borrowed
         self.borrowedBy = borrowedBy
+        self.imageData = imageData
     }
 
     func toAnyObject() -> Any {
@@ -65,7 +70,8 @@ struct CategoryItem {
             "storage_place": storagePlace,
             "storage_number": storageNumber,
             "borrowed": borrowed,
-            "borrowed_by": borrowedBy
+            "borrowed_by": borrowedBy,
+            "image_data": imageData
         ]
     }
 }

@@ -213,7 +213,7 @@ class StandardPopoverView: UIView, Modal {
             let storagePlace = itemStoragePlaceTextField.text,
             let storageNumber = itemStorageNumberTextField.text else { return }
 
-        let newItem = CategoryItem(itemName: itemName, itemSubTitle: "", extraSubTitle: "", storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "")
+        let newItem = CategoryItem(itemName: itemName, itemSubTitle: "", extraSubTitle: "", storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: nil)
 
         let uuid = UUID().uuidString
         let ItemRef = ref.child(uuid)
@@ -266,17 +266,5 @@ class StandardPopoverView: UIView, Modal {
 
     @objc func didTapCancelButton() {
         dismiss(animated: true)
-    }
-
-    // MARK: get Current ViewController
-    func getCurrentViewController() -> UIViewController? {
-        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
-            var currentController: UIViewController! = rootController
-            while currentController.presentedViewController != nil {
-                currentController = currentController.presentedViewController
-            }
-            return currentController
-        }
-        return nil
     }
 }
