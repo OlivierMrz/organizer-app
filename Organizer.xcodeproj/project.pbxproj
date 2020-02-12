@@ -24,6 +24,8 @@
 		696B190523EDB75F00848383 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190423EDB75F00848383 /* UIImageExtensions.swift */; };
 		696B190723EDB92E00848383 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190623EDB92E00848383 /* UIViewControllerExtensions.swift */; };
 		696B190923EDB99100848383 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190823EDB99100848383 /* UIViewExtensions.swift */; };
+		696B190B23EE188200848383 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190A23EE188200848383 /* User.swift */; };
+		696B190D23F1826600848383 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190C23F1826600848383 /* UserViewModel.swift */; };
 		697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697A853E23CF529F00ACC35C /* CustomButton.swift */; };
 		697D232723D1AAF800F9C2C7 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D232623D1AAF800F9C2C7 /* FirebaseAuthManager.swift */; };
 		697D232923D1E1D800F9C2C7 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D232823D1E1D800F9C2C7 /* CategoryViewController.swift */; };
@@ -68,6 +70,8 @@
 		696B190423EDB75F00848383 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		696B190623EDB92E00848383 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		696B190823EDB99100848383 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		696B190A23EE188200848383 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		696B190C23F1826600848383 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		697A853E23CF529F00ACC35C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		697D232623D1AAF800F9C2C7 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
 		697D232823D1E1D800F9C2C7 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoryViewController.swift; path = Organizer/CategoryViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -142,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				691B6AAB23D7B39F00D36799 /* Category.swift */,
+				696B190A23EE188200848383 /* User.swift */,
 				69D010AF23D8AB7800DC20C9 /* CategoryItem.swift */,
 			);
 			path = FirebaseModels;
@@ -237,6 +242,7 @@
 				697D232823D1E1D800F9C2C7 /* CategoryViewController.swift */,
 				69CC403F23D5EBBE00F25E5C /* CategoryItemViewController.swift */,
 				690BDB6323DBA22800E1E63D /* ItemDetailViewController.swift */,
+				696B190C23F1826600848383 /* UserViewModel.swift */,
 				691B6AAE23D7BCED00D36799 /* SubViewControllers */,
 				6905DCCC23CFBEB3007D3558 /* Login */,
 				69002AE123CF48B700B1C577 /* Views */,
@@ -416,6 +422,7 @@
 				691B6AAC23D7B39F00D36799 /* Category.swift in Sources */,
 				69D010B023D8AB7800DC20C9 /* CategoryItem.swift in Sources */,
 				6912171123DF1FB500E4D643 /* DetailInfoCell.swift in Sources */,
+				696B190B23EE188200848383 /* User.swift in Sources */,
 				6953795423D63E1200BA5F2F /* SelectIconViewController.swift in Sources */,
 				696B190923EDB99100848383 /* UIViewExtensions.swift in Sources */,
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
@@ -427,6 +434,7 @@
 				6953795223D6346D00BA5F2F /* PopoverLabel.swift in Sources */,
 				6943187023D5D121002A673A /* DetailedCell.swift in Sources */,
 				690EB95723D9AB4A0038320C /* TitleCell.swift in Sources */,
+				696B190D23F1826600848383 /* UserViewModel.swift in Sources */,
 				699B529A23CE145300EAFE33 /* SceneDelegate.swift in Sources */,
 				69D010B223D8AE7600DC20C9 /* EmptyCell.swift in Sources */,
 				6905DCCB23CFBE23007D3558 /* LoginViewController.swift in Sources */,

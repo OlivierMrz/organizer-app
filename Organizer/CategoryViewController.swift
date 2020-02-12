@@ -39,6 +39,9 @@ class CategoryViewController: UIViewController {
     var categoryItemsCount: [String] = []
     var ref: DatabaseReference!
 
+    var users: [User]?
+    var currentUser: User?
+
     private let refreshControl: UIRefreshControl = {
         let r = UIRefreshControl()
         r.tintColor = Color.blue
@@ -59,6 +62,8 @@ class CategoryViewController: UIViewController {
         addNavigation()
 
         addNewCategoryButton()
+
+        fetchUsers()
     }
 
     // MARK: ViewDidLoad
@@ -70,6 +75,21 @@ class CategoryViewController: UIViewController {
         let userUid = Auth.auth().currentUser?.uid
         guard let userId = userUid else { return }
         fetchCategoriesFromDb(userUid: userId)
+
+
+
+//        guard let users = self.users else {
+//            return
+//        }
+//
+//
+//        for user in users {
+//            if user.userId == userId {
+//                self.currentUser = user
+//            }
+//        }
+
+        collectionView.reloadData()
     }
 
     // MARK: Fetch Categories form Database
@@ -226,7 +246,8 @@ class CategoryViewController: UIViewController {
 
     // MARK: Functions
     func pushToCategoryItemVC(title: String, cellType: String) {
-        let controller = CategoryItemViewController()
+        guard let currentUser = currentUser else { return }
+        let controller = CategoryItemViewController(user: currentUser)
         controller.title = title
         controller.currentCategoryCellType = cellType
         navigationController?.pushViewController(controller, animated: true)
@@ -235,6 +256,8 @@ class CategoryViewController: UIViewController {
     // MARK: ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        fetchUsers()
 
         let test = Auth.auth().currentUser?.email
         if test != nil {
@@ -257,7 +280,48 @@ class CategoryViewController: UIViewController {
         guard let userId = userUid else { return }
         fetchCategoriesFromDb(userUid: userId)
 
+
+
+//        guard let users = self.users else {
+//            collectionView.reloadData()
+//            return
+//        }
+
+
+
+
         collectionView.reloadData()
+    }
+
+    private func fetchUsers() {
+        let userUid = Auth.auth().currentUser?.uid
+
+
+        let userRef = Database.database().reference(withPath: "users")
+        userRef.observeSingleEvent(of: .value, with: { snapshot in
+
+            var tempUsers: [User] = []
+
+            if snapshot.childrenCount > 0 {
+                for child in snapshot.children {
+
+                    if let snapshot = child as? DataSnapshot,
+                        let users = User(snapshot: snapshot) {
+                        tempUsers.append(users)
+                    }
+                }
+            }
+
+            guard let userId = userUid else { return }
+            for user in tempUsers {
+                if user.userId == userId {
+                    self.currentUser = user
+                }
+            }
+
+//            self.users = tempUsers
+
+        })
     }
 }
 

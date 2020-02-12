@@ -7,6 +7,7 @@
 //
 
 import FirebaseAuth
+import FirebaseDatabase
 import UIKit
 
 class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
@@ -18,6 +19,10 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
+
+    var ref: DatabaseReference?
+    var userViewModel: UserViewModel?
+    var users: [User]?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -33,6 +38,8 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        ref = Database.database().reference(withPath: "users/")
 
         view.backgroundColor = Color.blue
         view.addSubview(collectionView)
@@ -80,18 +87,65 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         }
 
         guard let email = textField[0].text,
-            let password = textField[1].text else { return }
+            let password = textField[1].text,
+            let ref = ref else { return }
 
-        Auth.auth().signIn(withEmail: email, password: password) { _, error in
+
+//        ref.observeSingleEvent(of: .value, with: { snapshot in
+//
+////            print("snapshot:", snapshot)
+//            var tempUsers: [User] = []
+//
+//            if snapshot.childrenCount > 0 {
+//                for child in snapshot.children {
+//
+////                    print("child:", child)
+//
+//                    if let snapshot = child as? DataSnapshot,
+//                        let users = User(snapshot: snapshot) {
+//
+//                        tempUsers.append(users)
+//
+//                    }
+//
+//                }
+//            }
+//
+//            self.users = tempUsers
+//
+//        })
+
+
+
+        Auth.auth().signIn(withEmail: email, password: password) { test, error in
 
             if let error = error, let _ = AuthErrorCode(rawValue: error._code) {
                 message = "\(error.localizedDescription)"
             } else {
-//                message = "Login succesful"
+                let userId = test?.user.uid
 
                 let userDefault = UserDefaults.standard
                 userDefault.set(true, forKey: "userSignedIn")
                 userDefault.synchronize()
+
+                guard let users = self.users else {
+                    self.dismiss(animated: true, completion: nil)
+                    return
+                }
+
+
+                for user in users {
+                    if user.userId == userId {
+                        self.userViewModel = UserViewModel(user: user)
+                    }
+                }
+
+
+
+
+//                self.userViewModel = UserViewModel(user: )
+
+
 
                 self.dismiss(animated: true, completion: nil)
             }
@@ -135,12 +189,18 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         }
 
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            if let _ = authResult?.user {
+            if let firUser = authResult?.user {
                 message = "Registration succesful"
 
                 let userDefault = UserDefaults.standard
                 userDefault.set(true, forKey: "userSignedIn")
                 userDefault.synchronize()
+
+                guard let ref = self.ref else { return }
+
+                let user = User(userId: firUser.uid, isProUser: false, hasNoAds: false, canSaveImages: false)
+                let UserRef = ref.child(firUser.uid)
+                UserRef.setValue(user.toAnyObject())
 
                 self.dismiss(animated: true, completion: nil)
 
