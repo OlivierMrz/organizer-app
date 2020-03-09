@@ -16,7 +16,7 @@ class CategoryViewController: UIViewController {
         layout.scrollDirection = .vertical
         layout.sectionHeadersPinToVisibleBounds = true
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = Color.white
+        cv.backgroundColor = Color.primaryBackground
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.layer.masksToBounds = true
         cv.layer.cornerRadius = CornerRadius.xxLarge
@@ -44,10 +44,10 @@ class CategoryViewController: UIViewController {
 
     private let refreshControl: UIRefreshControl = {
         let r = UIRefreshControl()
-        r.tintColor = Color.blue
+        r.tintColor = Color.primary
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: FontSize.xSmall),
-            .foregroundColor: Color.blue!,
+            .foregroundColor: Color.primary!,
         ]
         r.attributedTitle = NSAttributedString(string: "Fetching data", attributes: attributes)
         return r
@@ -70,7 +70,7 @@ class CategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Categories"
-        view.backgroundColor = Color.blue
+        view.backgroundColor = Color.primary
 
         let userUid = Auth.auth().currentUser?.uid
         guard let userId = userUid else { return }
@@ -201,30 +201,30 @@ class CategoryViewController: UIViewController {
     fileprivate func addSearchBar() {
         searchBar.placeholder = "Search"
         searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
-        searchBar.backgroundColor = Color.white
+        searchBar.backgroundColor = Color.primaryBackground
         searchBar.barStyle = .default
         searchBar.isTranslucent = false
-        searchBar.barTintColor = Color.blue
+        searchBar.barTintColor = Color.primary
         searchBar.backgroundImage = UIImage()
         view.addSubview(searchBar)
 
         let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.backgroundColor = Color.white
+        textFieldInsideSearchBar?.backgroundColor = Color.primaryBackground
     }
 
     // MARK: AddNavigation
     private func addNavigation() {
         let barButtonLeft = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(leftBarButtonTapped))
         navigationItem.leftBarButtonItem = barButtonLeft
-        navigationController?.navigationBar.tintColor = Color.white
+        navigationController?.navigationBar.tintColor = Color.primaryBackground
 
         //        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         //        navigationController?.navigationBar.barStyle = .default
-        navigationController?.navigationBar.barTintColor = Color.blue
+        navigationController?.navigationBar.barTintColor = Color.primary
         navigationController?.navigationBar.shadowImage = UIImage()
 
-        navigationController?.navigationBar.tintColor = Color.white
+        navigationController?.navigationBar.tintColor = Color.primaryBackground
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
 

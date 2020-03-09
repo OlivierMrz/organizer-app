@@ -22,7 +22,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     var dialogView: UIView = {
         let v = UIView()
         v.clipsToBounds = true
-        v.backgroundColor = Color.white
+        v.backgroundColor = Color.primaryBackground
         v.layer.cornerRadius = CornerRadius.large
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -57,7 +57,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
     let addButton: CustomButton = {
         let b = CustomButton()
-        b.setup(title: "Add Category", backgroundColor: Color.blue!, borderColor: Color.blue!)
+        b.setup(title: "Add Category", backgroundColor: Color.primary!, borderColor: Color.primary!)
         return b
     }()
 

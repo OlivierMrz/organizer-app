@@ -28,7 +28,7 @@ class TitleCell: UICollectionViewCell {
 
     let storageNumberLabel: UILabel = {
         let l = UILabel()
-        l.textColor = Color.white
+        l.textColor = Color.primaryBackground
         l.backgroundColor = Color.darkGray
         l.layer.cornerRadius = CornerRadius.xSmall
         l.layer.masksToBounds = true

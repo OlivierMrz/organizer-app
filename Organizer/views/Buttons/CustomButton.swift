@@ -30,11 +30,11 @@ class CustomButton: UIButton {
             ])
         }
 
-        if backgroundColor == Color.white {
-            setTitleColor(Color.blue, for: .normal)
+        if backgroundColor == Color.primaryBackground {
+            setTitleColor(Color.primary, for: .normal)
             titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.medium)
         } else {
-            setTitleColor(Color.white, for: .normal)
+            setTitleColor(Color.primaryBackground, for: .normal)
             titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.bold)
         }
 

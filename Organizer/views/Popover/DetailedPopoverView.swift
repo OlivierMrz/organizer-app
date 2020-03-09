@@ -23,7 +23,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
     var dialogView: UIView = {
         let v = UIView()
         v.clipsToBounds = true
-        v.backgroundColor = Color.white
+        v.backgroundColor = Color.primaryBackground
         v.layer.cornerRadius = CornerRadius.large
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -67,13 +67,13 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
 
     let addImageButton: CustomButton = {
         let b = CustomButton()
-        b.setup(title: "Take picture", backgroundColor: Color.white!, borderColor: Color.blue!)
+        b.setup(title: "Take picture", backgroundColor: Color.primaryBackground!, borderColor: Color.primary!)
         return b
     }()
 
     let addButton: CustomButton = {
         let b = CustomButton()
-        b.setup(title: "Add item", backgroundColor: Color.blue!, borderColor: Color.blue!)
+        b.setup(title: "Add item", backgroundColor: Color.primary!, borderColor: Color.primary!)
         return b
     }()
 

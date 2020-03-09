@@ -11,7 +11,7 @@ import UIKit
 class ItemDetailViewController: UIViewController {
     let tableView: UITableView = {
         let tv = UITableView()
-        tv.backgroundColor = Color.white
+        tv.backgroundColor = Color.primaryBackground
         tv.separatorStyle = .none
         tv.allowsSelection = false
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +63,7 @@ extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailButtonCell, for: indexPath) as! DetailButtonCell
-            cell.lentOutButton.setup(title: "Lent out", backgroundColor: Color.blue!, borderColor: Color.blue!)
+            cell.lentOutButton.setup(title: "Lent out", backgroundColor: Color.primary!, borderColor: Color.primary!)
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailButtonCell, for: indexPath) as! DetailButtonCell

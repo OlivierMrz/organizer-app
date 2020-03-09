@@ -17,9 +17,9 @@ class AddButton: UIButton {
         if shadowLayer == nil {
             shadowLayer = CAShapeLayer()
             shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: CornerRadius.medium).cgPath
-            shadowLayer.fillColor = Color.blue?.cgColor
+            shadowLayer.fillColor = Color.primary?.cgColor
 
-            shadowLayer.shadowColor = Color.blue?.cgColor
+            shadowLayer.shadowColor = Color.primary?.cgColor
             shadowLayer.shadowPath = shadowLayer.path
             shadowLayer.shadowOffset = CGSize(width: 0.0, height: 1.0)
             shadowLayer.shadowOpacity = 0.7
@@ -35,7 +35,7 @@ class AddButton: UIButton {
 
         let title = UILabel()
         title.text = "+"
-        title.textColor = Color.white
+        title.textColor = Color.primaryBackground
         title.font = UIFont.systemFont(ofSize: 36, weight: FontWeight.regular)
         title.translatesAutoresizingMaskIntoConstraints = false
         addSubview(title)

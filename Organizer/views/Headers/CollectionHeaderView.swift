@@ -74,7 +74,7 @@ class CollectionHeaderView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = Color.white
+        backgroundColor = Color.primaryBackground
         addSubview(stackView)
 
         NSLayoutConstraint.activate([

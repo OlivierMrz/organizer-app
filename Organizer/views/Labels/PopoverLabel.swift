@@ -16,7 +16,7 @@ class PopoverLabel: UILabel {
 
     func setup() {
         backgroundColor = .clear
-        textColor = Color.blue
+        textColor = Color.primary
         font = UIFont.systemFont(ofSize: FontSize.small, weight: FontWeight.regular)
         textAlignment = .left
         translatesAutoresizingMaskIntoConstraints = false

@@ -12,7 +12,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
     let bigLoginTitleLabel: UILabel = {
         let l = UILabel()
         l.text = "Hello"
-        l.textColor = Color.white
+        l.textColor = Color.primaryBackground
         l.font = UIFont.systemFont(ofSize: FontSize.TitleBig, weight: FontWeight.bold)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -21,7 +21,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
     let smallLoginTitleLabel: UILabel = {
         let l = UILabel()
         l.text = "Sign in to your account"
-        l.textColor = Color.white
+        l.textColor = Color.primaryBackground
         l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -29,7 +29,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
 
     let mainView: UIView = {
         let v = UIView()
-        v.backgroundColor = Color.white
+        v.backgroundColor = Color.primaryBackground
         v.layer.cornerRadius = CornerRadius.xxLarge
         v.layer.maskedCorners = [.layerMinXMinYCorner]
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +39,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
     let emailLabel: UILabel = {
         let l = UILabel()
         l.text = "Email"
-        l.textColor = Color.blue
+        l.textColor = Color.primary
         l.font = UIFont.systemFont(ofSize: FontSize.large, weight: FontWeight.regular)
         l.sizeToFit()
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +56,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
     let passwordLabel: UILabel = {
         let l = UILabel()
         l.text = "Password"
-        l.textColor = Color.blue
+        l.textColor = Color.primary
         l.font = UIFont.systemFont(ofSize: FontSize.large, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -82,13 +82,13 @@ class LoginCollectionViewCell: UICollectionViewCell {
 
     let signInButton: CustomButton = {
         let b = CustomButton()
-        b.setup(title: "SIGN IN", backgroundColor: Color.blue!, borderColor: Color.blue!)
+        b.setup(title: "SIGN IN", backgroundColor: Color.primary!, borderColor: Color.primary!)
         return b
     }()
 
     let registerButton: CustomButton = {
         let b = CustomButton()
-        b.setup(title: "REGISTER ACCOUNT", backgroundColor: Color.white!, borderColor: Color.blue!)
+        b.setup(title: "REGISTER ACCOUNT", backgroundColor: Color.primaryBackground!, borderColor: Color.primary!)
         return b
     }()
 

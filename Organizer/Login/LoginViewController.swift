@@ -15,7 +15,7 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = Color.blue
+        cv.backgroundColor = Color.primary
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
@@ -41,7 +41,7 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
 
         ref = Database.database().reference(withPath: "users/")
 
-        view.backgroundColor = Color.blue
+        view.backgroundColor = Color.primary
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self

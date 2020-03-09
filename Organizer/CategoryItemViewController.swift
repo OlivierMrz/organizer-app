@@ -15,7 +15,7 @@ class CategoryItemViewController: UIViewController {
         layout.scrollDirection = .vertical
         layout.sectionHeadersPinToVisibleBounds = true
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = Color.white
+        cv.backgroundColor = Color.primaryBackground
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.layer.masksToBounds = true
         cv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -37,10 +37,10 @@ class CategoryItemViewController: UIViewController {
 
     private let refreshControl: UIRefreshControl = {
         let r = UIRefreshControl()
-        r.tintColor = Color.blue
+        r.tintColor = Color.primary
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: FontSize.xSmall),
-            .foregroundColor: Color.blue!,
+            .foregroundColor: Color.primary!,
         ]
         r.attributedTitle = NSAttributedString(string: "Fetching data", attributes: attributes)
         return r
@@ -61,7 +61,7 @@ class CategoryItemViewController: UIViewController {
 
         fetchCategoryItemsFromDb()
 
-        view.backgroundColor = Color.blue
+        view.backgroundColor = Color.primary
 
         addSearchBar()
         addCollectionView()
@@ -152,15 +152,15 @@ class CategoryItemViewController: UIViewController {
     fileprivate func addSearchBar() {
         searchBar.placeholder = "Search"
         searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
-        searchBar.backgroundColor = Color.white
+        searchBar.backgroundColor = Color.primaryBackground
         searchBar.barStyle = .default
         searchBar.isTranslucent = false
-        searchBar.barTintColor = Color.blue
+        searchBar.barTintColor = Color.primary
         searchBar.backgroundImage = UIImage()
         view.addSubview(searchBar)
 
         let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.backgroundColor = Color.white
+        textFieldInsideSearchBar?.backgroundColor = Color.primaryBackground
     }
 
     // MARK: AddNavigation
@@ -168,10 +168,10 @@ class CategoryItemViewController: UIViewController {
         //        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         //        navigationController?.navigationBar.barStyle = .default
-        navigationController?.navigationBar.barTintColor = Color.blue
+        navigationController?.navigationBar.barTintColor = Color.primary
         navigationController?.navigationBar.shadowImage = UIImage()
 
-        navigationController?.navigationBar.tintColor = Color.white
+        navigationController?.navigationBar.tintColor = Color.primaryBackground
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
 

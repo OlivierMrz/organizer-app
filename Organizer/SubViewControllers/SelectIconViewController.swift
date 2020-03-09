@@ -45,7 +45,7 @@ class SelectIconViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Color.white
+        view.backgroundColor = Color.primaryBackground
 
         addTitleLabel()
         addCollectionView()

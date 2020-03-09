@@ -16,7 +16,7 @@ protocol CollectionCellTextFieldDelegate: class {
 class RegisterCollectionViewCell: UICollectionViewCell {
     let mainView: UIView = {
         let v = UIView()
-        v.backgroundColor = Color.white
+        v.backgroundColor = Color.primaryBackground
 //        v.layer.cornerRadius = CornerRadius.xxLarge
 //        v.layer.maskedCorners = [.layerMinXMaxYCorner]
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +26,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
     let bigRegisterTitleLabel1: UILabel = {
         let l = UILabel()
         l.text = "Hello"
-        l.textColor = Color.blue
+        l.textColor = Color.primary
         l.font = UIFont.systemFont(ofSize: FontSize.TitleBig, weight: FontWeight.bold)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -35,7 +35,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
     let bigRegisterTitleLabel2: UILabel = {
         let l = UILabel()
         l.text = "again..."
-        l.textColor = Color.blue
+        l.textColor = Color.primary
         l.font = UIFont.systemFont(ofSize: FontSize.small, weight: FontWeight.bold)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -44,7 +44,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
     let smallRegisterTitleLabel: UILabel = {
         let l = UILabel()
         l.text = "Create your account"
-        l.textColor = Color.blue
+        l.textColor = Color.primary
         l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -53,7 +53,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
     let emailLabel: UILabel = {
         let l = UILabel()
         l.text = "Email"
-        l.textColor = Color.blue
+        l.textColor = Color.primary
         l.font = UIFont.systemFont(ofSize: FontSize.large, weight: FontWeight.regular)
         l.sizeToFit()
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +69,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
     let passwordLabel: UILabel = {
         let l = UILabel()
         l.text = "Password"
-        l.textColor = Color.blue
+        l.textColor = Color.primary
         l.font = UIFont.systemFont(ofSize: FontSize.large, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -86,7 +86,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
     let confirmPasswordLabel: UILabel = {
         let l = UILabel()
         l.text = "Confirm password"
-        l.textColor = Color.blue
+        l.textColor = Color.primary
         l.font = UIFont.systemFont(ofSize: FontSize.large, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -112,7 +112,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
 
     let registerAccountButton: CustomButton = {
         let b = CustomButton()
-        b.setup(title: "Create account", backgroundColor: Color.blue!, borderColor: Color.blue!)
+        b.setup(title: "Create account", backgroundColor: Color.primary!, borderColor: Color.primary!)
         return b
     }()
 
