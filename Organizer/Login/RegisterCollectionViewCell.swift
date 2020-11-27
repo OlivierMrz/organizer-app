@@ -14,7 +14,7 @@ protocol CollectionCellTextFieldDelegate: class {
 }
 
 class RegisterCollectionViewCell: UICollectionViewCell {
-    let mainView: UIView = {
+    private let mainView: UIView = {
         let v = UIView()
         v.backgroundColor = Color.primaryBackground
 //        v.layer.cornerRadius = CornerRadius.xxLarge
@@ -23,7 +23,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         return v
     }()
 
-    let bigRegisterTitleLabel1: UILabel = {
+    private let bigRegisterTitleLabel1: UILabel = {
         let l = UILabel()
         l.text = "Hello"
         l.textColor = Color.primary
@@ -32,7 +32,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let bigRegisterTitleLabel2: UILabel = {
+    private let bigRegisterTitleLabel2: UILabel = {
         let l = UILabel()
         l.text = "again..."
         l.textColor = Color.primary
@@ -41,7 +41,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let smallRegisterTitleLabel: UILabel = {
+    private let smallRegisterTitleLabel: UILabel = {
         let l = UILabel()
         l.text = "Create your account"
         l.textColor = Color.primary
@@ -50,7 +50,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let emailLabel: UILabel = {
+    private let emailLabel: UILabel = {
         let l = UILabel()
         l.text = "Email"
         l.textColor = Color.primary
@@ -60,13 +60,13 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let emailTextField: CustomTextField = {
+    private let emailTextField: CustomTextField = {
         let t = CustomTextField()
         t.setup(placeHolder: "your@email.com")
         return t
     }()
 
-    let passwordLabel: UILabel = {
+    private let passwordLabel: UILabel = {
         let l = UILabel()
         l.text = "Password"
         l.textColor = Color.primary
@@ -75,7 +75,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let passwordTextField: CustomTextField = {
+    private let passwordTextField: CustomTextField = {
         let t = CustomTextField()
         t.setup(placeHolder: "******")
         t.isSecureTextEntry = true
@@ -83,7 +83,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         return t
     }()
 
-    let confirmPasswordLabel: UILabel = {
+    private let confirmPasswordLabel: UILabel = {
         let l = UILabel()
         l.text = "Confirm password"
         l.textColor = Color.primary
@@ -92,7 +92,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let confirmPasswordTextField: CustomTextField = {
+    private let confirmPasswordTextField: CustomTextField = {
         let t = CustomTextField()
         t.setup(placeHolder: "******")
         t.isSecureTextEntry = true
@@ -110,7 +110,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         return b
     }()
 
-    let registerAccountButton: CustomButton = {
+    private let registerAccountButton: CustomButton = {
         let b = CustomButton()
         b.setup(title: "Create account", backgroundColor: Color.primary!, borderColor: Color.primary!)
         return b
@@ -125,7 +125,7 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         registerAccountButton.addTarget(self, action: #selector(registerAccountButtonTapped), for: .touchUpInside)
     }
 
-    func setupViews() {
+    private func setupViews() {
         contentView.addSubview(mainView)
 
         let views = [
@@ -214,12 +214,12 @@ class RegisterCollectionViewCell: UICollectionViewCell {
         ])
     }
 
-    @IBAction func registerAccountButtonTapped() {
+    @IBAction private func registerAccountButtonTapped() {
         guard let textFieldDelegate = textFieldDelegate else { return }
         textFieldDelegate.textDidChangeRegisterScreen([emailTextField, passwordTextField, confirmPasswordTextField])
     }
 
-    func addSubViews(_ views: [UIView], to parentView: UIView) {
+    private func addSubViews(_ views: [UIView], to parentView: UIView) {
         views.forEach { parentView.addSubview($0) }
     }
 

@@ -9,7 +9,7 @@
 import UIKit
 
 class ItemDetailViewController: UIViewController {
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let tv = UITableView()
         tv.backgroundColor = Color.primaryBackground
         tv.separatorStyle = .none

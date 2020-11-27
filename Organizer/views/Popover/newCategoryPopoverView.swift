@@ -12,7 +12,7 @@ import Foundation
 import UIKit
 
 class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeDelegate {
-    var backgroundView: UIView = {
+    private(set) var backgroundView: UIView = {
         let v = UIView()
         v.backgroundColor = Color.black
         v.alpha = 0.6
@@ -28,7 +28,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         return v
     }()
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let l = UILabel()
         l.text = "Add new Category"
         l.textAlignment = .center
@@ -38,7 +38,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         return l
     }()
 
-    let subTitleLabel: UILabel = {
+    private let subTitleLabel: UILabel = {
         let l = UILabel()
         l.textAlignment = .center
         l.font = UIFont.systemFont(ofSize: FontSize.small, weight: FontWeight.regular)
@@ -50,10 +50,10 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         return l
     }()
 
-    let categoryNameTextField = CustomTextField()
-    let selectIconButton = UIImageView()
-    let selectIcon = PopoverLabel()
-    let selectCellTypeButton = UIImageView()
+    private let categoryNameTextField = CustomTextField()
+    private let selectIconButton = UIImageView()
+    private let selectIcon = PopoverLabel()
+    private let selectCellTypeButton = UIImageView()
 
     let addButton: CustomButton = {
         let b = CustomButton()
@@ -61,17 +61,17 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         return b
     }()
 
-    var imageArray: [String] = ["icon1", "icon2", "icon3", "icon4", "icon5"]
+    private var imageArray: [String] = ["icon1", "icon2", "icon3", "icon4", "icon5"]
 
-    var cellTypeArray: [UIImage] = [
+    private var cellTypeArray: [UIImage] = [
         UIImage(named: "cell2")!,
         UIImage(named: "cell3")!,
     ]
-    var ref: DatabaseReference?
-    var userCategories: [Category] = []
+    private var ref: DatabaseReference?
+    private var userCategories: [Category] = []
 
-    var selectedCellType: Int = 0
-    var selectedCellIcon: Int = 0
+    private var selectedCellType: Int = 0
+    private var selectedCellIcon: Int = 0
 
     // MARK: Init()
     convenience init() {
@@ -94,21 +94,21 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     }
 
     // MARK: DidSelectCell ICON
-    func didSelectCell(icon: Int) {
+    internal func didSelectCell(icon: Int) {
         selectedCellIcon = (icon + 1)
         selectIconButton.layer.borderColor = Color.lightGray?.cgColor
         selectIconButton.image = UIImage(named: imageArray[icon])
     }
 
     // MARK: DidSelectCell TYPE
-    func didSelectCell(type: Int) {
+    internal func didSelectCell(type: Int) {
         selectedCellType = (type + 1)
         selectCellTypeButton.layer.borderColor = Color.lightGray?.cgColor
         selectCellTypeButton.image = cellTypeArray[type]
     }
 
     // MARK: addView
-    func addView() {
+    private func addView() {
         titleLabel.text = "Add new category"
         subTitleLabel.text = "You can give me a number or place where you will store this item. (not required)"
 
@@ -224,7 +224,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     }
 
     // MARK: Add Button Tapped
-    @IBAction func addButtonTapped() {
+    @IBAction private func addButtonTapped() {
         var errors: [UIView] = []
         if let categoryText = categoryNameTextField.text, categoryText.isEmpty {
             errors.append(categoryNameTextField)
@@ -269,7 +269,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     }
 
     // MARK: check If New Category name Exists
-    func checkIfNewCategoryExists(catName: String) -> Bool {
+    private func checkIfNewCategoryExists(catName: String) -> Bool {
         for cat in userCategories {
             if cat.catName == catName {
                 return true
@@ -279,7 +279,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     }
 
     // MARK: fetch User Categories
-    func fetchUserCategories(userUid: String) {
+    private func fetchUserCategories(userUid: String) {
         let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
 
         transactionRef.observeSingleEvent(of: .value, with: { snapshot in
@@ -301,29 +301,29 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     }
 
     // MARK: IBAction buttons
-    @IBAction func viewTapped() {
+    @IBAction private func viewTapped() {
         dialogView.endEditing(true)
     }
 
-    @IBAction func selectCellTapped() {
+    @IBAction private func selectCellTapped() {
         let vc = SelectCellTypeViewController()
         let currentController = getCurrentViewController()
         vc.delegate = self
         currentController?.present(vc, animated: true, completion: nil)
     }
 
-    @IBAction func selectIconTapped() {
+    @IBAction private func selectIconTapped() {
         let vc = SelectIconViewController()
         let currentController = getCurrentViewController()
         vc.delegate = self
         currentController?.present(vc, animated: true, completion: nil)
     }
 
-    @objc func didTappedOnBackgroundView() {
+    @objc private func didTappedOnBackgroundView() {
         dismiss(animated: true)
     }
 
-    @objc func didTapCancelButton() {
+    @objc private func didTapCancelButton() {
         dismiss(animated: true)
     }
 }

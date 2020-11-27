@@ -14,7 +14,7 @@ protocol SelectCellTypeDelegate: AnyObject {
 
 class SelectCellTypeViewController: UIViewController {
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.darkGray
         l.text = "Choose the type of cell"
@@ -24,7 +24,7 @@ class SelectCellTypeViewController: UIViewController {
         return l
     }()
 
-    let collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -33,7 +33,7 @@ class SelectCellTypeViewController: UIViewController {
         return cv
     }()
 
-    var cellTypeArray: [UIImage] = [
+    private var cellTypeArray: [UIImage] = [
         UIImage(named: "cell2")!,
         UIImage(named: "cell3")!
     ]
@@ -62,7 +62,7 @@ class SelectCellTypeViewController: UIViewController {
         ])
     }
 
-    func addTitleLabel() {
+    private func addTitleLabel() {
         view.addSubview(titleLabel)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),

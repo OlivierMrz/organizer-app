@@ -14,7 +14,7 @@ protocol SelectIconDelegate: AnyObject {
 
 class SelectIconViewController: UIViewController {
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.darkGray
         l.text = "Choose the icon you want to use"
@@ -24,7 +24,7 @@ class SelectIconViewController: UIViewController {
         return l
     }()
     
-    let collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -33,7 +33,7 @@ class SelectIconViewController: UIViewController {
         return cv
     }()
 
-    var imageArray: [UIImage] = [
+    private var imageArray: [UIImage] = [
         UIImage(named: "icon1")!,
         UIImage(named: "icon2")!,
         UIImage(named: "icon3")!,
@@ -51,11 +51,11 @@ class SelectIconViewController: UIViewController {
         addCollectionView()
     }
 
-    @IBAction func leftBarButtonTapped() {
+    @IBAction private func leftBarButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
 
-    func addTitleLabel() {
+    private func addTitleLabel() {
         view.addSubview(titleLabel)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -64,7 +64,7 @@ class SelectIconViewController: UIViewController {
         ])
     }
 
-    func addCollectionView() {
+    private func addCollectionView() {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self

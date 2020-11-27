@@ -13,7 +13,7 @@ import Foundation
 import UIKit
 
 class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    var backgroundView: UIView = {
+    private(set) var backgroundView: UIView = {
         let v = UIView()
         v.backgroundColor = Color.black
         v.alpha = 0.6
@@ -29,7 +29,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         return v
     }()
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let l = UILabel()
         l.text = "Add new Category"
         l.textAlignment = .center
@@ -39,7 +39,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         return l
     }()
 
-    let subTitleLabel: UILabel = {
+    private let subTitleLabel: UILabel = {
         let l = UILabel()
         l.textAlignment = .center
         l.font = UIFont.systemFont(ofSize: FontSize.small, weight: FontWeight.regular)
@@ -51,21 +51,21 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         return l
     }()
 
-    let itemNameLabel = PopoverLabel()
-    let itemNameTextField = CustomTextField()
-    let itemSubTextField = CustomTextField()
-    let itemExtraSubTextField = CustomTextField()
+    private let itemNameLabel = PopoverLabel()
+    private let itemNameTextField = CustomTextField()
+    private let itemSubTextField = CustomTextField()
+    private let itemExtraSubTextField = CustomTextField()
 
-    let itemStoragePlaceLabel = PopoverLabel()
-    let itemStoragePlaceTextField = CustomTextField()
+    private let itemStoragePlaceLabel = PopoverLabel()
+    private let itemStoragePlaceTextField = CustomTextField()
 
-    let itemStorageNumberLabel = PopoverLabel()
-    let itemStorageNumberTextField = CustomTextField()
+    private let itemStorageNumberLabel = PopoverLabel()
+    private let itemStorageNumberTextField = CustomTextField()
 
-    var itemImage: UIImage?
-    var itemImageUrl: String?
+    private var itemImage: UIImage?
+    private var itemImageUrl: String?
 
-    let addImageButton: CustomButton = {
+    private let addImageButton: CustomButton = {
         let b = CustomButton()
         b.setup(title: "Take picture", backgroundColor: Color.primaryBackground!, borderColor: Color.primary!)
         return b
@@ -77,8 +77,8 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         return b
     }()
 
-    var ref: DatabaseReference?
-    var userCategories: [Category] = []
+    private var ref: DatabaseReference?
+    private var userCategories: [Category] = []
 
     // MARK: Init()
     convenience init(category: String) {
@@ -112,7 +112,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
     }
 
     // MARK: add Views
-    func addView() {
+    private func addView() {
         titleLabel.text = "Add new item"
         subTitleLabel.text = "You can give me a number or place where you will store this item. (not required)"
 
@@ -220,7 +220,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
     }
 
     // MARK: Add Image button Tapped
-    @IBAction func addImageButtonTapped() {
+    @IBAction private func addImageButtonTapped() {
         let vc = UIImagePickerController()
         vc.sourceType = .camera
         vc.allowsEditing = false
@@ -245,7 +245,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
     }
 
     // MARK: Add Button Tapped
-    @IBAction func addButtonTapped() {
+    @IBAction private func addButtonTapped() {
         [itemNameTextField, itemStoragePlaceTextField, itemStorageNumberTextField].forEach {
             $0.layer.borderColor = Color.lightGray?.cgColor
         }
@@ -293,7 +293,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         dismiss(animated: true)
     }
 
-    func uploadImagePic(image: UIImage, filePath: String) {
+    private func uploadImagePic(image: UIImage, filePath: String) {
         guard let imageData: Data = image.pngData() else {
             fatalError()
         }
@@ -313,7 +313,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
     }
 
     // MARK: check If New Category name Exists
-    func checkIfNewCategoryExists(catName: String) -> Bool {
+    private func checkIfNewCategoryExists(catName: String) -> Bool {
         for cat in userCategories {
             if cat.catName == catName {
                 return true
@@ -323,7 +323,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
     }
 
     // MARK: fetch User Categories
-    func fetchUserCategories(userUid: String) {
+    private func fetchUserCategories(userUid: String) {
         let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
 
         transactionRef.observeSingleEvent(of: .value, with: { snapshot in
@@ -345,15 +345,15 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
     }
 
     // MARK: IBAction buttons
-    @IBAction func viewTapped() {
+    @IBAction private func viewTapped() {
         dialogView.endEditing(true)
     }
 
-    @objc func didTappedOnBackgroundView() {
+    @objc private func didTappedOnBackgroundView() {
         dismiss(animated: true)
     }
 
-    @objc func didTapCancelButton() {
+    @objc private func didTapCancelButton() {
         dismiss(animated: true)
     }
 

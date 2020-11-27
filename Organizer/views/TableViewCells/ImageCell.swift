@@ -10,7 +10,7 @@ import FirebaseStorage
 import UIKit
 
 class DetailImageCell: UITableViewCell {
-    let imageview: UIImageView = {
+    private let imageview: UIImageView = {
         let i = UIImageView()
         i.backgroundColor = Color.lightGray
         i.contentMode = .scaleAspectFit

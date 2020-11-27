@@ -12,7 +12,7 @@ import Foundation
 import UIKit
 
 class StandardPopoverView: UIView, Modal {
-    var backgroundView: UIView = {
+    private(set) var backgroundView: UIView = {
         let v = UIView()
         v.backgroundColor = Color.black
         v.alpha = 0.6
@@ -28,7 +28,7 @@ class StandardPopoverView: UIView, Modal {
         return v
     }()
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let l = UILabel()
         l.text = "Add new Category"
         l.textAlignment = .center
@@ -38,7 +38,7 @@ class StandardPopoverView: UIView, Modal {
         return l
     }()
 
-    let subTitleLabel: UILabel = {
+    private let subTitleLabel: UILabel = {
         let l = UILabel()
         l.textAlignment = .center
         l.font = UIFont.systemFont(ofSize: FontSize.small, weight: FontWeight.regular)
@@ -50,14 +50,14 @@ class StandardPopoverView: UIView, Modal {
         return l
     }()
 
-    let itemNameLabel = PopoverLabel()
-    let itemNameTextField = CustomTextField()
+    private let itemNameLabel = PopoverLabel()
+    private let itemNameTextField = CustomTextField()
 
-    let itemStoragePlaceLabel = PopoverLabel()
-    let itemStoragePlaceTextField = CustomTextField()
+    private let itemStoragePlaceLabel = PopoverLabel()
+    private let itemStoragePlaceTextField = CustomTextField()
 
-    let itemStorageNumberLabel = PopoverLabel()
-    let itemStorageNumberTextField = CustomTextField()
+    private let itemStorageNumberLabel = PopoverLabel()
+    private let itemStorageNumberTextField = CustomTextField()
 
     let addButton: CustomButton = {
         let b = CustomButton()
@@ -65,8 +65,8 @@ class StandardPopoverView: UIView, Modal {
         return b
     }()
 
-    var ref: DatabaseReference?
-    var userCategories: [Category] = []
+    private var ref: DatabaseReference?
+    private var userCategories: [Category] = []
 
     // MARK: Init()
     convenience init(category: String) {
@@ -100,7 +100,7 @@ class StandardPopoverView: UIView, Modal {
     }
 
     // MARK: add Views
-    func addView() {
+    private func addView() {
         titleLabel.text = "Add new item"
         subTitleLabel.text = "You can give me a number or place where you will store this item. (not required)"
 
@@ -187,7 +187,7 @@ class StandardPopoverView: UIView, Modal {
     }
 
     // MARK: Add Button Tapped
-    @IBAction func addButtonTapped() {
+    @IBAction private func addButtonTapped() {
         [itemNameTextField, itemStoragePlaceTextField, itemStorageNumberTextField].forEach {
             $0.layer.borderColor = Color.lightGray?.cgColor
         }
@@ -224,7 +224,7 @@ class StandardPopoverView: UIView, Modal {
     }
 
     // MARK: check If New Category name Exists
-    func checkIfNewCategoryExists(catName: String) -> Bool {
+    private func checkIfNewCategoryExists(catName: String) -> Bool {
         for cat in userCategories {
             if cat.catName == catName {
                 return true
@@ -234,7 +234,7 @@ class StandardPopoverView: UIView, Modal {
     }
 
     // MARK: fetch User Categories
-    func fetchUserCategories(userUid: String) {
+    private func fetchUserCategories(userUid: String) {
         let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
 
         transactionRef.observeSingleEvent(of: .value, with: { snapshot in
@@ -256,15 +256,15 @@ class StandardPopoverView: UIView, Modal {
     }
 
     // MARK: IBAction buttons
-    @IBAction func viewTapped() {
+    @IBAction private func viewTapped() {
         dialogView.endEditing(true)
     }
 
-    @objc func didTappedOnBackgroundView() {
+    @objc private func didTappedOnBackgroundView() {
         dismiss(animated: true)
     }
 
-    @objc func didTapCancelButton() {
+    @objc private func didTapCancelButton() {
         dismiss(animated: true)
     }
 }

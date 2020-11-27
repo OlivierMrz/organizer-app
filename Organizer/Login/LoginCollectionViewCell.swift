@@ -9,7 +9,7 @@
 import UIKit
 
 class LoginCollectionViewCell: UICollectionViewCell {
-    let bigLoginTitleLabel: UILabel = {
+    private let bigLoginTitleLabel: UILabel = {
         let l = UILabel()
         l.text = "Hello"
         l.textColor = Color.primaryBackground
@@ -18,7 +18,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let smallLoginTitleLabel: UILabel = {
+    private let smallLoginTitleLabel: UILabel = {
         let l = UILabel()
         l.text = "Sign in to your account"
         l.textColor = Color.primaryBackground
@@ -27,7 +27,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let mainView: UIView = {
+    private let mainView: UIView = {
         let v = UIView()
         v.backgroundColor = Color.primaryBackground
         v.layer.cornerRadius = CornerRadius.xxLarge
@@ -36,7 +36,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
         return v
     }()
 
-    let emailLabel: UILabel = {
+    private let emailLabel: UILabel = {
         let l = UILabel()
         l.text = "Email"
         l.textColor = Color.primary
@@ -46,14 +46,14 @@ class LoginCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let emailTextField: CustomTextField = {
+    private let emailTextField: CustomTextField = {
         let t = CustomTextField()
         t.setup(placeHolder: "your@email.com")
         t.text = "test@test.com"
         return t
     }()
 
-    let passwordLabel: UILabel = {
+    private let passwordLabel: UILabel = {
         let l = UILabel()
         l.text = "Password"
         l.textColor = Color.primary
@@ -62,7 +62,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
         return l
     }()
 
-    let passwordTextField: CustomTextField = {
+    private let passwordTextField: CustomTextField = {
         let t = CustomTextField()
         t.setup(placeHolder: "******")
         t.isSecureTextEntry = true
@@ -70,7 +70,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
         return t
     }()
 
-    let forgotPasswordButton: UIButton = {
+    private let forgotPasswordButton: UIButton = {
         let b = UIButton()
         b.setTitle("Forgot password?", for: .normal)
         b.setTitleColor(Color.midGray, for: .normal)
@@ -80,7 +80,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
         return b
     }()
 
-    let signInButton: CustomButton = {
+    private let signInButton: CustomButton = {
         let b = CustomButton()
         b.setup(title: "SIGN IN", backgroundColor: Color.primary!, borderColor: Color.primary!)
         return b
@@ -100,7 +100,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
         signInButton.addTarget(self, action: #selector(signinButtonTapped), for: .touchUpInside)
     }
 
-    func setupViews() {
+    private func setupViews() {
         contentView.addSubview(bigLoginTitleLabel)
         contentView.addSubview(smallLoginTitleLabel)
         contentView.addSubview(mainView)
@@ -182,7 +182,7 @@ class LoginCollectionViewCell: UICollectionViewCell {
         ])
     }
 
-    @IBAction func signinButtonTapped() {
+    @IBAction private func signinButtonTapped() {
         guard let textFieldDelegate = textFieldDelegate else { return }
         textFieldDelegate.textDidChangeLoginScreen([emailTextField, passwordTextField])
     }

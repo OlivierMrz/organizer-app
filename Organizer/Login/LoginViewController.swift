@@ -11,7 +11,7 @@ import FirebaseDatabase
 import UIKit
 
 class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
-    let collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -20,9 +20,9 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         return cv
     }()
 
-    var ref: DatabaseReference?
-    var userViewModel: UserViewModel?
-    var users: [User]?
+    private var ref: DatabaseReference?
+    private var userViewModel: UserViewModel?
+    private var users: [User]?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -70,7 +70,7 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
     }
 
     // MARK: LoginScreen button tapped
-    func textDidChangeLoginScreen(_ textField: [UITextField]) {
+    internal func textDidChangeLoginScreen(_ textField: [UITextField]) {
         var message = ""
         if textField[0].text!.isEmpty {
             message = "Email is empty"
@@ -157,7 +157,7 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
     }
 
     // MARK: RegisterScreen button tapped
-    func textDidChangeRegisterScreen(_ textField: [UITextField]) {
+    internal func textDidChangeRegisterScreen(_ textField: [UITextField]) {
         var message = ""
         if textField[0].text!.isEmpty {
             message = "Email is empty"
@@ -214,11 +214,11 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         }
     }
 
-    @IBAction func viewTapped() {
+    @IBAction private func viewTapped() {
         view.endEditing(true)
     }
 
-    @IBAction func adjustForKeyboard(notification: Notification) {
+    @IBAction private func adjustForKeyboard(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
 
         let keyboardScreenEndFrame = keyboardValue.cgRectValue
@@ -235,11 +235,11 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
 //        collectionView.scrollRangeToVisible(selectedRange)
     }
 
-    @IBAction func loginCellregisterAccountButtonTapped() {
+    @IBAction private func loginCellregisterAccountButtonTapped() {
         collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: .bottom, animated: true)
     }
 
-    @IBAction func scrollToLoginButtonTapped() {
+    @IBAction private func scrollToLoginButtonTapped() {
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .bottom, animated: true)
     }
 }

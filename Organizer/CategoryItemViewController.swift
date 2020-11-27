@@ -22,15 +22,15 @@ class CategoryItemViewController: UIViewController {
         return cv
     }()
 
-    let addCategoryButton: AddButton = {
+    private let addCategoryButton: AddButton = {
         let b = AddButton()
         return b
     }()
 
-    let searchBar = UISearchBar()
+    private let searchBar = UISearchBar()
 
-    var categoryItems: [CategoryItem] = []
-    var ref: DatabaseReference!
+    private var categoryItems: [CategoryItem] = []
+    private var ref: DatabaseReference!
 
     var currentCategoryCellType: String = ""
     private var currentUser: User?
@@ -70,7 +70,7 @@ class CategoryItemViewController: UIViewController {
     }
 
     // MARK: Fetch Categories form Database
-    func fetchCategoryItemsFromDb() {
+    private func fetchCategoryItemsFromDb() {
         let userEmail = (Auth.auth().currentUser?.uid)!
         let currentCategory = title!
         ref = Database.database().reference(withPath: "users/\(userEmail)/categories/\(currentCategory)/items")
@@ -104,13 +104,13 @@ class CategoryItemViewController: UIViewController {
         ])
     }
 
-    @IBAction func newItemButtonTapped() {
+    @IBAction private func newItemButtonTapped() {
         checkCellType()
 //        DetailedPopoverView(category: title!).show(animated: true)
     }
 
     // MARK: AddCollectionView
-    fileprivate func addCollectionView() {
+    private func addCollectionView() {
         view.addSubview(collectionView)
         addPullToRefresh()
 
@@ -149,7 +149,7 @@ class CategoryItemViewController: UIViewController {
     }
 
     // MARK: AddSearchBar
-    fileprivate func addSearchBar() {
+    private func addSearchBar() {
         searchBar.placeholder = "Search"
         searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
         searchBar.backgroundColor = Color.primaryBackground
@@ -164,7 +164,7 @@ class CategoryItemViewController: UIViewController {
     }
 
     // MARK: AddNavigation
-    fileprivate func addNavigation() {
+    private func addNavigation() {
         //        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         //        navigationController?.navigationBar.barStyle = .default

@@ -25,22 +25,22 @@ class CategoryViewController: UIViewController {
         return cv
     }()
 
-    let searchBar = UISearchBar()
+    private let searchBar = UISearchBar()
 
-    let addCategoryButton: AddButton = {
+    private let addCategoryButton: AddButton = {
         let b = AddButton()
         return b
     }()
 
-    var IconCellArray: [UIImage] = [UIImage(named: "icon1")!, UIImage(named: "icon2")!, UIImage(named: "icon3")!, UIImage(named: "icon4")!, UIImage(named: "icon5")!]
-    var cellTitles: [String] = ["cell1", "cell2", "cell3", "cell4", "cell5"]
+    private var IconCellArray: [UIImage] = [UIImage(named: "icon1")!, UIImage(named: "icon2")!, UIImage(named: "icon3")!, UIImage(named: "icon4")!, UIImage(named: "icon5")!]
+    private var cellTitles: [String] = ["cell1", "cell2", "cell3", "cell4", "cell5"]
 
-    var categories: [Category] = []
-    var categoryItemsCount: [String] = []
-    var ref: DatabaseReference!
+    private var categories: [Category] = []
+    private var categoryItemsCount: [String] = []
+    private var ref: DatabaseReference!
 
-    var users: [User]?
-    var currentUser: User?
+    private var users: [User]?
+    private var currentUser: User?
 
     private let refreshControl: UIRefreshControl = {
         let r = UIRefreshControl()
@@ -93,7 +93,7 @@ class CategoryViewController: UIViewController {
     }
 
     // MARK: Fetch Categories form Database
-    func fetchCategoriesFromDb(userUid: String) {
+    private func fetchCategoriesFromDb(userUid: String) {
         ref = Database.database().reference(withPath: "users/\(userUid)/categories")
 
         ref.observe(.value, with: { snapshot in
@@ -116,7 +116,7 @@ class CategoryViewController: UIViewController {
         })
     }
 
-    func fetchCategoryItemsFromDb(userUid: String) {
+    private func fetchCategoryItemsFromDb(userUid: String) {
         ref = Database.database().reference(withPath: "users/\(userUid)/categories/")
 
         ref.observe(.childChanged, with: { snapshot in
@@ -198,7 +198,7 @@ class CategoryViewController: UIViewController {
     }
 
     // MARK: AddSearchBar
-    fileprivate func addSearchBar() {
+    private func addSearchBar() {
         searchBar.placeholder = "Search"
         searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
         searchBar.backgroundColor = Color.primaryBackground
@@ -228,7 +228,7 @@ class CategoryViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
 
-    @IBAction func leftBarButtonTapped() {
+    @IBAction private func leftBarButtonTapped() {
         do {
             try Auth.auth().signOut()
             let userDefault = UserDefaults.standard
@@ -242,15 +242,6 @@ class CategoryViewController: UIViewController {
         } catch let err {
             print(err)
         }
-    }
-
-    // MARK: Functions
-    func pushToCategoryItemVC(title: String, cellType: String) {
-        guard let currentUser = currentUser else { return }
-        let controller = CategoryItemViewController(user: currentUser)
-        controller.title = title
-        controller.currentCategoryCellType = cellType
-        navigationController?.pushViewController(controller, animated: true)
     }
 
     // MARK: ViewWillAppear
@@ -390,7 +381,8 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
         }
 
         categoryItemsCount = []
-        pushToCategoryItemVC(title: categories[indexPath.row].catName,
+        pushToCategoryItemVC(currentUser: currentUser,
+                             title: categories[indexPath.row].catName,
                              cellType: categories[indexPath.row].cellType)
     }
 }

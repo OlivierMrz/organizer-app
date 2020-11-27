@@ -27,7 +27,7 @@ class DetailInfoCell: UITableViewCell {
         return l
     }()
 
-    let itemStackView: UIStackView = {
+    private let itemStackView: UIStackView = {
         let s = UIStackView()
         s.alignment = .fill
         s.axis = .vertical
@@ -60,7 +60,7 @@ class DetailInfoCell: UITableViewCell {
         return l
     }()
 
-    let placeStackView: UIStackView = {
+    private let placeStackView: UIStackView = {
         let s = UIStackView()
         s.alignment = .center
         s.axis = .vertical
@@ -76,7 +76,7 @@ class DetailInfoCell: UITableViewCell {
         setupView()
     }
 
-    func setupView() {
+    private func setupView() {
         itemStackView.addArrangedSubview(itemSubLabel)
         itemStackView.addArrangedSubview(itemExtraSubLabel)
 

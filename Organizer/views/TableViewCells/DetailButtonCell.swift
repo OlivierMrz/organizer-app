@@ -21,7 +21,7 @@ class DetailButtonCell: UITableViewCell {
         setupView()
     }
 
-    func setupView() {
+    private func setupView() {
         addSubview(lentOutButton)
 
         NSLayoutConstraint.activate([
