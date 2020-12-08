@@ -87,6 +87,16 @@ extension SelectCellTypeViewController: UICollectionViewDelegate, UICollectionVi
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let currentCell = collectionView.cellForItem(at: indexPath) as! SelectIconCell
+        let test = currentCell.imageView.image
+        
+        for cell in cellTypeArray {
+            if test == cell {
+                print("--- > \(cell)")
+            }
+        }
+        
+        
         delegate?.didSelectCell(type: indexPath.row)
         dismiss(animated: true, completion: nil)
     }
