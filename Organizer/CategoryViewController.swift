@@ -224,14 +224,14 @@ class CategoryViewController: UIViewController {
     @IBAction private func leftBarButtonTapped() {
         do {
 //            try Auth.auth().signOut()
-            let userDefault = UserDefaults.standard
-            userDefault.set(false, forKey: "userSignedIn")
-            userDefault.synchronize()
-
-            let y = LoginViewController()
-            y.modalPresentationStyle = .fullScreen
-
-            present(y, animated: true, completion: nil)
+//            let userDefault = UserDefaults.standard
+//            userDefault.set(false, forKey: "userSignedIn")
+//            userDefault.synchronize()
+//
+//            let y = LoginViewController()
+//            y.modalPresentationStyle = .fullScreen
+//
+//            present(y, animated: true, completion: nil)
         } catch let err {
             print(err)
         }
