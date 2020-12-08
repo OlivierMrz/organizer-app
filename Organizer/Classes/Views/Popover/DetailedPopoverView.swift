@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 import UIKit
 
 class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -255,7 +256,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
             error.layer.borderColor = UIColor.red.cgColor
         }
 
-//        guard errors.isEmpty, let ref = ref else { return }
+        guard errors.isEmpty else { return }
 
         guard let itemName = itemNameTextField.text,
             let storagePlace = itemStoragePlaceTextField.text,
@@ -264,21 +265,24 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         let subTitle = itemSubTextField.text ?? "-"
         let extraSubTitle = itemExtraSubTextField.text ?? "-"
 
-        let uuid = UUID().uuidString
-        let imageId = UUID().uuidString
+        let context = CoreDataManager.persistentContainer.viewContext
+        let item = Item(context: context)
+        item.name = itemName
+        item.subTitle = subTitle
+        item.extraSubTitle = extraSubTitle
+        item.storagePlace = storagePlace
+        item.storageNumber = storageNumber
+        item.borrowed = false
+        item.borrowedBy = ""
+        item.image = ""
 
-        let newItem = CategoryItem(itemName: itemName, itemSubTitle: subTitle, extraSubTitle: extraSubTitle, storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: imageId)
-
-//        let ItemRef = ref.child(uuid)
-
-//        ItemRef.setValue(newItem.toAnyObject())
-
-        guard let image = itemImage else {
-            dismiss(animated: true)
-            return
+        do {
+            try context.save()
+        } catch {
+            fatalError(error.localizedDescription)
         }
 
-        uploadImagePic(image: image, filePath: imageId)
+//        uploadImagePic(image: image, filePath: imageId)
 
         dismiss(animated: true)
     }
@@ -304,11 +308,11 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
 
     // MARK: check If New Category name Exists
     private func checkIfNewCategoryExists(catName: String) -> Bool {
-        for cat in userCategories {
-            if cat.catName == catName {
-                return true
-            }
-        }
+//        for cat in userCategories {
+//            if cat.catName == catName {
+//                return true
+//            }
+//        }
         return false
     }
 

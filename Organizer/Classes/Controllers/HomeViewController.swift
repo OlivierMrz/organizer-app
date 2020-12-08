@@ -1,5 +1,5 @@
 //
-//  CategoryViewController.swift
+//  HomeViewController.swift
 //  Organizer
 //
 //  Created by Olivier Miserez on 17/01/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CategoryViewController: UIViewController {
+class HomeViewController: UIViewController {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -36,9 +36,6 @@ class CategoryViewController: UIViewController {
     private var categories: [Category] = []
     private var categoryItemsCount: [String] = []
 
-    private var users: [User]?
-    private var currentUser: User?
-
     private let refreshControl: UIRefreshControl = {
         let r = UIRefreshControl()
         r.tintColor = Color.primary
@@ -59,8 +56,6 @@ class CategoryViewController: UIViewController {
         addNavigation()
 
         addNewCategoryButton()
-
-        fetchUsers()
     }
 
     // MARK: ViewDidLoad
@@ -222,95 +217,19 @@ class CategoryViewController: UIViewController {
     }
 
     @IBAction private func leftBarButtonTapped() {
-        do {
-//            try Auth.auth().signOut()
-//            let userDefault = UserDefaults.standard
-//            userDefault.set(false, forKey: "userSignedIn")
-//            userDefault.synchronize()
-//
-//            let y = LoginViewController()
-//            y.modalPresentationStyle = .fullScreen
-//
-//            present(y, animated: true, completion: nil)
-        } catch let err {
-            print(err)
-        }
+        
     }
 
     // MARK: ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        fetchUsers()
-
-//        let test = Auth.auth().currentUser?.email
-//        if test != nil {
-//            let x = UserDefaults.standard
-//            x.set(test!, forKey: "lastLoggedInUser")
-//            x.synchronize()
-//        } else {
-//            print(test ?? "no user")
-//        }
-//
-//        let x = UserDefaults.standard.bool(forKey: "userSignedIn")
-//        if !x {
-//            let y = LoginViewController()
-//            y.modalPresentationStyle = .fullScreen
-//            present(y, animated: true, completion: nil)
-//        }
-//
-//        let userUid = Auth.auth().currentUser?.uid
-//
-//        guard let userId = userUid else { return }
-//        fetchCategoriesFromDb(userUid: userId)
-//
-
-
-//        guard let users = self.users else {
-//            collectionView.reloadData()
-//            return
-//        }
-
-
-
-
+        
         collectionView.reloadData()
-    }
-
-    private func fetchUsers() {
-//        let userUid = Auth.auth().currentUser?.uid
-//
-//
-//        let userRef = Database.database().reference(withPath: "users")
-//        userRef.observeSingleEvent(of: .value, with: { snapshot in
-//
-//            var tempUsers: [User] = []
-//
-//            if snapshot.childrenCount > 0 {
-//                for child in snapshot.children {
-//
-//                    if let snapshot = child as? DataSnapshot,
-//                        let users = User(snapshot: snapshot) {
-//                        tempUsers.append(users)
-//                    }
-//                }
-//            }
-//
-//            guard let userId = userUid else { return }
-//            for user in tempUsers {
-//                if user.userId == userId {
-//                    self.currentUser = user
-//                }
-//            }
-//
-////            self.users = tempUsers
-//
-//        })
     }
 }
 
 // MARK: CollectionView extensions
-extension CategoryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categories.isEmpty ? 1 : categories.count
     }
@@ -325,7 +244,7 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.categoryCell, for: indexPath) as! CategoryCell
 
-        cell.categoryLabel.text = categories[indexPath.row].catName
+        cell.categoryLabel.text = categories[indexPath.row].name
         cell.icon.image = UIImage(named: categories[indexPath.row].icon)
 
         if !categoryItemsCount.isEmpty {
@@ -374,8 +293,7 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
         }
 
         categoryItemsCount = []
-        pushToCategoryItemVC(currentUser: currentUser,
-                             title: categories[indexPath.row].catName,
+        pushToCategoryItemVC(title: categories[indexPath.row].name,
                              cellType: categories[indexPath.row].cellType)
     }
 }

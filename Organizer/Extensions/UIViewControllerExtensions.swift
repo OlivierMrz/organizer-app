@@ -10,9 +10,8 @@ import Foundation
 import UIKit
 
 extension UIViewController {
-    func pushToCategoryItemVC(currentUser: User?, title: String, cellType: String) {
-        guard let currentUser = currentUser else { return }
-        let controller = CategoryItemViewController(user: currentUser)
+    func pushToCategoryItemVC(title: String, cellType: String) {
+        let controller = CategoryItemViewController()
         controller.title = title
         controller.currentCategoryCellType = cellType
         navigationController?.pushViewController(controller, animated: true)

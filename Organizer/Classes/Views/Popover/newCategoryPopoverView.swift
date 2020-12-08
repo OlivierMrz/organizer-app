@@ -264,11 +264,11 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
     // MARK: check If New Category name Exists
     private func checkIfNewCategoryExists(catName: String) -> Bool {
-        for cat in userCategories {
-            if cat.catName == catName {
-                return true
-            }
-        }
+//        for cat in userCategories {
+//            if cat.catName == catName {
+//                return true
+//            }
+//        }
         return false
     }
 

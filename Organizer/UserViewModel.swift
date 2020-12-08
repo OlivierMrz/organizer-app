@@ -9,25 +9,25 @@
 import Foundation
 
 struct UserViewModel {
-    private(set) var user: User
-
-    init(user: User) {
-        self.user = user
-    }
-
-    var userId: String {
-        return user.userId
-    }
-
-    var userIsPro: Bool {
-        return user.isProUser
-    }
-
-    var userHasNoAds: Bool {
-        return user.hasNoAds
-    }
-
-    var userCanSaveImages: Bool {
-        return user.canSaveImages
-    }
+//    private(set) var user: User
+//
+//    init(user: User) {
+//        self.user = user
+//    }
+//
+//    var userId: String {
+//        return user.userId
+//    }
+//
+//    var userIsPro: Bool {
+//        return user.isProUser
+//    }
+//
+//    var userHasNoAds: Bool {
+//        return user.hasNoAds
+//    }
+//
+//    var userCanSaveImages: Bool {
+//        return user.canSaveImages
+//    }
 }

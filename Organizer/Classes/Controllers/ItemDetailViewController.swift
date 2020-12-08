@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ItemDetailViewController: UIViewController {
     private let tableView: UITableView = {
@@ -18,7 +19,7 @@ class ItemDetailViewController: UIViewController {
         return tv
     }()
 
-    var detailItem: CategoryItem?
+    var detailItem: Item?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,11 +53,11 @@ extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailImageCell, for: indexPath) as! DetailImageCell
-            cell.setupView(imageid: detailItem?.imageData)
+            cell.setupView(imageid: detailItem?.image)
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailInfoCell, for: indexPath) as! DetailInfoCell
-            cell.itemSubLabel.text = item.itemSubTitle
+            cell.itemSubLabel.text = item.subTitle
             cell.itemExtraSubLabel.text = item.extraSubTitle
             cell.storageLabel.text = item.storagePlace
             cell.storageNumberLabel.text = item.storageNumber

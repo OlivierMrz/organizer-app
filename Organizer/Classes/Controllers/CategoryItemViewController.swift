@@ -28,10 +28,9 @@ class CategoryItemViewController: UIViewController {
 
     private let searchBar = UISearchBar()
 
-    private var categoryItems: [CategoryItem] = []
+    private var categoryItems: [Item] = []
 
     var currentCategoryCellType: String = ""
-    private var currentUser: User?
 
     private let refreshControl: UIRefreshControl = {
         let r = UIRefreshControl()
@@ -43,15 +42,6 @@ class CategoryItemViewController: UIViewController {
         r.attributedTitle = NSAttributedString(string: "Fetching data", attributes: attributes)
         return r
     }()
-
-    init(user: User) {
-        super.init(nibName: nil, bundle: nil)
-        self.currentUser = user
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     // MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -204,15 +194,15 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
         case "cell1": // TitleCell
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.titleCell, for: indexPath) as! TitleCell
 
-            cell.title.text = categoryItems[indexPath.row].itemName
+            cell.title.text = categoryItems[indexPath.row].name
             cell.storagePlaceLabel.text = categoryItems[indexPath.row].storagePlace
             cell.storageNumberLabel.text = categoryItems[indexPath.row].storageNumber
             return cell
         case "cell2": // DetailedCell
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as! DetailedCell
 
-            cell.itemLabel.text = categoryItems[indexPath.row].itemName
-            cell.itemSubLabel.text = categoryItems[indexPath.row].itemSubTitle
+            cell.itemLabel.text = categoryItems[indexPath.row].name
+            cell.itemSubLabel.text = categoryItems[indexPath.row].subTitle
             cell.itemSub2Label.text = categoryItems[indexPath.row].extraSubTitle
             cell.placeLabel.text = categoryItems[indexPath.row].storagePlace
             cell.placeStorageLabel.text = categoryItems[indexPath.row].storageNumber
@@ -262,7 +252,7 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
 
         let vc = ItemDetailViewController()
         vc.detailItem = categoryItems[indexPath.row]
-        vc.title = categoryItems[indexPath.row].itemName
+        vc.title = categoryItems[indexPath.row].name
         navigationController?.pushViewController(vc, animated: true)
     }
 }
