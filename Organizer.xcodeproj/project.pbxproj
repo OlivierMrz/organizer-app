@@ -117,14 +117,14 @@
 			path = TableViewCells;
 			sourceTree = "<group>";
 		};
-		691B6AAA23D7B38500D36799 /* FirebaseModels */ = {
+		691B6AAA23D7B38500D36799 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				691B6AAB23D7B39F00D36799 /* Category.swift */,
 				696B190A23EE188200848383 /* User.swift */,
 				69D010AF23D8AB7800DC20C9 /* CategoryItem.swift */,
 			);
-			path = FirebaseModels;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		691B6AAD23D7BCAC00D36799 /* Headers */ = {
@@ -219,7 +219,7 @@
 				691B6AAE23D7BCED00D36799 /* SubViewControllers */,
 				69002AE123CF48B700B1C577 /* Views */,
 				696B190323EDB73100848383 /* Extensions */,
-				691B6AAA23D7B38500D36799 /* FirebaseModels */,
+				691B6AAA23D7B38500D36799 /* Model */,
 				699B52AB23CE14B200EAFE33 /* Constants.swift */,
 				699B52A023CE145400EAFE33 /* Assets.xcassets */,
 				699B52A223CE145400EAFE33 /* LaunchScreen.storyboard */,
