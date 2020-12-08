@@ -6,8 +6,6 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import FirebaseAuth
-import FirebaseDatabase
 import Foundation
 import UIKit
 
@@ -65,30 +63,23 @@ class StandardPopoverView: UIView, Modal {
         return b
     }()
 
-    private var ref: DatabaseReference?
     private var userCategories: [Category] = []
 
     // MARK: Init()
     convenience init(category: String) {
         self.init(frame: UIScreen.main.bounds)
 
-        let userUid = (Auth.auth().currentUser?.uid)!
-        ref = Database.database().reference(withPath: "users/\(userUid)/categories/\(category)/items")
-
         addView()
 
-        fetchUserCategories(userUid: userUid)
+//        fetchUserCategories(userUid: userUid)
     }
 
     convenience init() {
         self.init(frame: UIScreen.main.bounds)
 
-        let userUid = (Auth.auth().currentUser?.uid)!
-        ref = Database.database().reference(withPath: "users/\(userUid)/categories")
-
         addView()
 
-        fetchUserCategories(userUid: userUid)
+//        fetchUserCategories(userUid: userUid)
     }
 
     override init(frame: CGRect) {
@@ -207,18 +198,18 @@ class StandardPopoverView: UIView, Modal {
             error.layer.borderColor = UIColor.red.cgColor
         }
 
-        guard errors.isEmpty, let ref = ref else { return }
-
-        guard let itemName = itemNameTextField.text,
-            let storagePlace = itemStoragePlaceTextField.text,
-            let storageNumber = itemStorageNumberTextField.text else { return }
-
-        let newItem = CategoryItem(itemName: itemName, itemSubTitle: "", extraSubTitle: "", storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: nil)
-
-        let uuid = UUID().uuidString
-        let ItemRef = ref.child(uuid)
-
-        ItemRef.setValue(newItem.toAnyObject())
+//        guard errors.isEmpty, let ref = ref else { return }
+//
+//        guard let itemName = itemNameTextField.text,
+//            let storagePlace = itemStoragePlaceTextField.text,
+//            let storageNumber = itemStorageNumberTextField.text else { return }
+//
+//        let newItem = CategoryItem(itemName: itemName, itemSubTitle: "", extraSubTitle: "", storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: nil)
+//
+//        let uuid = UUID().uuidString
+//        let ItemRef = ref.child(uuid)
+//
+//        ItemRef.setValue(newItem.toAnyObject())
 
         dismiss(animated: true)
     }
@@ -235,24 +226,24 @@ class StandardPopoverView: UIView, Modal {
 
     // MARK: fetch User Categories
     private func fetchUserCategories(userUid: String) {
-        let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
-
-        transactionRef.observeSingleEvent(of: .value, with: { snapshot in
-
-            var userCategories: [Category] = []
-
-            if snapshot.childrenCount > 0 {
-                for child in snapshot.children {
-                    if let snapshot = child as? DataSnapshot,
-                        let categoryItem = Category(snapshot: snapshot) {
-                        userCategories.append(categoryItem)
-                    }
-                }
-            }
-
-            self.userCategories = userCategories
-
-        })
+//        let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
+//
+//        transactionRef.observeSingleEvent(of: .value, with: { snapshot in
+//
+//            var userCategories: [Category] = []
+//
+//            if snapshot.childrenCount > 0 {
+//                for child in snapshot.children {
+//                    if let snapshot = child as? DataSnapshot,
+//                        let categoryItem = Category(snapshot: snapshot) {
+//                        userCategories.append(categoryItem)
+//                    }
+//                }
+//            }
+//
+//            self.userCategories = userCategories
+//
+//        })
     }
 
     // MARK: IBAction buttons

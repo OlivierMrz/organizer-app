@@ -6,8 +6,6 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import Firebase
-import FirebaseAuth
 import UIKit
 
 class CategoryViewController: UIViewController {
@@ -37,7 +35,6 @@ class CategoryViewController: UIViewController {
 
     private var categories: [Category] = []
     private var categoryItemsCount: [String] = []
-    private var ref: DatabaseReference!
 
     private var users: [User]?
     private var currentUser: User?
@@ -72,10 +69,6 @@ class CategoryViewController: UIViewController {
         title = "Categories"
         view.backgroundColor = Color.primary
 
-        let userUid = Auth.auth().currentUser?.uid
-        guard let userId = userUid else { return }
-        fetchCategoriesFromDb(userUid: userId)
-
 
 
 //        guard let users = self.users else {
@@ -94,48 +87,48 @@ class CategoryViewController: UIViewController {
 
     // MARK: Fetch Categories form Database
     private func fetchCategoriesFromDb(userUid: String) {
-        ref = Database.database().reference(withPath: "users/\(userUid)/categories")
-
-        ref.observe(.value, with: { snapshot in
-            var newCategories: [Category] = []
-
-            for child in snapshot.children {
-                if let snapshot = child as? DataSnapshot,
-                    let categoryItem = Category(snapshot: snapshot) {
-                    newCategories.append(categoryItem)
-
-                    let value = snapshot.value as? [String: AnyObject]
-                    let items = value?["items"] as? [String: AnyObject]
-
-                    self.categoryItemsCount.append("\(items?.count ?? 0)")
-                }
-            }
-
-            self.categories = newCategories
-            self.collectionView.reloadData()
-        })
+//        ref = Database.database().reference(withPath: "users/\(userUid)/categories")
+//
+//        ref.observe(.value, with: { snapshot in
+//            var newCategories: [Category] = []
+//
+//            for child in snapshot.children {
+//                if let snapshot = child as? DataSnapshot,
+//                    let categoryItem = Category(snapshot: snapshot) {
+//                    newCategories.append(categoryItem)
+//
+//                    let value = snapshot.value as? [String: AnyObject]
+//                    let items = value?["items"] as? [String: AnyObject]
+//
+//                    self.categoryItemsCount.append("\(items?.count ?? 0)")
+//                }
+//            }
+//
+//            self.categories = newCategories
+//            self.collectionView.reloadData()
+//        })
     }
 
     private func fetchCategoryItemsFromDb(userUid: String) {
-        ref = Database.database().reference(withPath: "users/\(userUid)/categories/")
-
-        ref.observe(.childChanged, with: { snapshot in
-
-            var newCategoryItemsCount: [String] = []
-
-            for child in snapshot.children {
-                if let snapshot = child as? DataSnapshot {
-                    guard let value = snapshot.value as? [String: AnyObject],
-                        let items = value["items"] as? [String: AnyObject] else { return }
-
-                    newCategoryItemsCount.append(String(items.count))
-                }
-            }
-
-            self.categoryItemsCount = newCategoryItemsCount
-            self.collectionView.reloadData()
-
-        })
+//        ref = Database.database().reference(withPath: "users/\(userUid)/categories/")
+//
+//        ref.observe(.childChanged, with: { snapshot in
+//
+//            var newCategoryItemsCount: [String] = []
+//
+//            for child in snapshot.children {
+//                if let snapshot = child as? DataSnapshot {
+//                    guard let value = snapshot.value as? [String: AnyObject],
+//                        let items = value["items"] as? [String: AnyObject] else { return }
+//
+//                    newCategoryItemsCount.append(String(items.count))
+//                }
+//            }
+//
+//            self.categoryItemsCount = newCategoryItemsCount
+//            self.collectionView.reloadData()
+//
+//        })
 
         DispatchQueue.main.async {
             self.refreshControl.endRefreshing()
@@ -173,10 +166,10 @@ class CategoryViewController: UIViewController {
     }
 
     @objc private func refreshData(_ sender: Any) {
-        let userUid = Auth.auth().currentUser?.uid
-        guard let userId = userUid else { return }
-        fetchCategoriesFromDb(userUid: userId)
-        fetchCategoryItemsFromDb(userUid: userId)
+//        let userUid = Auth.auth().currentUser?.uid
+//        guard let userId = userUid else { return }
+//        fetchCategoriesFromDb(userUid: userId)
+//        fetchCategoryItemsFromDb(userUid: userId)
 
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -230,7 +223,7 @@ class CategoryViewController: UIViewController {
 
     @IBAction private func leftBarButtonTapped() {
         do {
-            try Auth.auth().signOut()
+//            try Auth.auth().signOut()
             let userDefault = UserDefaults.standard
             userDefault.set(false, forKey: "userSignedIn")
             userDefault.synchronize()
@@ -250,27 +243,27 @@ class CategoryViewController: UIViewController {
 
         fetchUsers()
 
-        let test = Auth.auth().currentUser?.email
-        if test != nil {
-            let x = UserDefaults.standard
-            x.set(test!, forKey: "lastLoggedInUser")
-            x.synchronize()
-        } else {
-            print(test ?? "no user")
-        }
-
-        let x = UserDefaults.standard.bool(forKey: "userSignedIn")
-        if !x {
-            let y = LoginViewController()
-            y.modalPresentationStyle = .fullScreen
-            present(y, animated: true, completion: nil)
-        }
-
-        let userUid = Auth.auth().currentUser?.uid
-
-        guard let userId = userUid else { return }
-        fetchCategoriesFromDb(userUid: userId)
-
+//        let test = Auth.auth().currentUser?.email
+//        if test != nil {
+//            let x = UserDefaults.standard
+//            x.set(test!, forKey: "lastLoggedInUser")
+//            x.synchronize()
+//        } else {
+//            print(test ?? "no user")
+//        }
+//
+//        let x = UserDefaults.standard.bool(forKey: "userSignedIn")
+//        if !x {
+//            let y = LoginViewController()
+//            y.modalPresentationStyle = .fullScreen
+//            present(y, animated: true, completion: nil)
+//        }
+//
+//        let userUid = Auth.auth().currentUser?.uid
+//
+//        guard let userId = userUid else { return }
+//        fetchCategoriesFromDb(userUid: userId)
+//
 
 
 //        guard let users = self.users else {
@@ -285,34 +278,34 @@ class CategoryViewController: UIViewController {
     }
 
     private func fetchUsers() {
-        let userUid = Auth.auth().currentUser?.uid
-
-
-        let userRef = Database.database().reference(withPath: "users")
-        userRef.observeSingleEvent(of: .value, with: { snapshot in
-
-            var tempUsers: [User] = []
-
-            if snapshot.childrenCount > 0 {
-                for child in snapshot.children {
-
-                    if let snapshot = child as? DataSnapshot,
-                        let users = User(snapshot: snapshot) {
-                        tempUsers.append(users)
-                    }
-                }
-            }
-
-            guard let userId = userUid else { return }
-            for user in tempUsers {
-                if user.userId == userId {
-                    self.currentUser = user
-                }
-            }
-
-//            self.users = tempUsers
-
-        })
+//        let userUid = Auth.auth().currentUser?.uid
+//
+//
+//        let userRef = Database.database().reference(withPath: "users")
+//        userRef.observeSingleEvent(of: .value, with: { snapshot in
+//
+//            var tempUsers: [User] = []
+//
+//            if snapshot.childrenCount > 0 {
+//                for child in snapshot.children {
+//
+//                    if let snapshot = child as? DataSnapshot,
+//                        let users = User(snapshot: snapshot) {
+//                        tempUsers.append(users)
+//                    }
+//                }
+//            }
+//
+//            guard let userId = userUid else { return }
+//            for user in tempUsers {
+//                if user.userId == userId {
+//                    self.currentUser = user
+//                }
+//            }
+//
+////            self.users = tempUsers
+//
+//        })
     }
 }
 

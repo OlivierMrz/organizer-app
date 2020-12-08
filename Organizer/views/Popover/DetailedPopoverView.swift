@@ -6,9 +6,6 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import FirebaseAuth
-import FirebaseDatabase
-import FirebaseStorage
 import Foundation
 import UIKit
 
@@ -77,30 +74,23 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         return b
     }()
 
-    private var ref: DatabaseReference?
     private var userCategories: [Category] = []
 
     // MARK: Init()
     convenience init(category: String) {
         self.init(frame: UIScreen.main.bounds)
 
-        let userUid = (Auth.auth().currentUser?.uid)!
-        ref = Database.database().reference(withPath: "users/\(userUid)/categories/\(category)/items")
-
         addView()
 
-        fetchUserCategories(userUid: userUid)
+//        fetchUserCategories(userUid: userUid)
     }
 
     convenience init() {
         self.init(frame: UIScreen.main.bounds)
 
-        let userUid = (Auth.auth().currentUser?.uid)!
-        ref = Database.database().reference(withPath: "users/\(userUid)/categories")
-
         addView()
 
-        fetchUserCategories(userUid: userUid)
+//        fetchUserCategories(userUid: userUid)
     }
 
     override init(frame: CGRect) {
@@ -265,7 +255,7 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
             error.layer.borderColor = UIColor.red.cgColor
         }
 
-        guard errors.isEmpty, let ref = ref else { return }
+//        guard errors.isEmpty, let ref = ref else { return }
 
         guard let itemName = itemNameTextField.text,
             let storagePlace = itemStoragePlaceTextField.text,
@@ -279,9 +269,9 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
 
         let newItem = CategoryItem(itemName: itemName, itemSubTitle: subTitle, extraSubTitle: extraSubTitle, storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: imageId)
 
-        let ItemRef = ref.child(uuid)
+//        let ItemRef = ref.child(uuid)
 
-        ItemRef.setValue(newItem.toAnyObject())
+//        ItemRef.setValue(newItem.toAnyObject())
 
         guard let image = itemImage else {
             dismiss(animated: true)
@@ -294,22 +284,22 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
     }
 
     private func uploadImagePic(image: UIImage, filePath: String) {
-        guard let imageData: Data = image.pngData() else {
-            fatalError()
-        }
-
-        let metaDataConfig = StorageMetadata()
-        metaDataConfig.contentType = "image/jpg"
-
-        let storageRef = Storage.storage().reference(withPath: filePath)
-
-        storageRef.putData(imageData, metadata: metaDataConfig, completion: { _, error in
-            if let error = error {
-                print(error.localizedDescription)
-
-                return
-            }
-        })
+//        guard let imageData: Data = image.pngData() else {
+//            fatalError()
+//        }
+//
+//        let metaDataConfig = StorageMetadata()
+//        metaDataConfig.contentType = "image/jpg"
+//
+//        let storageRef = Storage.storage().reference(withPath: filePath)
+//
+//        storageRef.putData(imageData, metadata: metaDataConfig, completion: { _, error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//
+//                return
+//            }
+//        })
     }
 
     // MARK: check If New Category name Exists
@@ -324,24 +314,24 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
 
     // MARK: fetch User Categories
     private func fetchUserCategories(userUid: String) {
-        let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
-
-        transactionRef.observeSingleEvent(of: .value, with: { snapshot in
-
-            var userCategories: [Category] = []
-
-            if snapshot.childrenCount > 0 {
-                for child in snapshot.children {
-                    if let snapshot = child as? DataSnapshot,
-                        let categoryItem = Category(snapshot: snapshot) {
-                        userCategories.append(categoryItem)
-                    }
-                }
-            }
-
-            self.userCategories = userCategories
-
-        })
+//        let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
+//
+//        transactionRef.observeSingleEvent(of: .value, with: { snapshot in
+//
+//            var userCategories: [Category] = []
+//
+//            if snapshot.childrenCount > 0 {
+//                for child in snapshot.children {
+//                    if let snapshot = child as? DataSnapshot,
+//                        let categoryItem = Category(snapshot: snapshot) {
+//                        userCategories.append(categoryItem)
+//                    }
+//                }
+//            }
+//
+//            self.userCategories = userCategories
+//
+//        })
     }
 
     // MARK: IBAction buttons

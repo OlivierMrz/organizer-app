@@ -6,7 +6,6 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import Firebase
 import UIKit
 
 class CategoryItemViewController: UIViewController {
@@ -30,7 +29,6 @@ class CategoryItemViewController: UIViewController {
     private let searchBar = UISearchBar()
 
     private var categoryItems: [CategoryItem] = []
-    private var ref: DatabaseReference!
 
     var currentCategoryCellType: String = ""
     private var currentUser: User?
@@ -71,27 +69,27 @@ class CategoryItemViewController: UIViewController {
 
     // MARK: Fetch Categories form Database
     private func fetchCategoryItemsFromDb() {
-        let userEmail = (Auth.auth().currentUser?.uid)!
-        let currentCategory = title!
-        ref = Database.database().reference(withPath: "users/\(userEmail)/categories/\(currentCategory)/items")
-
-        ref.observe(.value, with: { snapshot in
-            var tempCategoryItems: [CategoryItem] = []
-
-            for child in snapshot.children {
-                if let snapshot = child as? DataSnapshot,
-                    let categoryItem = CategoryItem(snapshot: snapshot) {
-                    tempCategoryItems.append(categoryItem)
-                }
-            }
-
-            self.categoryItems = tempCategoryItems
-            self.collectionView.reloadData()
-        })
-
-        DispatchQueue.main.async {
-            self.refreshControl.endRefreshing()
-        }
+//        let userEmail = (Auth.auth().currentUser?.uid)!
+//        let currentCategory = title!
+//        ref = Database.database().reference(withPath: "users/\(userEmail)/categories/\(currentCategory)/items")
+//
+//        ref.observe(.value, with: { snapshot in
+//            var tempCategoryItems: [CategoryItem] = []
+//
+//            for child in snapshot.children {
+//                if let snapshot = child as? DataSnapshot,
+//                    let categoryItem = CategoryItem(snapshot: snapshot) {
+//                    tempCategoryItems.append(categoryItem)
+//                }
+//            }
+//
+//            self.categoryItems = tempCategoryItems
+//            self.collectionView.reloadData()
+//        })
+//
+//        DispatchQueue.main.async {
+//            self.refreshControl.endRefreshing()
+//        }
     }
 
     // MARK: AddNewCategoryButton

@@ -7,10 +7,8 @@
 //
 
 import Foundation
-import Firebase
 
 struct CategoryItem {
-    let ref: DatabaseReference?
     let key: String
 
     let itemName: String
@@ -23,7 +21,6 @@ struct CategoryItem {
     let imageData: String?
 
     init(itemName: String, itemSubTitle: String, extraSubTitle: String, storagePlace: String, storageNumber: String, borrowed: Bool, borrowedBy: String, imageData: String?, key: String = "") {
-        ref = nil
         self.key = key
         self.itemName = itemName
         self.itemSubTitle = itemSubTitle
@@ -35,32 +32,32 @@ struct CategoryItem {
         self.imageData = imageData
     }
 
-    init?(snapshot: DataSnapshot) {
-        guard
-            let value = snapshot.value as? [String: AnyObject],
-            let itemName = value["item_name"] as? String,
-            let itemSubTitle = value["item_sub_title"] as? String,
-            let extraSubTitle = value["extra_sub_title"] as? String,
-            let storagePlace = value["storage_place"] as? String,
-            let storageNumber = value["storage_number"] as? String,
-            let borrowed = value["borrowed"] as? Bool,
-            let borrowedBy = value["borrowed_by"] as? String else {
-            return nil
-        }
-
-        let imageData = value["image_data"] as? String
-
-        ref = snapshot.ref
-        key = snapshot.key
-        self.itemName = itemName
-        self.itemSubTitle = itemSubTitle
-        self.extraSubTitle = extraSubTitle
-        self.storagePlace = storagePlace
-        self.storageNumber = storageNumber
-        self.borrowed = borrowed
-        self.borrowedBy = borrowedBy
-        self.imageData = imageData
-    }
+//    init?(snapshot: DataSnapshot) {
+//        guard
+//            let value = snapshot.value as? [String: AnyObject],
+//            let itemName = value["item_name"] as? String,
+//            let itemSubTitle = value["item_sub_title"] as? String,
+//            let extraSubTitle = value["extra_sub_title"] as? String,
+//            let storagePlace = value["storage_place"] as? String,
+//            let storageNumber = value["storage_number"] as? String,
+//            let borrowed = value["borrowed"] as? Bool,
+//            let borrowedBy = value["borrowed_by"] as? String else {
+//            return nil
+//        }
+//
+//        let imageData = value["image_data"] as? String
+//
+//        ref = snapshot.ref
+//        key = snapshot.key
+//        self.itemName = itemName
+//        self.itemSubTitle = itemSubTitle
+//        self.extraSubTitle = extraSubTitle
+//        self.storagePlace = storagePlace
+//        self.storageNumber = storageNumber
+//        self.borrowed = borrowed
+//        self.borrowedBy = borrowedBy
+//        self.imageData = imageData
+//    }
 
     func toAnyObject() -> Any {
         return [

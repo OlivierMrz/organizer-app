@@ -6,8 +6,6 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import FirebaseAuth
-import FirebaseDatabase
 import Foundation
 import UIKit
 
@@ -67,7 +65,6 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         UIImage(named: "cell2")!,
         UIImage(named: "cell3")!,
     ]
-    private var ref: DatabaseReference?
     private var userCategories: [Category] = []
 
     private var selectedCellType: Int = 0
@@ -77,12 +74,9 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     convenience init() {
         self.init(frame: UIScreen.main.bounds)
 
-        let userUid = (Auth.auth().currentUser?.uid)!
-        ref = Database.database().reference(withPath: "users/\(userUid)/categories")
-
         addView()
 
-        fetchUserCategories(userUid: userUid)
+//        fetchUserCategories(userUid: userUid)
     }
 
     override init(frame: CGRect) {
@@ -240,32 +234,32 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
             error.layer.borderColor = UIColor.red.cgColor
         }
 
-        guard errors.isEmpty, let ref = ref else { return }
+        guard errors.isEmpty else { return }
 
         let catName = categoryNameTextField.text!.lowercased()
 
         let x = checkIfNewCategoryExists(catName: catName)
 
-        if !x {
-            let newCategory = Category(catName: catName,
-                                       icon: "icon\(selectedCellIcon)",
-                                       cellType: "cell\(selectedCellType)")
-
-            let ItemRef = ref.child(catName)
-
-            ItemRef.setValue(newCategory.toAnyObject())
-            let currentVc = CategoryViewController()
-            currentVc.collectionView.reloadData()
-            dismiss(animated: true)
-        } else {
-            let alert = UIAlertController(title: "⚠️ ALERT!", message: "Category name already in use.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-
-            let vc = getCurrentViewController()
-            vc?.present(alert, animated: true, completion: nil)
-
-            categoryNameTextField.layer.borderColor = UIColor.red.cgColor
-        }
+//        if !x {
+//            let newCategory = Category(catName: catName,
+//                                       icon: "icon\(selectedCellIcon)",
+//                                       cellType: "cell\(selectedCellType)")
+//
+//            let ItemRef = ref.child(catName)
+//
+//            ItemRef.setValue(newCategory.toAnyObject())
+//            let currentVc = CategoryViewController()
+//            currentVc.collectionView.reloadData()
+//            dismiss(animated: true)
+//        } else {
+//            let alert = UIAlertController(title: "⚠️ ALERT!", message: "Category name already in use.", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//
+//            let vc = getCurrentViewController()
+//            vc?.present(alert, animated: true, completion: nil)
+//
+//            categoryNameTextField.layer.borderColor = UIColor.red.cgColor
+//        }
     }
 
     // MARK: check If New Category name Exists
@@ -280,24 +274,24 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
     // MARK: fetch User Categories
     private func fetchUserCategories(userUid: String) {
-        let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
-
-        transactionRef.observeSingleEvent(of: .value, with: { snapshot in
-
-            var userCategories: [Category] = []
-
-            if snapshot.childrenCount > 0 {
-                for child in snapshot.children {
-                    if let snapshot = child as? DataSnapshot,
-                        let categoryItem = Category(snapshot: snapshot) {
-                        userCategories.append(categoryItem)
-                    }
-                }
-            }
-
-            self.userCategories = userCategories
-
-        })
+//        let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
+//
+//        transactionRef.observeSingleEvent(of: .value, with: { snapshot in
+//
+//            var userCategories: [Category] = []
+//
+//            if snapshot.childrenCount > 0 {
+//                for child in snapshot.children {
+//                    if let snapshot = child as? DataSnapshot,
+//                        let categoryItem = Category(snapshot: snapshot) {
+//                        userCategories.append(categoryItem)
+//                    }
+//                }
+//            }
+//
+//            self.userCategories = userCategories
+//
+//        })
     }
 
     // MARK: IBAction buttons

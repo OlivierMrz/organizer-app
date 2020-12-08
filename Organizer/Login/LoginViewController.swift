@@ -6,8 +6,6 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import FirebaseAuth
-import FirebaseDatabase
 import UIKit
 
 class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
@@ -20,26 +18,16 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         return cv
     }()
 
-    private var ref: DatabaseReference?
     private var userViewModel: UserViewModel?
     private var users: [User]?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let x = UserDefaults.standard.bool(forKey: "userSignedIn")
-        print("Is user still logged in?: ", x)
-
-        let y = UserDefaults.standard.object(forKey: "lastLoggedInUser") as? String
-        if y != nil {
-//            emailTextField.text = y!
-        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        ref = Database.database().reference(withPath: "users/")
 
         view.backgroundColor = Color.primary
         view.addSubview(collectionView)
@@ -87,8 +75,9 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
         }
 
         guard let email = textField[0].text,
-            let password = textField[1].text,
-            let ref = ref else { return }
+            let password = textField[1].text else {
+            return
+        }
 
 
 //        ref.observeSingleEvent(of: .value, with: { snapshot in
@@ -114,46 +103,6 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
 //            self.users = tempUsers
 //
 //        })
-
-
-
-        Auth.auth().signIn(withEmail: email, password: password) { test, error in
-
-            if let error = error, let _ = AuthErrorCode(rawValue: error._code) {
-                message = "\(error.localizedDescription)"
-            } else {
-                let userId = test?.user.uid
-
-                let userDefault = UserDefaults.standard
-                userDefault.set(true, forKey: "userSignedIn")
-                userDefault.synchronize()
-
-                guard let users = self.users else {
-                    self.dismiss(animated: true, completion: nil)
-                    return
-                }
-
-
-                for user in users {
-                    if user.userId == userId {
-                        self.userViewModel = UserViewModel(user: user)
-                    }
-                }
-
-
-
-
-//                self.userViewModel = UserViewModel(user: )
-
-
-
-                self.dismiss(animated: true, completion: nil)
-            }
-            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-
-            self.present(alertController, animated: true, completion: nil)
-        }
     }
 
     // MARK: RegisterScreen button tapped
@@ -188,30 +137,6 @@ class LoginViewController: UIViewController, CollectionCellTextFieldDelegate {
             return
         }
 
-        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            if let firUser = authResult?.user {
-                message = "Registration succesful"
-
-                let userDefault = UserDefaults.standard
-                userDefault.set(true, forKey: "userSignedIn")
-                userDefault.synchronize()
-
-                guard let ref = self.ref else { return }
-
-                let user = User(userId: firUser.uid, isProUser: false, hasNoAds: false, canSaveImages: false)
-                let UserRef = ref.child(firUser.uid)
-                UserRef.setValue(user.toAnyObject())
-
-                self.dismiss(animated: true, completion: nil)
-
-            } else if let error = error {
-                message = "\(error.localizedDescription)"
-            }
-            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-
-            self.present(alertController, animated: true, completion: nil)
-        }
     }
 
     @IBAction private func viewTapped() {
