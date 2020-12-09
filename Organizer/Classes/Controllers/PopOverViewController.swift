@@ -52,13 +52,7 @@ class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTyp
     private let selectIcon = PopoverLabel()
     private let selectCellTypeButton = UIImageView()
 
-    let addButton: CustomButton = {
-        let b = CustomButton()
-        b.setup(title: "Add Category", backgroundColor: Color.primary!, borderColor: Color.primary!)
-        return b
-    }()
-
-    private var userCategories: [Category] = []
+    private lazy var addButton: UIButton = { return CustomButton(title: "Add Category", backgroundColor: Color.primary!, borderColor: Color.primary!) }()
 
     private var selectedCellType: cellType?
     private var selectedCellIcon: iconType?
@@ -91,11 +85,6 @@ class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTyp
         subTitleLabel.text = "You can give me a number or place where you will store this item. (not required)"
 
         let dialogViewWidth = view.frame.width - 64
-//
-//        backgroundView.frame = frame
-//        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTappedOnBackgroundView)))
-
-//        view.addSubview(backgroundView)
         view.addSubview(dialogView)
         NSLayoutConstraint.activate([
             dialogView.widthAnchor.constraint(equalToConstant: dialogViewWidth),

@@ -48,6 +48,35 @@ class CustomButton: UIButton {
         layer.masksToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    convenience init(icon: Bool = false, iconImage: UIImage = UIImage(), title: String, backgroundColor: UIColor, borderColor: UIColor) {
+        self.init()
+        
+        setTitle(title, for: .normal)
+
+        if icon {
+            iconView.image = iconImage
+            addSubview(iconView)
+            NSLayoutConstraint.activate([
+                iconView.heightAnchor.constraint(equalToConstant: 30),
+                iconView.widthAnchor.constraint(equalToConstant: 20),
+                iconView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
+                iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
+            ])
+        }
+
+        if backgroundColor == Color.primaryBackground {
+            setTitleColor(Color.primary, for: .normal)
+            titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.medium)
+        } else {
+            setTitleColor(Color.primaryBackground, for: .normal)
+            titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: FontWeight.bold)
+        }
+
+        self.backgroundColor = backgroundColor
+        layer.borderWidth = BorderWidth.large
+        layer.borderColor = borderColor.cgColor
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
