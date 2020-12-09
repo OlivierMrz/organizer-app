@@ -28,11 +28,7 @@ class HomeViewController: UIViewController, AddCategoryDelegate {
     }()
 
     private let searchBar = UISearchBar()
-
     private lazy var addCategoryButton: UIButton = { return AddButton() }()
-
-    private var IconCellArray: [UIImage] = [UIImage(named: "icon1")!, UIImage(named: "icon2")!, UIImage(named: "icon3")!, UIImage(named: "icon4")!, UIImage(named: "icon5")!]
-    private var cellTitles: [String] = ["cell1", "cell2", "cell3", "cell4", "cell5"]
 
     private let refreshControl: UIRefreshControl = {
         let r = UIRefreshControl()

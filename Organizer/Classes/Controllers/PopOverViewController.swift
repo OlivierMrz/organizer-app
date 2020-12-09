@@ -58,16 +58,10 @@ class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTyp
         return b
     }()
 
-    private var imageArray: [String] = ["icon1", "icon2", "icon3", "icon4", "icon5"]
-
-    private var cellTypeArray: [UIImage] = [
-        UIImage(named: "cell2")!,
-        UIImage(named: "cell3")!,
-    ]
     private var userCategories: [Category] = []
 
-    private var selectedCellType: Int = 0
-    private var selectedCellIcon: Int = 0
+    private var selectedCellType: cellType?
+    private var selectedCellIcon: iconType?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,17 +73,17 @@ class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTyp
     }
     
     // MARK: DidSelectCell ICON
-    internal func didSelectCell(icon: Int) {
-        selectedCellIcon = (icon + 1)
+    internal func didSelectCell(icon: iconType) {
+        selectedCellIcon = icon
         selectIconButton.layer.borderColor = Color.lightGray?.cgColor
-        selectIconButton.image = UIImage(named: imageArray[icon])
+        selectIconButton.image = icon.image
     }
 
     // MARK: DidSelectCell TYPE
-    internal func didSelectCell(type: Int) {
-        selectedCellType = (type + 1)
+    internal func didSelectCell(type: cellType) {
+        selectedCellType = type
         selectCellTypeButton.layer.borderColor = Color.lightGray?.cgColor
-        selectCellTypeButton.image = cellTypeArray[type]
+        selectCellTypeButton.image = type.image
     }
     
     private func addView() {
@@ -222,15 +216,15 @@ class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTyp
             error.layer.borderColor = UIColor.red.cgColor
         }
 
-        guard errors.isEmpty else { return }
+        guard let icon = selectedCellIcon, let cell = selectedCellType, errors.isEmpty else { return }
 
         let catName = categoryNameTextField.text!.lowercased()
 
         let context = CoreDataManager.persistentContainer.viewContext
         let category = Category(context: context)
         category.name = catName
-        category.cellType = "cell\(selectedCellType)"
-        category.icon = "icon\(selectedCellIcon)"
+        category.cellType = cell.name
+        category.icon = icon.name
         category.items = []
         
         let categoryVM = CategoryViewModel(category: category)

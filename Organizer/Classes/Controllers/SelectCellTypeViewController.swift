@@ -9,10 +9,12 @@
 import UIKit
 
 protocol SelectCellTypeDelegate: AnyObject {
-    func didSelectCell(type: Int)
+    func didSelectCell(type: cellType)
 }
 
 class SelectCellTypeViewController: UIViewController {
+    
+    var viewModel = SelectCellListViewModel()
 
     private let titleLabel: UILabel = {
         let l = UILabel()
@@ -33,10 +35,10 @@ class SelectCellTypeViewController: UIViewController {
         return cv
     }()
 
-    private var cellTypeArray: [UIImage] = [
-        UIImage(named: "cell2")!,
-        UIImage(named: "cell3")!
-    ]
+//    private var cellTypeArray: [UIImage] = [
+//        UIImage(named: "cell2")!,
+//        UIImage(named: "cell3")!
+//    ]
 
     weak var delegate: SelectCellTypeDelegate?
 
@@ -74,31 +76,32 @@ class SelectCellTypeViewController: UIViewController {
 
 extension SelectCellTypeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellTypeArray.count
+        return viewModel.selectCellViewModels.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.selectIconCell, for: indexPath) as! SelectIconCell
-
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.selectIconCell, for: indexPath) as? SelectIconCell else {
+            return UICollectionViewCell()
+        }
+        
+        let vm = viewModel.selectCellViewModel(at: indexPath.row)
         cell.imageView.contentMode = .center
-        cell.imageView.image = cellTypeArray[indexPath.row]
+        cell.imageView.image = vm.image
 
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let currentCell = collectionView.cellForItem(at: indexPath) as! SelectIconCell
-        let test = currentCell.imageView.image
-        
-        for cell in cellTypeArray {
-            if test == cell {
-                print("--- > \(cell)")
+        if let cell = collectionView.cellForItem(at: indexPath) as? SelectIconCell {
+            cellType.allCases.forEach { (result) in
+                if result.image == cell.imageView.image {
+                    delegate?.didSelectCell(type: result)
+                }
             }
         }
-        
-        
-        delegate?.didSelectCell(type: indexPath.row)
         dismiss(animated: true, completion: nil)
+//        delegate?.didSelectCell(type: indexPath.row)
+//        dismiss(animated: true, completion: nil)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
