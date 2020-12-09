@@ -8,7 +8,11 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, AddCategoryDelegate {
+    
+    // MARK: - Properties
+    var viewModel = HomeListViewModel()
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -25,19 +29,14 @@ class HomeViewController: UIViewController {
 
     private let searchBar = UISearchBar()
 
-    private let addCategoryButton: AddButton = {
-        let b = AddButton()
-        return b
-    }()
+    private lazy var addCategoryButton: UIButton = { return AddButton() }()
 
     private var IconCellArray: [UIImage] = [UIImage(named: "icon1")!, UIImage(named: "icon2")!, UIImage(named: "icon3")!, UIImage(named: "icon4")!, UIImage(named: "icon5")!]
     private var cellTitles: [String] = ["cell1", "cell2", "cell3", "cell4", "cell5"]
 
-    private var categories: [Category] = []
-    private var categoryItemsCount: [String] = []
-
     private let refreshControl: UIRefreshControl = {
         let r = UIRefreshControl()
+        r.backgroundColor = .white
         r.tintColor = Color.primary
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: FontSize.xSmall),
@@ -46,91 +45,52 @@ class HomeViewController: UIViewController {
         r.attributedTitle = NSAttributedString(string: "Fetching data", attributes: attributes)
         return r
     }()
-
-    // MARK: LoadView
-    override func loadView() {
-        super.loadView()
-
-        addSearchBar()
-        addCollectionView()
-        addNavigation()
-
-        addNewCategoryButton()
-    }
-
-    // MARK: ViewDidLoad
+    
+    // MARK: - Lifecycle 🧬
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Categories"
         view.backgroundColor = Color.primary
-
-
-
-//        guard let users = self.users else {
-//            return
-//        }
-//
-//
-//        for user in users {
-//            if user.userId == userId {
-//                self.currentUser = user
-//            }
-//        }
+        
+        addSearchBar()
+        addCollectionView()
+        addNavigation()
+        addNewCategoryButton()
 
         collectionView.reloadData()
     }
-
-    // MARK: Fetch Categories form Database
-    private func fetchCategoriesFromDb(userUid: String) {
-//        ref = Database.database().reference(withPath: "users/\(userUid)/categories")
-//
-//        ref.observe(.value, with: { snapshot in
-//            var newCategories: [Category] = []
-//
-//            for child in snapshot.children {
-//                if let snapshot = child as? DataSnapshot,
-//                    let categoryItem = Category(snapshot: snapshot) {
-//                    newCategories.append(categoryItem)
-//
-//                    let value = snapshot.value as? [String: AnyObject]
-//                    let items = value?["items"] as? [String: AnyObject]
-//
-//                    self.categoryItemsCount.append("\(items?.count ?? 0)")
-//                }
-//            }
-//
-//            self.categories = newCategories
-//            self.collectionView.reloadData()
-//        })
+    
+    func addCategoryDidSave(vm: CategoryViewModel) {
+        self.viewModel.addCategoryViewModel(vm)
+        self.collectionView.reloadData()
     }
-
-    private func fetchCategoryItemsFromDb(userUid: String) {
-//        ref = Database.database().reference(withPath: "users/\(userUid)/categories/")
-//
-//        ref.observe(.childChanged, with: { snapshot in
-//
-//            var newCategoryItemsCount: [String] = []
-//
-//            for child in snapshot.children {
-//                if let snapshot = child as? DataSnapshot {
-//                    guard let value = snapshot.value as? [String: AnyObject],
-//                        let items = value["items"] as? [String: AnyObject] else { return }
-//
-//                    newCategoryItemsCount.append(String(items.count))
-//                }
-//            }
-//
-//            self.categoryItemsCount = newCategoryItemsCount
-//            self.collectionView.reloadData()
-//
-//        })
-
+    
+    // MARK: - Button actions
+    
+    @objc private func refreshData() {
+        viewModel.fetchCategories()
         DispatchQueue.main.async {
-            self.refreshControl.endRefreshing()
+            self.collectionView.reloadData()
         }
+        refreshControl.endRefreshing()
+    }
+    
+    @objc func newCategoryButtonTapped() {
+        let modalViewController = PopOverViewController()
+        modalViewController.addCategoryDelegate = self
+        modalViewController.modalPresentationStyle = .overCurrentContext
+        present(modalViewController, animated: true, completion: nil)
+    }
+    
+    @objc func trashButtonTapped() {
+        CoreDataManager.shared.deleteAllDBData()
+        self.viewModel.fetchCategories()
+        self.collectionView.reloadData()
     }
 
-    // MARK: AddCollectionView
+    // MARK: - UI
+    
     private func addCollectionView() {
         view.addSubview(collectionView)
         addPullToRefresh()
@@ -151,27 +111,10 @@ class HomeViewController: UIViewController {
     }
 
     private func addPullToRefresh() {
-        if #available(iOS 10.0, *) {
-            collectionView.refreshControl = refreshControl
-        } else {
-            collectionView.addSubview(refreshControl)
-        }
-
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
 
-    @objc private func refreshData(_ sender: Any) {
-//        let userUid = Auth.auth().currentUser?.uid
-//        guard let userId = userUid else { return }
-//        fetchCategoriesFromDb(userUid: userId)
-//        fetchCategoryItemsFromDb(userUid: userId)
-
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
-
-    // MARK: AddNewCategoryButton
     private func addNewCategoryButton() {
         view.addSubview(addCategoryButton)
         addCategoryButton.addTarget(self, action: #selector(newCategoryButtonTapped), for: .touchUpInside)
@@ -181,11 +124,6 @@ class HomeViewController: UIViewController {
         ])
     }
 
-    @IBAction func newCategoryButtonTapped() {
-        newCategoryPopoverView().show(animated: true)
-    }
-
-    // MARK: AddSearchBar
     private func addSearchBar() {
         searchBar.placeholder = "Search"
         searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
@@ -200,60 +138,45 @@ class HomeViewController: UIViewController {
         textFieldInsideSearchBar?.backgroundColor = Color.primaryBackground
     }
 
-    // MARK: AddNavigation
     private func addNavigation() {
-        let barButtonLeft = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(leftBarButtonTapped))
-        navigationItem.leftBarButtonItem = barButtonLeft
+        let leftButton = UIBarButtonItem(image: UIImage.init(systemName: "trash"), style: .plain, target: self, action: #selector(trashButtonTapped))
+        navigationItem.leftBarButtonItem = leftButton
         navigationController?.navigationBar.tintColor = Color.primaryBackground
-
-        //        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        //        navigationController?.navigationBar.barStyle = .default
         navigationController?.navigationBar.barTintColor = Color.primary
         navigationController?.navigationBar.shadowImage = UIImage()
-
         navigationController?.navigationBar.tintColor = Color.primaryBackground
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
-
-    @IBAction private func leftBarButtonTapped() {
-        
-    }
-
-    // MARK: ViewWillAppear
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        collectionView.reloadData()
-    }
 }
 
-// MARK: CollectionView extensions
+// MARK: CollectionViewDelegate, DataSource
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.isEmpty ? 1 : categories.count
+        return viewModel.categoryViewModels.isEmpty ? 1 : viewModel.categoryViewModels.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if categories.isEmpty {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
+        if viewModel.categoryViewModels.isEmpty {
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as? EmptyCell else {
+                return UICollectionViewCell()
+            }
 
             cell.title.text = "No categories found"
             return cell
         }
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.categoryCell, for: indexPath) as! CategoryCell
-
-        cell.categoryLabel.text = categories[indexPath.row].name
-        cell.icon.image = UIImage(named: categories[indexPath.row].icon)
-
-        if !categoryItemsCount.isEmpty {
-            if categoryItemsCount[indexPath.row] == "1" {
-                cell.catItemCountLabel.text = "\(categoryItemsCount[indexPath.row]) item"
-            } else {
-                cell.catItemCountLabel.text = "\(categoryItemsCount[indexPath.row]) items"
-            }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.categoryCell, for: indexPath) as? CategoryCell else {
+            return UICollectionViewCell()
         }
+        
+        let vm = viewModel.categroyViewModels(at: indexPath.row)
+
+        cell.categoryLabel.text = vm.name
+        cell.icon.image = UIImage(named: vm.icon)
+        cell.catItemCountLabel.text = "\(vm.items.count) items"
 
         return cell
     }
@@ -287,13 +210,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard !categories.isEmpty else {
-            newCategoryPopoverView().show(animated: true)
+        guard !viewModel.categoryViewModels.isEmpty else {
+            let modalViewController = PopOverViewController()
+            modalViewController.addCategoryDelegate = self
+            modalViewController.modalPresentationStyle = .overCurrentContext
+            present(modalViewController, animated: true, completion: nil)
+            
             return
         }
-
-        categoryItemsCount = []
-        pushToCategoryItemVC(title: categories[indexPath.row].name,
-                             cellType: categories[indexPath.row].cellType)
+        
+        let vm = viewModel.categroyViewModels(at: indexPath.row)
+        
+        pushToCategoryItemVC(title: vm.name,
+                             cellType: vm.type)
     }
 }

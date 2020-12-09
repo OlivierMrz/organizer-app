@@ -1,22 +1,21 @@
 //
-//  newCategoryPopoverView.swift
-//  CustomPopUpController
+//  PopOverViewController.swift
+//  Organizer
 //
-//  Created by Olivier Miserez on 20/01/2019.
+//  Created by Olivier Miserez on 09/12/2020.
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeDelegate {
-    private(set) var backgroundView: UIView = {
-        let v = UIView()
-        v.backgroundColor = Color.black
-        v.alpha = 0.6
-        return v
-    }()
+protocol AddCategoryDelegate {
+    func addCategoryDidSave(vm: CategoryViewModel)
+}
 
+class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTypeDelegate {
+    
+    var addCategoryDelegate: AddCategoryDelegate?
+    
     var dialogView: UIView = {
         let v = UIView()
         v.clipsToBounds = true
@@ -70,23 +69,15 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
     private var selectedCellType: Int = 0
     private var selectedCellIcon: Int = 0
 
-    // MARK: Init()
-    convenience init() {
-        self.init(frame: UIScreen.main.bounds)
-
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+//        view.isOpaque = true
+        
         addView()
-
-//        fetchUserCategories(userUid: userUid)
+        
     }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
+    
     // MARK: DidSelectCell ICON
     internal func didSelectCell(icon: Int) {
         selectedCellIcon = (icon + 1)
@@ -100,29 +91,27 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
         selectCellTypeButton.layer.borderColor = Color.lightGray?.cgColor
         selectCellTypeButton.image = cellTypeArray[type]
     }
-
-    // MARK: addView
+    
     private func addView() {
         titleLabel.text = "Add new category"
         subTitleLabel.text = "You can give me a number or place where you will store this item. (not required)"
 
-        let dialogViewWidth = frame.width - 64
+        let dialogViewWidth = view.frame.width - 64
+//
+//        backgroundView.frame = frame
+//        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTappedOnBackgroundView)))
 
-        backgroundView.frame = frame
-        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTappedOnBackgroundView)))
-
-        addSubview(backgroundView)
-        addSubview(dialogView)
+//        view.addSubview(backgroundView)
+        view.addSubview(dialogView)
         NSLayoutConstraint.activate([
             dialogView.widthAnchor.constraint(equalToConstant: dialogViewWidth),
-            dialogView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor, constant: 0),
-            dialogView.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor, constant: 0),
+            dialogView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            dialogView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
         ])
 
         dialogView.addSubview(titleLabel)
         dialogView.addSubview(subTitleLabel)
-        let tapDialogView = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        dialogView.addGestureRecognizer(tapDialogView)
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: Margins.medium),
             titleLabel.trailingAnchor.constraint(equalTo: dialogView.trailingAnchor, constant: -Margins.largeSmall),
@@ -216,8 +205,7 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
             addButton.bottomAnchor.constraint(equalTo: dialogView.bottomAnchor, constant: -Margins.medium),
         ])
     }
-
-    // MARK: Add Button Tapped
+    
     @IBAction private func addButtonTapped() {
         var errors: [UIView] = []
         if let categoryText = categoryNameTextField.text, categoryText.isEmpty {
@@ -238,7 +226,24 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 
         let catName = categoryNameTextField.text!.lowercased()
 
-        let x = checkIfNewCategoryExists(catName: catName)
+        let context = CoreDataManager.persistentContainer.viewContext
+        let category = Category(context: context)
+        category.name = catName
+        category.cellType = "cell\(selectedCellType)"
+        category.icon = "icon\(selectedCellIcon)"
+        category.items = []
+        
+        let categoryVM = CategoryViewModel(category: category)
+        
+        guard let addCatDelegate = addCategoryDelegate else { return }
+
+        do {
+            try context.save()
+            addCatDelegate.addCategoryDidSave(vm: categoryVM)
+            dismiss(animated: true)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
 
 //        if !x {
 //            let newCategory = Category(catName: catName,
@@ -261,63 +266,18 @@ class newCategoryPopoverView: UIView, Modal, SelectIconDelegate, SelectCellTypeD
 //            categoryNameTextField.layer.borderColor = UIColor.red.cgColor
 //        }
     }
-
-    // MARK: check If New Category name Exists
-    private func checkIfNewCategoryExists(catName: String) -> Bool {
-//        for cat in userCategories {
-//            if cat.catName == catName {
-//                return true
-//            }
-//        }
-        return false
-    }
-
-    // MARK: fetch User Categories
-    private func fetchUserCategories(userUid: String) {
-//        let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
-//
-//        transactionRef.observeSingleEvent(of: .value, with: { snapshot in
-//
-//            var userCategories: [Category] = []
-//
-//            if snapshot.childrenCount > 0 {
-//                for child in snapshot.children {
-//                    if let snapshot = child as? DataSnapshot,
-//                        let categoryItem = Category(snapshot: snapshot) {
-//                        userCategories.append(categoryItem)
-//                    }
-//                }
-//            }
-//
-//            self.userCategories = userCategories
-//
-//        })
-    }
-
-    // MARK: IBAction buttons
-    @IBAction private func viewTapped() {
-        dialogView.endEditing(true)
-    }
-
+    
     @IBAction private func selectCellTapped() {
         let vc = SelectCellTypeViewController()
-        let currentController = getCurrentViewController()
+//        let currentController = getCurrentViewController()
         vc.delegate = self
-        currentController?.present(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
 
     @IBAction private func selectIconTapped() {
         let vc = SelectIconViewController()
-        let currentController = getCurrentViewController()
+//        let currentController = getCurrentViewController()
         vc.delegate = self
-        currentController?.present(vc, animated: true, completion: nil)
-    }
-
-    @objc private func didTappedOnBackgroundView() {
-        dismiss(animated: true)
-    }
-
-    @objc private func didTapCancelButton() {
-        dismiss(animated: true)
+        self.present(vc, animated: true, completion: nil)
     }
 }

@@ -31,7 +31,7 @@ class CategoryCell: UICollectionViewCell {
         let l = UILabel()
         l.textColor = Color.midGray
 //        l.backgroundColor = .black
-        l.text = "12 items"
+        l.text = "999 items"
         l.font = UIFont.systemFont(ofSize: FontSize.xxSmall, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
