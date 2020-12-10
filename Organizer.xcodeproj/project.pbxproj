@@ -188,16 +188,6 @@
 			path = Labels;
 			sourceTree = "<group>";
 		};
-		695461C4257FFF20007908B5 /* View Models */ = {
-			isa = PBXGroup;
-			children = (
-				69B919CC2581069A00760332 /* SelectIconViewModel.swift */,
-				6958BD672581240F004627E6 /* SelectCellListViewModel.swift */,
-				695461C5257FFF46007908B5 /* HomeViewModel.swift */,
-			);
-			path = "View Models";
-			sourceTree = "<group>";
-		};
 		696B190323EDB73100848383 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,12 +217,14 @@
 		6972A88A257FCD2100F6537C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				698223A22582178500C632AD /* Item Detail */,
+				698223A12582176700C632AD /* Popover */,
+				698223A02582173600C632AD /* Items List */,
+				6982239F2582172800C632AD /* Home Category */,
 				6972A8A6257FCF4700F6537C /* Constants */,
 				6972A89B257FCED000F6537C /* Design Scheme */,
 				6972A899257FCE6100F6537C /* CoreData */,
 				69002AE123CF48B700B1C577 /* Views */,
-				695461C4257FFF20007908B5 /* View Models */,
-				6972A88D257FCD4800F6537C /* Controllers */,
 				6972A88B257FCD2A00F6537C /* Application */,
 				6972A897257FCDF800F6537C /* StoryBoards */,
 			);
@@ -248,19 +240,6 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		6972A88D257FCD4800F6537C /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				6972A892257FCD7B00F6537C /* HomeViewController.swift */,
-				6953795323D63E1200BA5F2F /* SelectIconViewController.swift */,
-				69A079F223D7412F00E2A8F7 /* SelectCellTypeViewController.swift */,
-				69CC403F23D5EBBE00F25E5C /* CategoryItemViewController.swift */,
-				690BDB6323DBA22800E1E63D /* ItemDetailViewController.swift */,
-				69B919C52580D80500760332 /* PopOverViewController.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
 		6972A897257FCDF800F6537C /* StoryBoards */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,12 +251,9 @@
 		6972A899257FCE6100F6537C /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				6972A8C0257FEB5100F6537C /* Category+CoreDataClass.swift */,
-				6972A8C1257FEB5100F6537C /* Category+CoreDataProperties.swift */,
-				6972A8C2257FEB5100F6537C /* Item+CoreDataClass.swift */,
-				6972A8C3257FEB5100F6537C /* Item+CoreDataProperties.swift */,
-				6972A8B1257FD0BB00F6537C /* DataBase.xcdatamodeld */,
 				695461BD257FEE0F007908B5 /* CoreDataManager.swift */,
+				698223A82582180000C632AD /* Model */,
+				6972A8B1257FD0BB00F6537C /* DataBase.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -302,6 +278,94 @@
 				699B52AB23CE14B200EAFE33 /* DeviceWidth.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		6982239F2582172800C632AD /* Home Category */ = {
+			isa = PBXGroup;
+			children = (
+				698223A4258217B100C632AD /* View Models */,
+				698223A3258217A600C632AD /* Controllers */,
+			);
+			path = "Home Category";
+			sourceTree = "<group>";
+		};
+		698223A02582173600C632AD /* Items List */ = {
+			isa = PBXGroup;
+			children = (
+				698223A5258217C200C632AD /* Controllers */,
+			);
+			path = "Items List";
+			sourceTree = "<group>";
+		};
+		698223A12582176700C632AD /* Popover */ = {
+			isa = PBXGroup;
+			children = (
+				698223A6258217CE00C632AD /* Controllers */,
+			);
+			path = Popover;
+			sourceTree = "<group>";
+		};
+		698223A22582178500C632AD /* Item Detail */ = {
+			isa = PBXGroup;
+			children = (
+				698223A7258217D900C632AD /* Controllers */,
+			);
+			path = "Item Detail";
+			sourceTree = "<group>";
+		};
+		698223A3258217A600C632AD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6972A892257FCD7B00F6537C /* HomeViewController.swift */,
+				6953795323D63E1200BA5F2F /* SelectIconViewController.swift */,
+				69A079F223D7412F00E2A8F7 /* SelectCellTypeViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		698223A4258217B100C632AD /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				69B919CC2581069A00760332 /* SelectIconViewModel.swift */,
+				6958BD672581240F004627E6 /* SelectCellListViewModel.swift */,
+				695461C5257FFF46007908B5 /* HomeViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		698223A5258217C200C632AD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				69CC403F23D5EBBE00F25E5C /* CategoryItemViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		698223A6258217CE00C632AD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				69B919C52580D80500760332 /* PopOverViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		698223A7258217D900C632AD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				690BDB6323DBA22800E1E63D /* ItemDetailViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		698223A82582180000C632AD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6972A8C0257FEB5100F6537C /* Category+CoreDataClass.swift */,
+				6972A8C1257FEB5100F6537C /* Category+CoreDataProperties.swift */,
+				6972A8C2257FEB5100F6537C /* Item+CoreDataClass.swift */,
+				6972A8C3257FEB5100F6537C /* Item+CoreDataProperties.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		699B528B23CE145300EAFE33 = {
