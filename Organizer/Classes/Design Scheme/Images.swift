@@ -33,7 +33,7 @@ enum iconType: CaseIterable {
     }
 }
 
-enum cellType: CaseIterable {
+enum cellType: String, CaseIterable {
     case basic, subtitlePlus
     
     var name: String {

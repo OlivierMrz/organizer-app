@@ -1,22 +1,21 @@
 //
-//  StandardPopoverView.swift
+//  StandardPopOverViewController.swift
 //  Organizer
 //
-//  Created by Olivier Miserez on 24/01/2020.
+//  Created by Olivier Miserez on 10/12/2020.
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-class StandardPopoverView: UIView, Modal {
-    private(set) var backgroundView: UIView = {
-        let v = UIView()
-        v.backgroundColor = Color.black
-        v.alpha = 0.6
-        return v
-    }()
+protocol AddItemDelegate {
+    func addItemDidSave(vm: itemViewModel)
+}
 
+class StandardPopOverViewController: UIViewController {
+    
+    var addItemDelegate: AddItemDelegate?
+    
     var dialogView: UIView = {
         let v = UIView()
         v.clipsToBounds = true
@@ -28,7 +27,7 @@ class StandardPopoverView: UIView, Modal {
 
     private let titleLabel: UILabel = {
         let l = UILabel()
-        l.text = "Add new Category"
+        l.text = "Add new Item"
         l.textAlignment = .center
         l.font = UIFont.systemFont(ofSize: FontSize.large, weight: FontWeight.bold)
         l.textColor = Color.black
@@ -64,54 +63,41 @@ class StandardPopoverView: UIView, Modal {
     }()
     
     private var currentCategory: Category
-
-    // MARK: Init()
-    convenience init(category: Category) {
-        self.init(frame: UIScreen.main.bounds)
+    
+    init(category: Category) {
         self.currentCategory = category
-        addView()
-
-//        fetchUserCategories(userUid: userUid)
+        super.init(nibName: nil, bundle: nil)
     }
-
-    convenience init() {
-        self.init(frame: UIScreen.main.bounds)
-
-        addView()
-
-//        fetchUserCategories(userUid: userUid)
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
+    
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 
-    // MARK: add Views
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+//        view.isOpaque = true
+        
+        addView()
+        
+    }
+    
     private func addView() {
         titleLabel.text = "Add new item"
         subTitleLabel.text = "You can give me a number or place where you will store this item. (not required)"
 
-        let dialogViewWidth = frame.width - 64
-
-        backgroundView.frame = frame
-        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTappedOnBackgroundView)))
-
-        addSubview(backgroundView)
-        addSubview(dialogView)
+        let dialogViewWidth = view.frame.width - 64
+        view.addSubview(dialogView)
         NSLayoutConstraint.activate([
             dialogView.widthAnchor.constraint(equalToConstant: dialogViewWidth),
-            dialogView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor, constant: 0),
-            dialogView.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor, constant: 0),
+            dialogView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            dialogView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
         ])
 
         dialogView.addSubview(titleLabel)
         dialogView.addSubview(subTitleLabel)
-        let tapDialogView = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        dialogView.addGestureRecognizer(tapDialogView)
+
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: Margins.medium),
             titleLabel.trailingAnchor.constraint(equalTo: dialogView.trailingAnchor, constant: -Margins.largeSmall),
@@ -173,8 +159,7 @@ class StandardPopoverView: UIView, Modal {
             addButton.bottomAnchor.constraint(equalTo: dialogView.bottomAnchor, constant: -Margins.medium),
         ])
     }
-
-    // MARK: Add Button Tapped
+    
     @IBAction private func addButtonTapped() {
         [itemNameTextField, itemStoragePlaceTextField, itemStorageNumberTextField].forEach {
             $0.layer.borderColor = Color.lightGray?.cgColor
@@ -207,72 +192,21 @@ class StandardPopoverView: UIView, Modal {
         item.storagePlace = storagePlace
         item.storageNumber = storageNumber
         item.category = currentCategory
+        item.borrowed = false
         
         
-//        let itemVM = itemViewModel(item: item)
+        let itemVM = itemViewModel(item: item)
         
-//        guard let addCatDelegate = addCategoryDelegate else { return }
+        guard let addItmDelegate = addItemDelegate else { return }
 
         do {
             try context.save()
-//            addCatDelegate.addCategoryDidSave(vm: itemVM)
+            addItmDelegate.addItemDidSave(vm: itemVM)
             dismiss(animated: true)
         } catch {
             fatalError(error.localizedDescription)
         }
-//
-//        let newItem = CategoryItem(itemName: itemName, itemSubTitle: "", extraSubTitle: "", storagePlace: storagePlace, storageNumber: storageNumber, borrowed: false, borrowedBy: "", imageData: nil)
-//
-//        let uuid = UUID().uuidString
-//        let ItemRef = ref.child(uuid)
-//
-//        ItemRef.setValue(newItem.toAnyObject())
 
-        dismiss(animated: true)
-    }
-
-    // MARK: check If New Category name Exists
-    private func checkIfNewCategoryExists(catName: String) -> Bool {
-//        for cat in userCategories {
-//            if cat.catName == catName {
-//                return true
-//            }
-//        }
-        return false
-    }
-
-    // MARK: fetch User Categories
-    private func fetchUserCategories(userUid: String) {
-//        let transactionRef = Database.database().reference(withPath: "users/\(userUid)/categories")
-//
-//        transactionRef.observeSingleEvent(of: .value, with: { snapshot in
-//
-//            var userCategories: [Category] = []
-//
-//            if snapshot.childrenCount > 0 {
-//                for child in snapshot.children {
-//                    if let snapshot = child as? DataSnapshot,
-//                        let categoryItem = Category(snapshot: snapshot) {
-//                        userCategories.append(categoryItem)
-//                    }
-//                }
-//            }
-//
-//            self.userCategories = userCategories
-//
-//        })
-    }
-
-    // MARK: IBAction buttons
-    @IBAction private func viewTapped() {
-        dialogView.endEditing(true)
-    }
-
-    @objc private func didTappedOnBackgroundView() {
-        dismiss(animated: true)
-    }
-
-    @objc private func didTapCancelButton() {
         dismiss(animated: true)
     }
 }

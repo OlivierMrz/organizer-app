@@ -1,5 +1,5 @@
 //
-//  CategoryItemViewController.swift
+//  ItemsViewController.swift
 //  Organizer
 //
 //  Created by Olivier Miserez on 20/01/2020.
@@ -8,7 +8,19 @@
 
 import UIKit
 
-class CategoryItemViewController: UIViewController {
+class ItemsViewController: UIViewController, AddItemDelegate {
+
+    var viewModel: ItemListViewModel
+    
+    init(category: Category) {
+        viewModel = ItemListViewModel(category: category)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -21,11 +33,7 @@ class CategoryItemViewController: UIViewController {
         return cv
     }()
 
-    private let addCategoryButton: AddButton = {
-        let b = AddButton()
-        return b
-    }()
-
+    private lazy var addCategoryButton: UIButton = { return AddButton() }()
     private let searchBar = UISearchBar()
 
     private var categoryItems: [Item] = []
@@ -35,6 +43,7 @@ class CategoryItemViewController: UIViewController {
     private let refreshControl: UIRefreshControl = {
         let r = UIRefreshControl()
         r.tintColor = Color.primary
+        r.backgroundColor = .white
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: FontSize.xSmall),
             .foregroundColor: Color.primary!,
@@ -82,6 +91,12 @@ class CategoryItemViewController: UIViewController {
 //        }
     }
 
+    // MARK: Delegate's
+    func addItemDidSave(vm: itemViewModel) {
+        self.viewModel.addItemViewModel(vm)
+        self.collectionView.reloadData()
+    }
+    
     // MARK: AddNewCategoryButton
     private func addNewItemButton() {
         view.addSubview(addCategoryButton)
@@ -119,12 +134,7 @@ class CategoryItemViewController: UIViewController {
     }
 
     private func addPullToRefresh() {
-        if #available(iOS 10.0, *) {
-            collectionView.refreshControl = refreshControl
-        } else {
-            collectionView.addSubview(refreshControl)
-        }
-
+        collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
     }
 
@@ -153,9 +163,7 @@ class CategoryItemViewController: UIViewController {
 
     // MARK: AddNavigation
     private func addNavigation() {
-        //        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        //        navigationController?.navigationBar.barStyle = .default
         navigationController?.navigationBar.barTintColor = Color.primary
         navigationController?.navigationBar.shadowImage = UIImage()
 
@@ -165,53 +173,59 @@ class CategoryItemViewController: UIViewController {
 
     // MARK: Check Cell Type and show
     private func checkCellType() {
-        switch currentCategoryCellType {
-        case "cell1": // Standard PopoverView
-            StandardPopoverView(category: title!).show(animated: true)
-        case "cell2":   // Detailed PopoverView
+        switch viewModel.categoryCellType {
+        case .basic:
+            let modalViewController = StandardPopOverViewController(category: viewModel.category)
+            modalViewController.addItemDelegate = self
+            modalViewController.modalPresentationStyle = .overCurrentContext
+            present(modalViewController, animated: true, completion: nil)
+            
+        case .subtitlePlus:
             DetailedPopoverView(category: title!).show(animated: true)
-        default:
-            StandardPopoverView(category: title!).show(animated: true)
         }
     }
 }
 
 // MARK: CollectionView extensions
-extension CategoryItemViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ItemsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categoryItems.isEmpty ? 1 : categoryItems.count
+        return viewModel.itemViewModels.isEmpty ? 1 : viewModel.itemViewModels.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if categoryItems.count == 0 {
+        if viewModel.itemViewModels.isEmpty {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
             cell.title.text = "No items yes"
 
             return cell
         }
 
-        switch currentCategoryCellType {
-        case "cell1": // TitleCell
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.titleCell, for: indexPath) as! TitleCell
+        switch viewModel.categoryCellType {
+        case .basic: // TitleCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.titleCell, for: indexPath) as? TitleCell else {
+                return UICollectionViewCell()
+            }
+            
+            let vm = viewModel.itemViewModels(at: indexPath.row)
 
-            cell.title.text = categoryItems[indexPath.row].name
-            cell.storagePlaceLabel.text = categoryItems[indexPath.row].storagePlace
-            cell.storageNumberLabel.text = categoryItems[indexPath.row].storageNumber
+            cell.title.text = vm.name
+            cell.storagePlaceLabel.text = vm.storagePlace
+            cell.storageNumberLabel.text = vm.storageNumber
             return cell
-        case "cell2": // DetailedCell
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as! DetailedCell
+            
+        case .subtitlePlus: // DetailedCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as? DetailedCell else {
+                return UICollectionViewCell()
+            }
+            
+            let vm = viewModel.itemViewModels(at: indexPath.row)
 
-            cell.itemLabel.text = categoryItems[indexPath.row].name
-            cell.itemSubLabel.text = categoryItems[indexPath.row].subTitle
-            cell.itemSub2Label.text = categoryItems[indexPath.row].extraSubTitle
-            cell.placeLabel.text = categoryItems[indexPath.row].storagePlace
-            cell.placeStorageLabel.text = categoryItems[indexPath.row].storageNumber
+            cell.itemLabel.text = vm.name
+            cell.itemSubLabel.text = vm.subTitle
+            cell.itemSub2Label.text = vm.extraSubTitle
+            cell.placeLabel.text = vm.storagePlace
+            cell.placeStorageLabel.text = vm.storageNumber
 
-            return cell
-        default:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
-
-            cell.title.text = "No items found"
             return cell
         }
     }
@@ -245,14 +259,14 @@ extension CategoryItemViewController: UICollectionViewDelegate, UICollectionView
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard !categoryItems.isEmpty else {
+        guard !viewModel.itemViewModels.isEmpty else {
             checkCellType()
             return
         }
+        let vm = viewModel.itemViewModels(at: indexPath.row)
 
-        let vc = ItemDetailViewController()
-        vc.detailItem = categoryItems[indexPath.row]
-        vc.title = categoryItems[indexPath.row].name
+        let vc = ItemDetailViewController(itemViewModel: vm)
+        vc.title = vm.name
         navigationController?.pushViewController(vc, animated: true)
     }
 }

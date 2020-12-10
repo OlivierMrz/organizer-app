@@ -73,7 +73,7 @@ class HomeViewController: UIViewController, AddCategoryDelegate {
     }
     
     @objc func newCategoryButtonTapped() {
-        let modalViewController = PopOverViewController()
+        let modalViewController = CategoryPopOverViewController()
         modalViewController.addCategoryDelegate = self
         modalViewController.modalPresentationStyle = .overCurrentContext
         present(modalViewController, animated: true, completion: nil)
@@ -207,7 +207,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !viewModel.categoryViewModels.isEmpty else {
-            let modalViewController = PopOverViewController()
+            let modalViewController = CategoryPopOverViewController()
             modalViewController.addCategoryDelegate = self
             modalViewController.modalPresentationStyle = .overCurrentContext
             present(modalViewController, animated: true, completion: nil)
@@ -217,7 +217,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         let vm = viewModel.categroyViewModels(at: indexPath.row)
         
-        pushToCategoryItemVC(title: vm.name,
-                             cellType: vm.type)
+        pushToCategoryItemVC(category: vm.category,
+                            title: vm.name,
+                            cellType: vm.type)
     }
 }

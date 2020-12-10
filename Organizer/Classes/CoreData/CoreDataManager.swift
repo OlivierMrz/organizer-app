@@ -12,7 +12,9 @@ import CoreData
 class CoreDataManager {
     static let shared = CoreDataManager()
     static let persistentContainer = CoreDataManager().persistentContainer
-    static let entityName = "Category"
+    
+    static let categoryEntityName = "Category"
+    static let itemEntityName = "Item"
     
     private init() {}
     
@@ -28,9 +30,22 @@ class CoreDataManager {
         return container
     }()
     
+    func getItems(from category: Category, completion: ([Item]) -> Void) {
+        let managedContext = CoreDataManager.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Item>(entityName: CoreDataManager.itemEntityName)
+        fetchRequest.predicate = NSPredicate(format: "category == %@", category)
+        
+        do {
+            let items = try managedContext.fetch(fetchRequest)
+            completion(items)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
     func getCategories(completionHandler: ([Category]) -> Void) {
         let managedContext = CoreDataManager.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<Category>(entityName: CoreDataManager.entityName)
+        let fetchRequest = NSFetchRequest<Category>(entityName: CoreDataManager.categoryEntityName)
         
         do {
             let fetchedCategories = try managedContext.fetch(fetchRequest)
@@ -42,11 +57,19 @@ class CoreDataManager {
     
     func deleteAllDBData() {
         let context = CoreDataManager.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<Category>(entityName: CoreDataManager.entityName)
+        let categoriesFetchRequest = NSFetchRequest<Category>(entityName: CoreDataManager.categoryEntityName)
+        let itemsFetchRequest = NSFetchRequest<Item>(entityName: CoreDataManager.itemEntityName)
         
         do {
-            let results = try context.fetch(fetchRequest)
-            for object in results {
+            let categories = try context.fetch(categoriesFetchRequest)
+            let items = try context.fetch(itemsFetchRequest)
+            
+            for object in items {
+                context.delete(object)
+                try context.save()
+            }
+            
+            for object in categories {
                 context.delete(object)
                 try context.save()
             }

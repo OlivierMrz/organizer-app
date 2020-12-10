@@ -1,5 +1,5 @@
 //
-//  PopOverViewController.swift
+//  CategoryPopOverViewController.swift
 //  Organizer
 //
 //  Created by Olivier Miserez on 09/12/2020.
@@ -12,7 +12,7 @@ protocol AddCategoryDelegate {
     func addCategoryDidSave(vm: CategoryViewModel)
 }
 
-class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTypeDelegate {
+class CategoryPopOverViewController: UIViewController, SelectIconDelegate, SelectCellTypeDelegate {
     
     var addCategoryDelegate: AddCategoryDelegate?
     

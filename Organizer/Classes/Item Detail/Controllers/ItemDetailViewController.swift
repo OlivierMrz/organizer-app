@@ -19,8 +19,17 @@ class ItemDetailViewController: UIViewController {
         return tv
     }()
 
-    var detailItem: Item?
-
+    var viewModel: itemViewModel
+    
+    init(itemViewModel: itemViewModel) {
+        self.viewModel = itemViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,19 +57,17 @@ extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let item = detailItem else { return UITableViewCell() }
-
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailImageCell, for: indexPath) as! DetailImageCell
-            cell.setupView(imageid: detailItem?.image)
+            cell.setupView(imageid: viewModel.image)
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailInfoCell, for: indexPath) as! DetailInfoCell
-            cell.itemSubLabel.text = item.subTitle
-            cell.itemExtraSubLabel.text = item.extraSubTitle
-            cell.storageLabel.text = item.storagePlace
-            cell.storageNumberLabel.text = item.storageNumber
+            cell.itemSubLabel.text = viewModel.subTitle
+            cell.itemExtraSubLabel.text = viewModel.extraSubTitle
+            cell.storageLabel.text = viewModel.storagePlace
+            cell.storageNumberLabel.text = viewModel.storageNumber
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailButtonCell, for: indexPath) as! DetailButtonCell
