@@ -49,7 +49,7 @@ class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTyp
 
     private let categoryNameTextField = CustomTextField()
     private let selectIconButton = UIImageView()
-    private let selectIcon = PopoverLabel()
+    private let selectIcon = PopoverLabel(title: "Choose category icon")
     private let selectCellTypeButton = UIImageView()
 
     private lazy var addButton: UIButton = { return CustomButton(title: "Add Category", backgroundColor: Color.primary!, borderColor: Color.primary!) }()
@@ -105,12 +105,9 @@ class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTyp
             subTitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
         ])
 
-        let categoryNameLabel = PopoverLabel()
-        categoryNameLabel.setup(title: "Category name")
+        let categoryNameLabel = PopoverLabel(title: "Category name")
 
         categoryNameTextField.setup(placeHolder: "Books")
-
-        selectIcon.setup(title: "Choose category icon")
 
         selectIconButton.layer.cornerRadius = CornerRadius.xSmall
         selectIconButton.layer.masksToBounds = true
@@ -125,8 +122,7 @@ class PopOverViewController: UIViewController, SelectIconDelegate, SelectCellTyp
         let selectIconTap = UITapGestureRecognizer(target: self, action: #selector(selectIconTapped))
         selectIconButton.addGestureRecognizer(selectIconTap)
 
-        let selectCellTypeLabel = PopoverLabel()
-        selectCellTypeLabel.setup(title: "Choose cell type")
+        let selectCellTypeLabel = PopoverLabel(title: "Choose cell type")
 
         selectCellTypeButton.layer.cornerRadius = CornerRadius.xSmall
         selectCellTypeButton.layer.masksToBounds = true

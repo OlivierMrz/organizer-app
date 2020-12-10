@@ -48,13 +48,13 @@ class StandardPopoverView: UIView, Modal {
         return l
     }()
 
-    private let itemNameLabel = PopoverLabel()
+    private let itemNameLabel = PopoverLabel(title: "Item name")
     private let itemNameTextField = CustomTextField()
 
-    private let itemStoragePlaceLabel = PopoverLabel()
+    private let itemStoragePlaceLabel = PopoverLabel(title: "Where will you store it?")
     private let itemStoragePlaceTextField = CustomTextField()
 
-    private let itemStorageNumberLabel = PopoverLabel()
+    private let itemStorageNumberLabel = PopoverLabel(title: "Storage number")
     private let itemStorageNumberTextField = CustomTextField()
 
     let addButton: CustomButton = {
@@ -122,11 +122,8 @@ class StandardPopoverView: UIView, Modal {
             subTitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
         ])
 
-        itemNameLabel.setup(title: "Item name")
         itemNameTextField.setup(placeHolder: "Tintin in the Congo")
-        itemStoragePlaceLabel.setup(title: "Where will you store it?")
         itemStoragePlaceTextField.setup(placeHolder: "Garage")
-        itemStorageNumberLabel.setup(title: "Storage number")
         itemStorageNumberTextField.setup(placeHolder: "A2")
 
         dialogView.addSubview(itemNameLabel)

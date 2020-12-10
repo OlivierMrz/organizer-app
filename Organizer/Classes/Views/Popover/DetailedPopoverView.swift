@@ -49,15 +49,15 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
         return l
     }()
 
-    private let itemNameLabel = PopoverLabel()
+    private let itemNameLabel = PopoverLabel(title: "Item name")
     private let itemNameTextField = CustomTextField()
     private let itemSubTextField = CustomTextField()
     private let itemExtraSubTextField = CustomTextField()
 
-    private let itemStoragePlaceLabel = PopoverLabel()
+    private let itemStoragePlaceLabel = PopoverLabel(title: "Where will you store it?")
     private let itemStoragePlaceTextField = CustomTextField()
 
-    private let itemStorageNumberLabel = PopoverLabel()
+    private let itemStorageNumberLabel = PopoverLabel(title: "Storage number")
     private let itemStorageNumberTextField = CustomTextField()
 
     private var itemImage: UIImage?
@@ -134,13 +134,10 @@ class DetailedPopoverView: UIView, Modal, UINavigationControllerDelegate, UIImag
             subTitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
         ])
 
-        itemNameLabel.setup(title: "Item name")
         itemNameTextField.setup(placeHolder: "Tintin in the Congo")
         itemSubTextField.setup(placeHolder: "Hergé")
         itemExtraSubTextField.setup(placeHolder: "ISBN: 978-7-50-079468-4")
-        itemStoragePlaceLabel.setup(title: "Where will you store it?")
         itemStoragePlaceTextField.setup(placeHolder: "Garage")
-        itemStorageNumberLabel.setup(title: "Storage number")
         itemStorageNumberTextField.setup(placeHolder: "A2")
 
         dialogView.addSubview(itemNameLabel)

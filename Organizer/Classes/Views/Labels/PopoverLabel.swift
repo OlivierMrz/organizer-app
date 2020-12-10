@@ -9,18 +9,17 @@
 import UIKit
 
 class PopoverLabel: UILabel {
-
-    func setup(title: String) {
-        text = title
-    }
-
     func setup() {
         backgroundColor = .clear
         textColor = Color.primary
         font = UIFont.systemFont(ofSize: FontSize.small, weight: FontWeight.regular)
         textAlignment = .left
         translatesAutoresizingMaskIntoConstraints = false
-
+    }
+    
+    convenience init(title: String) {
+        self.init()
+        text = title
     }
 
     override init(frame: CGRect) {
@@ -32,5 +31,4 @@ class PopoverLabel: UILabel {
         super.init(coder: aDecoder)
         setup()
     }
-
 }
