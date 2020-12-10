@@ -44,6 +44,7 @@
 		699B52A423CE145400EAFE33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699B52A223CE145400EAFE33 /* LaunchScreen.storyboard */; };
 		699B52AC23CE14B300EAFE33 /* DeviceWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699B52AB23CE14B200EAFE33 /* DeviceWidth.swift */; };
 		69A079F323D7412F00E2A8F7 /* SelectCellTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A079F223D7412F00E2A8F7 /* SelectCellTypeViewController.swift */; };
+		69B0D49425828C3700380A32 /* DetailedPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B0D49325828C3700380A32 /* DetailedPopOverViewController.swift */; };
 		69B919C62580D80500760332 /* CategoryPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B919C52580D80500760332 /* CategoryPopOverViewController.swift */; };
 		69B919CD2581069A00760332 /* SelectIconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B919CC2581069A00760332 /* SelectIconViewModel.swift */; };
 		69B919D025810A1600760332 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B919CF25810A1600760332 /* Images.swift */; };
@@ -52,7 +53,6 @@
 		69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404123D5ECBB00F25E5C /* AddButton.swift */; };
 		69CC404523D600A400F25E5C /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404423D600A400F25E5C /* Modal.swift */; };
 		69D010B223D8AE7600DC20C9 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010B123D8AE7600DC20C9 /* EmptyCell.swift */; };
-		69D010B423D8E83700DC20C9 /* DetailedPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010B323D8E83700DC20C9 /* DetailedPopoverView.swift */; };
 		69D4CF6125827E5900E38770 /* StandardPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D4CF6025827E5900E38770 /* StandardPopOverViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +96,7 @@
 		699B52A523CE145400EAFE33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		699B52AB23CE14B200EAFE33 /* DeviceWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceWidth.swift; sourceTree = "<group>"; };
 		69A079F223D7412F00E2A8F7 /* SelectCellTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCellTypeViewController.swift; sourceTree = "<group>"; };
+		69B0D49325828C3700380A32 /* DetailedPopOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedPopOverViewController.swift; sourceTree = "<group>"; };
 		69B919C52580D80500760332 /* CategoryPopOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPopOverViewController.swift; sourceTree = "<group>"; };
 		69B919CC2581069A00760332 /* SelectIconViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconViewModel.swift; sourceTree = "<group>"; };
 		69B919CF25810A1600760332 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
@@ -104,7 +105,6 @@
 		69CC404123D5ECBB00F25E5C /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 		69CC404423D600A400F25E5C /* Modal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
 		69D010B123D8AE7600DC20C9 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
-		69D010B323D8E83700DC20C9 /* DetailedPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedPopoverView.swift; sourceTree = "<group>"; };
 		69D4CF6025827E5900E38770 /* StandardPopOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardPopOverViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -347,6 +347,7 @@
 			children = (
 				69B919C52580D80500760332 /* CategoryPopOverViewController.swift */,
 				69D4CF6025827E5900E38770 /* StandardPopOverViewController.swift */,
+				69B0D49325828C3700380A32 /* DetailedPopOverViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -409,7 +410,6 @@
 			isa = PBXGroup;
 			children = (
 				69CC404423D600A400F25E5C /* Modal.swift */,
-				69D010B323D8E83700DC20C9 /* DetailedPopoverView.swift */,
 			);
 			path = Popover;
 			sourceTree = "<group>";
@@ -486,6 +486,7 @@
 			files = (
 				696B190723EDB92E00848383 /* UIViewController+pushToCategoryItemVC.swift in Sources */,
 				69A079F323D7412F00E2A8F7 /* SelectCellTypeViewController.swift in Sources */,
+				69B0D49425828C3700380A32 /* DetailedPopOverViewController.swift in Sources */,
 				69B919CD2581069A00760332 /* SelectIconViewModel.swift in Sources */,
 				6972A8A4257FCF2900F6537C /* Font.swift in Sources */,
 				6972A89D257FCEE900F6537C /* Color.swift in Sources */,
@@ -520,7 +521,6 @@
 				69D010B223D8AE7600DC20C9 /* EmptyCell.swift in Sources */,
 				6972A8C6257FEB5100F6537C /* Item+CoreDataClass.swift in Sources */,
 				69002AE023CF48B000B1C577 /* CustomTextField.swift in Sources */,
-				69D010B423D8E83700DC20C9 /* DetailedPopoverView.swift in Sources */,
 				69C5F6D023D739F7003348E1 /* SelectIconCell.swift in Sources */,
 				6972A8C7257FEB5100F6537C /* Item+CoreDataProperties.swift in Sources */,
 				6972A8C5257FEB5100F6537C /* Category+CoreDataProperties.swift in Sources */,

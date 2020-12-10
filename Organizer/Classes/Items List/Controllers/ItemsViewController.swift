@@ -181,7 +181,10 @@ class ItemsViewController: UIViewController, AddItemDelegate {
             present(modalViewController, animated: true, completion: nil)
             
         case .subtitlePlus:
-            DetailedPopoverView(category: title!).show(animated: true)
+            let modalViewController = DetailedPopOverViewController(category: viewModel.category)
+            modalViewController.addItemDelegate = self
+            modalViewController.modalPresentationStyle = .overCurrentContext
+            present(modalViewController, animated: true, completion: nil)
         }
     }
 }
