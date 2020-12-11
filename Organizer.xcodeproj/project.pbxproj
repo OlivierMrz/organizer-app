@@ -218,7 +218,7 @@
 		6972A88A257FCD2100F6537C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				6982239F2582172800C632AD /* Home Category */,
+				6982239F2582172800C632AD /* Root - Category */,
 				698223A02582173600C632AD /* Items List */,
 				698223A22582178500C632AD /* Item Detail */,
 				698223A12582176700C632AD /* Popover */,
@@ -281,13 +281,13 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
-		6982239F2582172800C632AD /* Home Category */ = {
+		6982239F2582172800C632AD /* Root - Category */ = {
 			isa = PBXGroup;
 			children = (
 				698223A4258217B100C632AD /* View Models */,
 				698223A3258217A600C632AD /* Controllers */,
 			);
-			path = "Home Category";
+			path = "Root - Category";
 			sourceTree = "<group>";
 		};
 		698223A02582173600C632AD /* Items List */ = {
