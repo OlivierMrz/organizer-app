@@ -19,9 +19,9 @@ class ItemDetailViewController: UIViewController {
         return tv
     }()
 
-    var viewModel: itemViewModel
+    var viewModel: ItemViewModel
     
-    init(itemViewModel: itemViewModel) {
+    init(itemViewModel: ItemViewModel) {
         self.viewModel = itemViewModel
         super.init(nibName: nil, bundle: nil)
     }

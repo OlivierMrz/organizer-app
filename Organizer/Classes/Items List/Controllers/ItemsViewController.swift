@@ -92,7 +92,7 @@ class ItemsViewController: UIViewController, AddItemDelegate {
     }
 
     // MARK: Delegate's
-    func addItemDidSave(vm: itemViewModel) {
+    func addItemDidSave(vm: ItemViewModel) {
         self.viewModel.addItemViewModel(vm)
         self.collectionView.reloadData()
     }

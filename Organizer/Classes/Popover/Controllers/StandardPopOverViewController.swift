@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddItemDelegate {
-    func addItemDidSave(vm: itemViewModel)
+    func addItemDidSave(vm: ItemViewModel)
 }
 
 class StandardPopOverViewController: UIViewController {
@@ -195,7 +195,7 @@ class StandardPopOverViewController: UIViewController {
         item.borrowed = false
         
         
-        let itemVM = itemViewModel(item: item)
+        let itemVM = ItemViewModel(item: item)
         
         guard let addItmDelegate = addItemDelegate else { return }
 

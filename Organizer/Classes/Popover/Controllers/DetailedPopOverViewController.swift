@@ -237,7 +237,7 @@ class DetailedPopOverViewController: UIViewController, UINavigationControllerDel
         item.subTitle = itemSubTextField.text
         item.extraSubTitle = itemExtraSubTextField.text
         
-        let itemVM = itemViewModel(item: item)
+        let itemVM = ItemViewModel(item: item)
         
         guard let addItmDelegate = addItemDelegate else { return }
 
