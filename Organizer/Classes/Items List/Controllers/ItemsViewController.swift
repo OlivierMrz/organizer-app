@@ -202,35 +202,20 @@ extension ItemsViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
             return cell
         }
-
-        switch viewModel.categoryCellType {
-        case .basic: // TitleCell
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.titleCell, for: indexPath) as? TitleCell else {
-                return UICollectionViewCell()
-            }
-            
-            let vm = viewModel.itemViewModels(at: indexPath.row)
-
-            cell.title.text = vm.name
-            cell.storagePlaceLabel.text = vm.storagePlace
-            cell.storageNumberLabel.text = vm.storageNumber
-            return cell
-            
-        case .subtitlePlus: // DetailedCell
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as? DetailedCell else {
-                return UICollectionViewCell()
-            }
-            
-            let vm = viewModel.itemViewModels(at: indexPath.row)
-
-            cell.itemLabel.text = vm.name
-            cell.itemSubLabel.text = vm.subTitle
-            cell.itemSub2Label.text = vm.extraSubTitle
-            cell.placeLabel.text = vm.storagePlace
-            cell.placeStorageLabel.text = vm.storageNumber
-
-            return cell
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.detailedCell, for: indexPath) as? DetailedCell else {
+            return UICollectionViewCell()
         }
+        
+        let vm = viewModel.itemViewModels(at: indexPath.row)
+
+        cell.itemLabel.text = vm.name
+        cell.itemSubLabel.text = vm.subTitle
+        cell.itemSub2Label.text = vm.extraSubTitle
+        cell.placeLabel.text = vm.storagePlace
+        cell.placeStorageLabel.text = vm.storageNumber
+
+        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

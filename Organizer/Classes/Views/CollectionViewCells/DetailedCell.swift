@@ -12,8 +12,6 @@ class DetailedCell: UICollectionViewCell {
     let itemLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.darkGray
-        l.text = "item title test"
-//        l.backgroundColor = .black
         l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.medium)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -22,8 +20,6 @@ class DetailedCell: UICollectionViewCell {
     let itemSubLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.midGray
-//        l.backgroundColor = .black
-        l.text = "Sub title test"
         l.font = UIFont.systemFont(ofSize: FontSize.small, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -32,8 +28,6 @@ class DetailedCell: UICollectionViewCell {
     let itemSub2Label: UILabel = {
         let l = UILabel()
         l.textColor = Color.midGray
-//        l.backgroundColor = .black
-        l.text = "Sub title 2 test"
         l.font = UIFont.systemFont(ofSize: FontSize.xxSmall, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -43,7 +37,7 @@ class DetailedCell: UICollectionViewCell {
         let s = UIStackView()
         s.alignment = .fill
         s.axis = .vertical
-        s.distribution = .equalCentering
+        s.distribution = .equalSpacing
         s.spacing = 0
         s.translatesAutoresizingMaskIntoConstraints = false
         return s
@@ -53,7 +47,6 @@ class DetailedCell: UICollectionViewCell {
         let l = UILabel()
         l.textColor = Color.midGray
         l.textAlignment = .center
-//        l.text = "Garage"
         l.font = UIFont.systemFont(ofSize: FontSize.xSmall, weight: FontWeight.medium)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -65,7 +58,6 @@ class DetailedCell: UICollectionViewCell {
         l.backgroundColor = Color.darkGray
         l.layer.cornerRadius = CornerRadius.xSmall
         l.layer.masksToBounds = true
-        l.text = "A12"
         l.textAlignment = .center
         l.font = UIFont.systemFont(ofSize: FontSize.xSmall, weight: FontWeight.medium)
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -120,7 +112,6 @@ class DetailedCell: UICollectionViewCell {
             itemStackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
             itemStackView.trailingAnchor.constraint(equalTo: placeStackView.leadingAnchor, constant: -10),
 
-//            placeStackView.leadingAnchor.constraint(equalTo: itemStackView.tra, constant: 30),
             placeStackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2),
             placeStackView.widthAnchor.constraint(equalToConstant: 74),
             placeStackView.trailingAnchor.constraint(equalTo: arrowIcon.leadingAnchor, constant: -14),
@@ -134,5 +125,14 @@ class DetailedCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension UIStackView {
+    func addBackground(color: UIColor) {
+        let subView = UIView(frame: bounds)
+        subView.backgroundColor = color
+        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        insertSubview(subView, at: 0)
     }
 }
