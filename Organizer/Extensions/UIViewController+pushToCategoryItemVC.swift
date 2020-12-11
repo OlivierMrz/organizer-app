@@ -13,7 +13,6 @@ extension UIViewController {
     func pushToCategoryItemVC(category: Category, title: String, cellType: String) {
         let controller = ItemsViewController(category: category)
         controller.title = title
-        controller.currentCategoryCellType = cellType
         navigationController?.pushViewController(controller, animated: true)
     }
 }

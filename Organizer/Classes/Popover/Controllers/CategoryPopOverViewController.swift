@@ -66,7 +66,7 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
     private let selectIcon = PopoverLabel(title: "Choose category icon")
     private let selectCellTypeButton = UIImageView()
 
-    private lazy var addButton: UIButton = { return CustomButton(title: "Add Category", backgroundColor: Color.primary!, borderColor: Color.primary!) }()
+    private lazy var addButton: UIButton = { return CustomButton(title: "Add Category", backgroundColor: Color.primary, borderColor: Color.primary) }()
 
     private var selectedCellType: cellType?
     private var selectedCellIcon: iconType?
@@ -114,21 +114,21 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
     }
     
     @objc func tapGuesture(sender: UITouch) {
-        let x = sender.view
+        _ = sender.view
         self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: DidSelectCell ICON
     internal func didSelectCell(icon: iconType) {
         selectedCellIcon = icon
-        selectIconButton.layer.borderColor = Color.lightGray?.cgColor
+        selectIconButton.layer.borderColor = Color.lightGray.cgColor
         selectIconButton.image = icon.image
     }
 
     // MARK: DidSelectCell TYPE
     internal func didSelectCell(type: cellType) {
         selectedCellType = type
-        selectCellTypeButton.layer.borderColor = Color.lightGray?.cgColor
+        selectCellTypeButton.layer.borderColor = Color.lightGray.cgColor
         selectCellTypeButton.image = type.image
     }
     
@@ -182,7 +182,7 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
         selectIconButton.layer.cornerRadius = CornerRadius.xSmall
         selectIconButton.layer.masksToBounds = true
         selectIconButton.layer.borderWidth = BorderWidth.small
-        selectIconButton.layer.borderColor = Color.lightGray?.cgColor
+        selectIconButton.layer.borderColor = Color.lightGray.cgColor
         selectIconButton.backgroundColor = Color.lightGray
         selectIconButton.image = UIImage(named: "placeholder")
         selectIconButton.contentMode = .scaleAspectFit
@@ -197,7 +197,7 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
         selectCellTypeButton.layer.cornerRadius = CornerRadius.xSmall
         selectCellTypeButton.layer.masksToBounds = true
         selectCellTypeButton.layer.borderWidth = BorderWidth.small
-        selectCellTypeButton.layer.borderColor = Color.lightGray?.cgColor
+        selectCellTypeButton.layer.borderColor = Color.lightGray.cgColor
         selectCellTypeButton.backgroundColor = Color.lightGray
         selectCellTypeButton.image = UIImage(named: "placeholder")
         selectCellTypeButton.contentMode = .scaleAspectFit

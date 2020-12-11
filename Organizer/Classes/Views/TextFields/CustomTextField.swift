@@ -21,7 +21,7 @@ class CustomTextField: UITextField {
         leftViewMode = .always
         layer.cornerRadius = CornerRadius.xSmall
         layer.masksToBounds = true
-        layer.borderColor = Color.lightGray?.cgColor
+        layer.borderColor = Color.lightGray.cgColor
         layer.borderWidth = BorderWidth.small
         clearButtonMode = .whileEditing
         translatesAutoresizingMaskIntoConstraints = false

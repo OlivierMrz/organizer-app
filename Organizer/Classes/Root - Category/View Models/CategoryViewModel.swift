@@ -32,4 +32,12 @@ extension CategoryViewModel {
         }
     }
     
+    var itemCount: String {
+        if let items = self.category.items?.allObjects as? [Item] {
+            return "\(items.count) items"
+        } else {
+            return "0 items"
+        }
+    }
+    
 }

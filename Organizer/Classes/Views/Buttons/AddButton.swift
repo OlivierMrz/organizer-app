@@ -17,9 +17,9 @@ class AddButton: UIButton {
         if shadowLayer == nil {
             shadowLayer = CAShapeLayer()
             shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: CornerRadius.medium).cgPath
-            shadowLayer.fillColor = Color.primary?.cgColor
+            shadowLayer.fillColor = Color.primary.cgColor
 
-            shadowLayer.shadowColor = Color.primary?.cgColor
+            shadowLayer.shadowColor = Color.primary.cgColor
             shadowLayer.shadowPath = shadowLayer.path
             shadowLayer.shadowOffset = CGSize(width: 0.0, height: 1.0)
             shadowLayer.shadowOpacity = 0.7

@@ -6,14 +6,42 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-class HomeListViewModel {
-    
+import UIKit
+
+class HomeListViewModel: MainViewModel {
     var categoryViewModels: [CategoryViewModel]
     
-    init() {
-        self.categoryViewModels = [CategoryViewModel]()
-        
+    override init() {
+        categoryViewModels = [CategoryViewModel]()
+        super.init()
         fetchCategories()
+    }
+}
+
+extension HomeListViewModel {
+    
+    var categoriesCount: Int {
+        return categoryViewModels.isEmpty ? 1 : categoryViewModels.count
+    }
+    
+    var title: String {
+        return "Categories"
+    }
+    
+    var viewBackgroundColor: UIColor {
+        return Color.primary
+    }
+    
+    func categroyViewModels(at index: Int) -> CategoryViewModel {
+        return self.categoryViewModels[index]
+    }
+    
+    var canScroll: Bool {
+        return true
+    }
+    
+    var noCategories: String {
+        return "No categories found"
     }
     
     func fetchCategories() {
@@ -30,12 +58,4 @@ class HomeListViewModel {
     func addCategoryViewModel(_ vm: CategoryViewModel) {
         self.categoryViewModels.append(vm)
     }
-}
-
-extension HomeListViewModel {
-    
-    func categroyViewModels(at index: Int) -> CategoryViewModel {
-        return self.categoryViewModels[index]
-    }
-    
 }

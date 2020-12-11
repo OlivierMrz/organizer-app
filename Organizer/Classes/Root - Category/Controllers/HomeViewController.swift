@@ -29,25 +29,14 @@ class HomeViewController: UIViewController, AddCategoryDelegate {
 
     private let searchBar = UISearchBar()
     private lazy var addCategoryButton: UIButton = { return AddButton() }()
-
-    private let refreshControl: UIRefreshControl = {
-        let r = UIRefreshControl()
-        r.backgroundColor = .white
-        r.tintColor = Color.primary
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: FontSize.xSmall),
-            .foregroundColor: Color.primary!,
-        ]
-        r.attributedTitle = NSAttributedString(string: "Fetching data", attributes: attributes)
-        return r
-    }()
+    private let refreshControl: UIRefreshControl = { return CustomRefreshControl(frame: .zero) }()
     
     // MARK: - Lifecycle 🧬
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Categories"
-        view.backgroundColor = Color.primary
+        title = viewModel.title
+        view.backgroundColor = viewModel.viewBackgroundColor
         
         addSearchBar()
         addCollectionView()
@@ -93,16 +82,17 @@ class HomeViewController: UIViewController, AddCategoryDelegate {
 
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.isScrollEnabled = true
+        collectionView.isScrollEnabled = viewModel.canScroll
+
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
         collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: ReuseIdentifier.emptyCell)
 
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: Margins.medium),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Margins.zero),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Margins.zero),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.zero),
         ])
     }
 
@@ -115,8 +105,8 @@ class HomeViewController: UIViewController, AddCategoryDelegate {
         view.addSubview(addCategoryButton)
         addCategoryButton.addTarget(self, action: #selector(newCategoryButtonTapped), for: .touchUpInside)
         NSLayoutConstraint.activate([
-            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
+            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.addButton),
+            addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Margins.addButton),
         ])
     }
 
@@ -150,7 +140,7 @@ class HomeViewController: UIViewController, AddCategoryDelegate {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.categoryViewModels.isEmpty ? 1 : viewModel.categoryViewModels.count
+        return viewModel.categoriesCount
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -160,7 +150,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return UICollectionViewCell()
             }
 
-            cell.title.text = "No categories found"
+            cell.title.text = viewModel.noCategories
             return cell
         }
 
@@ -172,21 +162,21 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
         cell.categoryLabel.text = vm.name
         cell.icon.image = UIImage(named: vm.icon)
-        cell.catItemCountLabel.text = "\(vm.items.count) items"
+        cell.catItemCountLabel.text = vm.itemCount
 
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width - Margins.collectionCellMargin, height: 80)
+        return viewModel.cellSize(collectionView)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+        return viewModel.minLineSpacingCell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return viewModel.minInteritemSpacingCell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -202,7 +192,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 68)
+        return viewModel.headerSize(collectionView)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

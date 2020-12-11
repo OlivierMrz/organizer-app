@@ -58,7 +58,7 @@ class StandardPopOverViewController: UIViewController {
 
     let addButton: CustomButton = {
         let b = CustomButton()
-        b.setup(title: "Add item", backgroundColor: Color.primary!, borderColor: Color.primary!)
+        b.setup(title: "Add item", backgroundColor: Color.primary, borderColor: Color.primary)
         return b
     }()
     
@@ -162,7 +162,7 @@ class StandardPopOverViewController: UIViewController {
     
     @IBAction private func addButtonTapped() {
         [itemNameTextField, itemStoragePlaceTextField, itemStorageNumberTextField].forEach {
-            $0.layer.borderColor = Color.lightGray?.cgColor
+            $0.layer.borderColor = Color.lightGray.cgColor
         }
 
         var errors: [UIView] = []

@@ -33,62 +33,19 @@ class ItemsViewController: UIViewController, AddItemDelegate {
         return cv
     }()
 
+    private lazy var searchBar = UISearchBar()
     private lazy var addCategoryButton: UIButton = { return AddButton() }()
-    private let searchBar = UISearchBar()
-
-    private var categoryItems: [Item] = []
-
-    var currentCategoryCellType: String = ""
-
-    private let refreshControl: UIRefreshControl = {
-        let r = UIRefreshControl()
-        r.tintColor = Color.primary
-        r.backgroundColor = .white
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: FontSize.xSmall),
-            .foregroundColor: Color.primary!,
-        ]
-        r.attributedTitle = NSAttributedString(string: "Fetching data", attributes: attributes)
-        return r
-    }()
+    private lazy var refreshControl: UIRefreshControl = { return CustomRefreshControl(frame: .zero) }()
     
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        fetchCategoryItemsFromDb()
-
         view.backgroundColor = Color.primary
 
         addSearchBar()
         addCollectionView()
         addNavigation()
         addNewItemButton()
-    }
-
-    // MARK: Fetch Categories form Database
-    private func fetchCategoryItemsFromDb() {
-//        let userEmail = (Auth.auth().currentUser?.uid)!
-//        let currentCategory = title!
-//        ref = Database.database().reference(withPath: "users/\(userEmail)/categories/\(currentCategory)/items")
-//
-//        ref.observe(.value, with: { snapshot in
-//            var tempCategoryItems: [CategoryItem] = []
-//
-//            for child in snapshot.children {
-//                if let snapshot = child as? DataSnapshot,
-//                    let categoryItem = CategoryItem(snapshot: snapshot) {
-//                    tempCategoryItems.append(categoryItem)
-//                }
-//            }
-//
-//            self.categoryItems = tempCategoryItems
-//            self.collectionView.reloadData()
-//        })
-//
-//        DispatchQueue.main.async {
-//            self.refreshControl.endRefreshing()
-//        }
     }
 
     // MARK: Delegate's
@@ -109,7 +66,6 @@ class ItemsViewController: UIViewController, AddItemDelegate {
 
     @IBAction private func newItemButtonTapped() {
         checkCellType()
-//        DetailedPopoverView(category: title!).show(animated: true)
     }
 
     // MARK: AddCollectionView
@@ -139,8 +95,6 @@ class ItemsViewController: UIViewController, AddItemDelegate {
     }
 
     @objc private func refreshData(_ sender: Any) {
-        fetchCategoryItemsFromDb()
-
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
@@ -192,7 +146,7 @@ class ItemsViewController: UIViewController, AddItemDelegate {
 // MARK: CollectionView extensions
 extension ItemsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.itemViewModels.isEmpty ? 1 : viewModel.itemViewModels.count
+        return viewModel.itemCount
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -219,15 +173,15 @@ extension ItemsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width - Margins.collectionCellMargin, height: 80)
+        return viewModel.cellSize(collectionView)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+        return viewModel.minLineSpacingCell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return viewModel.minInteritemSpacingCell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -243,7 +197,7 @@ extension ItemsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 68)
+        return viewModel.headerSize(collectionView)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
-class ItemListViewModel {
+class ItemListViewModel: MainViewModel {
     
     var category: Category
     var itemViewModels: [ItemViewModel]
@@ -14,7 +14,7 @@ class ItemListViewModel {
     init(category: Category) {
         self.itemViewModels = [ItemViewModel]()
         self.category = category
-        
+        super.init()
         fetchItems(withCategory: category)
     }
     
@@ -39,6 +39,10 @@ extension ItemListViewModel {
     
     func itemViewModels(at index: Int) -> ItemViewModel {
         return self.itemViewModels[index]
+    }
+    
+    var itemCount: Int {
+        return itemViewModels.isEmpty ? 1 : itemViewModels.count
     }
     
     var categoryName: String {

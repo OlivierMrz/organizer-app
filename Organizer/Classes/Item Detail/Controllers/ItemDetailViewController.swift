@@ -71,11 +71,11 @@ extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailButtonCell, for: indexPath) as! DetailButtonCell
-            cell.lentOutButton.setup(title: "Lent out", backgroundColor: Color.primary!, borderColor: Color.primary!)
+            cell.lentOutButton.setup(title: "Lent out", backgroundColor: Color.primary, borderColor: Color.primary)
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailButtonCell, for: indexPath) as! DetailButtonCell
-            cell.lentOutButton.setup(icon: true, iconImage: UIImage(named: "trash")!,title: "Delete item", backgroundColor: Color.red!, borderColor: Color.red!)
+            cell.lentOutButton.setup(icon: true, iconImage: UIImage(named: "trash")!,title: "Delete item", backgroundColor: Color.red, borderColor: Color.red)
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailImageCell, for: indexPath) as! DetailImageCell
