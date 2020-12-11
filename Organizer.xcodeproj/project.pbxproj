@@ -16,6 +16,7 @@
 		6943187023D5D121002A673A /* DetailedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943186F23D5D121002A673A /* DetailedCell.swift */; };
 		69461C412583C2AF00F68670 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69461C402583C2AF00F68670 /* MainViewModel.swift */; };
 		69461C4D2583E4C700F68670 /* CustomRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69461C4C2583E4C700F68670 /* CustomRefreshControl.swift */; };
+		69461C6C2584223600F68670 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69461C6B2584223600F68670 /* AddItemViewController.swift */; };
 		694E2A0725838BD6005D96B4 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694E2A0625838BD6005D96B4 /* CategoryViewModel.swift */; };
 		694E2A0B25838CD3005D96B4 /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694E2A0A25838CD3005D96B4 /* ItemViewModel.swift */; };
 		6953795223D6346D00BA5F2F /* PopoverLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6953795123D6346D00BA5F2F /* PopoverLabel.swift */; };
@@ -69,6 +70,7 @@
 		6943186F23D5D121002A673A /* DetailedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedCell.swift; sourceTree = "<group>"; };
 		69461C402583C2AF00F68670 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainViewModel.swift; path = "Organizer/Classes/Root - Category/MainViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		69461C4C2583E4C700F68670 /* CustomRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshControl.swift; sourceTree = "<group>"; };
+		69461C6B2584223600F68670 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		694E2A0625838BD6005D96B4 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		694E2A0A25838CD3005D96B4 /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
 		6953795123D6346D00BA5F2F /* PopoverLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverLabel.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				69B919C52580D80500760332 /* CategoryPopOverViewController.swift */,
 				69D4CF6025827E5900E38770 /* StandardPopOverViewController.swift */,
 				69B0D49325828C3700380A32 /* DetailedPopOverViewController.swift */,
+				69461C6B2584223600F68670 /* AddItemViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 				6972A8A1257FCF1300F6537C /* Margins.swift in Sources */,
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
 				699B52AC23CE14B300EAFE33 /* DeviceWidth.swift in Sources */,
+				69461C6C2584223600F68670 /* AddItemViewController.swift in Sources */,
 				6958BD682581240F004627E6 /* SelectCellListViewModel.swift in Sources */,
 				690BDB6423DBA22800E1E63D /* ItemDetailViewController.swift in Sources */,
 				6912170F23DF010100E4D643 /* ImageCell.swift in Sources */,

@@ -93,18 +93,18 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
     }
     
     @objc func keyboardAdjust(_ notification: NSNotification) {
-        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-
-        let keyboardScreenEndFrame = keyboardValue.cgRectValue
-        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-
+        let userInfo: NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardInfo = userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue
+        let keyboardSize = keyboardInfo.cgRectValue.size
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height + view.safeAreaInsets.bottom , right: 0)
+        
         if notification.name == UIResponder.keyboardWillHideNotification {
             scrollView.contentInset = .zero
+            scrollView.scrollIndicatorInsets = scrollView.contentInset
         } else {
-            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
+            scrollView.contentInset = contentInsets
+            scrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height - view.safeAreaInsets.bottom , right: 0)
         }
-
-        scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
     
     private func addGuestures() {

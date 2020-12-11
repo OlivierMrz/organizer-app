@@ -127,19 +127,10 @@ class ItemsViewController: UIViewController, AddItemDelegate {
 
     // MARK: Check Cell Type and show
     private func checkCellType() {
-        switch viewModel.categoryCellType {
-        case .basic:
-            let modalViewController = StandardPopOverViewController(category: viewModel.category)
-            modalViewController.addItemDelegate = self
-            modalViewController.modalPresentationStyle = .overCurrentContext
-            present(modalViewController, animated: true, completion: nil)
-            
-        case .subtitlePlus:
-            let modalViewController = DetailedPopOverViewController(category: viewModel.category)
-            modalViewController.addItemDelegate = self
-            modalViewController.modalPresentationStyle = .overCurrentContext
-            present(modalViewController, animated: true, completion: nil)
-        }
+        let modalViewController = AddItemViewController(cellType: viewModel.categoryCellType, category: viewModel.category)
+        modalViewController.addItemDelegate = self
+        modalViewController.modalPresentationStyle = .overCurrentContext
+        present(modalViewController, animated: true, completion: nil)
     }
 }
 

@@ -1,20 +1,34 @@
 //
-//  StandardPopOverViewController.swift
+//  AddItemViewController.swift
 //  Organizer
 //
-//  Created by Olivier Miserez on 10/12/2020.
+//  Created by Olivier Miserez on 11/12/2020.
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
 import UIKit
 
-//protocol AddItemDelegate {
-//    func addItemDidSave(vm: ItemViewModel)
-//}
+protocol AddItemDelegate {
+    func addItemDidSave(vm: ItemViewModel)
+}
 
-class StandardPopOverViewController: UIViewController {
+class AddItemViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     var addItemDelegate: AddItemDelegate?
+    
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let backgroundView: UIView = {
+        let v = UIView()
+        v.clipsToBounds = true
+        v.backgroundColor = .clear
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
     
     var dialogView: UIView = {
         let v = UIView()
@@ -49,22 +63,27 @@ class StandardPopOverViewController: UIViewController {
 
     private let itemNameLabel = PopoverLabel(title: "Item name")
     private let itemNameTextField = CustomTextField()
+    
+    private let itemSubTextField = CustomTextField()
+    
+    private let itemExtraSubTextField = CustomTextField()
 
     private let itemStoragePlaceLabel = PopoverLabel(title: "Where will you store it?")
     private let itemStoragePlaceTextField = CustomTextField()
 
     private let itemStorageNumberLabel = PopoverLabel(title: "Storage number")
     private let itemStorageNumberTextField = CustomTextField()
+    
+    private var itemImage: UIImage?
 
-    let addButton: CustomButton = {
-        let b = CustomButton()
-        b.setup(title: "Add item", backgroundColor: Color.primary, borderColor: Color.primary)
-        return b
-    }()
+    private lazy var addButton: UIButton = { return CustomButton(title: "Add item", backgroundColor: Color.primary, borderColor: Color.primary) }()
+    private lazy var addImageButton: UIButton = { return CustomButton(title: "Take picture", backgroundColor: Color.primaryBackground, borderColor: Color.primary) }()
     
     private var currentCategory: Category
+    private var cellType: cellType
     
-    init(category: Category) {
+    init(cellType: cellType, category: Category) {
+        self.cellType = cellType
         self.currentCategory = category
         super.init(nibName: nil, bundle: nil)
     }
@@ -72,27 +91,65 @@ class StandardPopOverViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
+    private let notification = NotificationCenter.default
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-//        view.isOpaque = true
-        
         addView()
         
+        
+        notification.addObserver(self,
+                             selector: #selector(keyboardAdjust),
+                             name: UIWindow.keyboardWillShowNotification,
+                             object: nil)
+        notification.addObserver(self,
+                             selector: #selector(keyboardAdjust),
+                             name: UIWindow.keyboardWillHideNotification,
+                             object: nil)
+        
+        addGuestures()
+    }
+    
+    private func addGuestures() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapGuesture(sender:)))
+        tap.cancelsTouchesInView = false
+        backgroundView.addGestureRecognizer(tap)
+    }
+    
+    @objc func tapGuesture(sender: UITouch) {
+        _ = sender.view
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func addView() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(backgroundView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            backgroundView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            backgroundView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            backgroundView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            backgroundView.heightAnchor.constraint(equalToConstant: view.frame.height)
+        ])
+        
         titleLabel.text = "Add new item"
         subTitleLabel.text = "You can give me a number or place where you will store this item. (not required)"
 
         let dialogViewWidth = view.frame.width - 64
-        view.addSubview(dialogView)
+        backgroundView.addSubview(dialogView)
         NSLayoutConstraint.activate([
             dialogView.widthAnchor.constraint(equalToConstant: dialogViewWidth),
-            dialogView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            dialogView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+            dialogView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor, constant: 0),
+            dialogView.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor, constant: 0),
         ])
 
         dialogView.addSubview(titleLabel)
@@ -109,11 +166,15 @@ class StandardPopOverViewController: UIViewController {
         ])
 
         itemNameTextField.setup(placeHolder: "Tintin in the Congo")
+        itemSubTextField.setup(placeHolder: "Hergé")
+        itemExtraSubTextField.setup(placeHolder: "ISBN: 978-7-50-079468-4")
         itemStoragePlaceTextField.setup(placeHolder: "Garage")
         itemStorageNumberTextField.setup(placeHolder: "A2")
 
         dialogView.addSubview(itemNameLabel)
         dialogView.addSubview(itemNameTextField)
+        dialogView.addSubview(itemSubTextField)
+        dialogView.addSubview(itemExtraSubTextField)
         dialogView.addSubview(itemStoragePlaceLabel)
         dialogView.addSubview(itemStoragePlaceTextField)
         dialogView.addSubview(itemStorageNumberLabel)
@@ -121,6 +182,14 @@ class StandardPopOverViewController: UIViewController {
 
         dialogView.addSubview(addButton)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        
+        dialogView.addSubview(addImageButton)
+        addImageButton.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
+        
+        var variableHeight: CGFloat = 46
+        if cellType == .basic {
+            variableHeight = 0
+        }
 
         // MARK: NSLayoutConstraint
         NSLayoutConstraint.activate([
@@ -132,8 +201,18 @@ class StandardPopOverViewController: UIViewController {
             itemNameTextField.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             itemNameTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             itemNameTextField.heightAnchor.constraint(equalToConstant: 46),
+            
+            itemSubTextField.topAnchor.constraint(equalTo: itemNameTextField.bottomAnchor, constant: Margins.xSmall),
+            itemSubTextField.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            itemSubTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+            itemSubTextField.heightAnchor.constraint(equalToConstant: variableHeight),
 
-            itemStoragePlaceLabel.topAnchor.constraint(equalTo: itemNameTextField.bottomAnchor, constant: Margins.medium),
+            itemExtraSubTextField.topAnchor.constraint(equalTo: itemSubTextField.bottomAnchor, constant: Margins.xSmall),
+            itemExtraSubTextField.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            itemExtraSubTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+            itemExtraSubTextField.heightAnchor.constraint(equalToConstant: variableHeight),
+
+            itemStoragePlaceLabel.topAnchor.constraint(equalTo: itemExtraSubTextField.bottomAnchor, constant: Margins.medium),
             itemStoragePlaceLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             itemStoragePlaceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
 
@@ -150,14 +229,44 @@ class StandardPopOverViewController: UIViewController {
             itemStorageNumberTextField.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             itemStorageNumberTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             itemStorageNumberTextField.heightAnchor.constraint(equalToConstant: 46),
+            
+            addImageButton.topAnchor.constraint(equalTo: itemStorageNumberTextField.bottomAnchor, constant: Margins.medium),
+            addImageButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            addImageButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+            addImageButton.heightAnchor.constraint(equalToConstant: 46),
 
-            addButton.topAnchor.constraint(equalTo: itemStorageNumberTextField.bottomAnchor, constant: Margins.medium),
+            addButton.topAnchor.constraint(equalTo: addImageButton.bottomAnchor, constant: Margins.medium),
             addButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             addButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
             addButton.heightAnchor.constraint(equalToConstant: 46),
 
             addButton.bottomAnchor.constraint(equalTo: dialogView.bottomAnchor, constant: -Margins.medium),
         ])
+    }
+    
+    @objc func keyboardAdjust(_ notification: NSNotification) {
+        let userInfo: NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardInfo = userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue
+        let keyboardSize = keyboardInfo.cgRectValue.size
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height + view.safeAreaInsets.bottom , right: 0)
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            scrollView.contentInset = .zero
+            scrollView.scrollIndicatorInsets = scrollView.contentInset
+        } else {
+            scrollView.contentInset = contentInsets
+            scrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height - view.safeAreaInsets.bottom , right: 0)
+        }
+    }
+    
+    @IBAction private func addImageButtonTapped() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.allowsEditing = false
+        vc.delegate = self
+        vc.modalPresentationStyle = .overCurrentContext
+
+        present(vc, animated: true, completion: nil)
     }
     
     @IBAction private func addButtonTapped() {
@@ -193,7 +302,8 @@ class StandardPopOverViewController: UIViewController {
         item.storageNumber = storageNumber
         item.category = currentCategory
         item.borrowed = false
-        
+        item.subTitle = itemSubTextField.text
+        item.extraSubTitle = itemExtraSubTextField.text
         
         let itemVM = ItemViewModel(item: item)
         
@@ -206,7 +316,23 @@ class StandardPopOverViewController: UIViewController {
         } catch {
             fatalError(error.localizedDescription)
         }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        picker.dismiss(animated: true)
 
-        dismiss(animated: true)
+        guard let image = info[.originalImage] as? UIImage else {
+            print("No image found")
+            return
+        }
+
+//        print(image.size)
+        itemImage = image.resizeImage(200, opaque: false)
+//        print(itemImage!.size)
+    }
+    
+    deinit {
+        notification.removeObserver(self, name: UIWindow.keyboardWillShowNotification, object: nil)
+        notification.removeObserver(self, name: UIWindow.keyboardWillHideNotification, object: nil)
     }
 }
