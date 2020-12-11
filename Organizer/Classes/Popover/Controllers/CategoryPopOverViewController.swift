@@ -16,6 +16,20 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
     
     var addCategoryDelegate: AddCategoryDelegate?
     
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let backgroundView: UIView = {
+        let v = UIView()
+        v.clipsToBounds = true
+        v.backgroundColor = .clear
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    
     var dialogView: UIView = {
         let v = UIView()
         v.clipsToBounds = true
@@ -64,6 +78,44 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
         
         addView()
         
+        let notification = NotificationCenter.default
+        notification.addObserver(self,
+                             selector: #selector(keyboardAdjust),
+                             name: UIWindow.keyboardWillShowNotification,
+                             object: nil)
+        notification.addObserver(self,
+                             selector: #selector(keyboardAdjust),
+                             name: UIWindow.keyboardWillHideNotification,
+                             object: nil)
+
+
+        addGuestures()
+    }
+    
+    @objc func keyboardAdjust(_ notification: NSNotification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            scrollView.contentInset = .zero
+        } else {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
+        }
+
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+    }
+    
+    private func addGuestures() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapGuesture(sender:)))
+        tap.cancelsTouchesInView = false
+        backgroundView.addGestureRecognizer(tap)
+    }
+    
+    @objc func tapGuesture(sender: UITouch) {
+        let x = sender.view
+        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: DidSelectCell ICON
@@ -81,15 +133,33 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
     }
     
     private func addView() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(backgroundView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            backgroundView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            backgroundView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            backgroundView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            backgroundView.heightAnchor.constraint(equalToConstant: view.frame.height)
+        ])
+        
         titleLabel.text = "Add new category"
         subTitleLabel.text = "You can give me a number or place where you will store this item. (not required)"
 
         let dialogViewWidth = view.frame.width - 64
-        view.addSubview(dialogView)
+        
+        backgroundView.addSubview(dialogView)
         NSLayoutConstraint.activate([
             dialogView.widthAnchor.constraint(equalToConstant: dialogViewWidth),
-            dialogView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            dialogView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+            dialogView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor, constant: 0),
+            dialogView.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor, constant: 0),
         ])
 
         dialogView.addSubview(titleLabel)
