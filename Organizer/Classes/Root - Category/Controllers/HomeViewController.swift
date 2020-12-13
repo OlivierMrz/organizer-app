@@ -8,122 +8,45 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, AddCategoryDelegate {
-    
+class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegate {
+        
     // MARK: - Properties
+    private var mainView: HomeView?
     var viewModel = HomeListViewModel()
     
-    let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.sectionHeadersPinToVisibleBounds = true
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = Color.primaryBackground
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.layer.masksToBounds = true
-        cv.layer.cornerRadius = CornerRadius.xxLarge
-        cv.layer.maskedCorners = [.layerMinXMinYCorner]
-        cv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        return cv
-    }()
-
-    private let searchBar = UISearchBar()
-    private lazy var addCategoryButton: UIButton = { return AddButton() }()
-    private let refreshControl: UIRefreshControl = { return CustomRefreshControl(frame: .zero) }()
-    
     // MARK: - Lifecycle 🧬
+    
+    override func loadView() {
+        super.loadView()
+        mainView = HomeView(viewModel: viewModel)
+        view = mainView
+        mainView?.delegate = self
+        mainView?.collectionView.delegate = self
+        mainView?.collectionView.dataSource = self
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = viewModel.title
-        view.backgroundColor = viewModel.viewBackgroundColor
-        
-        addSearchBar()
-        addCollectionView()
         addNavigation()
-        addNewCategoryButton()
-
-        collectionView.reloadData()
+//        collectionView.reloadData()
     }
     
     func addCategoryDidSave(vm: CategoryViewModel) {
         self.viewModel.addCategoryViewModel(vm)
-        self.collectionView.reloadData()
+        self.mainView?.collectionView.reloadData()
     }
     
-    // MARK: - Button actions
-    
-    @objc private func refreshData() {
-        viewModel.fetchCategories()
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-        refreshControl.endRefreshing()
-    }
-    
-    @objc func newCategoryButtonTapped() {
+    // MARK: - View Button actions
+    func newCategoryButtonTapped() {
         let modalViewController = CategoryPopOverViewController()
         modalViewController.addCategoryDelegate = self
         modalViewController.modalPresentationStyle = .overCurrentContext
         present(modalViewController, animated: true, completion: nil)
     }
     
-    @objc func trashButtonTapped() {
-        CoreDataManager.shared.deleteAllDBData()
-        self.viewModel.fetchCategories()
-        self.collectionView.reloadData()
-    }
 
     // MARK: - UI
-    
-    private func addCollectionView() {
-        view.addSubview(collectionView)
-        addPullToRefresh()
-
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.isScrollEnabled = viewModel.canScroll
-
-        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: ReuseIdentifier.categoryCell)
-        collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
-        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: ReuseIdentifier.emptyCell)
-
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: Margins.medium),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Margins.zero),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Margins.zero),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Margins.zero),
-        ])
-    }
-
-    private func addPullToRefresh() {
-        collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-    }
-
-    private func addNewCategoryButton() {
-        view.addSubview(addCategoryButton)
-        addCategoryButton.addTarget(self, action: #selector(newCategoryButtonTapped), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Margins.addButton),
-            addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Margins.addButton),
-        ])
-    }
-
-    private func addSearchBar() {
-        searchBar.placeholder = "Search"
-        searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
-        searchBar.backgroundColor = Color.primaryBackground
-        searchBar.barStyle = .default
-        searchBar.isTranslucent = false
-        searchBar.barTintColor = Color.primary
-        searchBar.backgroundImage = UIImage()
-        view.addSubview(searchBar)
-
-        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.backgroundColor = Color.primaryBackground
-    }
-
     private func addNavigation() {
         let leftButton = UIBarButtonItem(image: UIImage.init(systemName: "trash"), style: .plain, target: self, action: #selector(trashButtonTapped))
         navigationItem.leftBarButtonItem = leftButton
@@ -133,6 +56,12 @@ class HomeViewController: UIViewController, AddCategoryDelegate {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = Color.primaryBackground
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+    }
+    
+    @objc func trashButtonTapped() {
+        CoreDataManager.shared.deleteAllDBData()
+        self.viewModel.fetchCategories()
+        self.mainView?.collectionView.reloadData()
     }
 }
 

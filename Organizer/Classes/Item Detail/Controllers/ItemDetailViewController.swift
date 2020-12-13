@@ -10,16 +10,21 @@ import UIKit
 import CoreData
 
 class ItemDetailViewController: UIViewController {
-    private let tableView: UITableView = {
-        let tv = UITableView()
-        tv.backgroundColor = Color.primaryBackground
-        tv.separatorStyle = .none
-        tv.allowsSelection = false
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        return tv
-    }()
-
+    
+    private let mainView = ItemDetailView()
     var viewModel: ItemViewModel
+    
+    override func loadView() {
+        super.loadView()
+        view = mainView
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        mainView.tableView.delegate = self
+        mainView.tableView.dataSource = self
+    }
     
     init(itemViewModel: ItemViewModel) {
         self.viewModel = itemViewModel
@@ -28,25 +33,6 @@ class ItemDetailViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-
-        tableView.register(DetailImageCell.self, forCellReuseIdentifier: ReuseIdentifier.detailImageCell)
-        tableView.register(DetailInfoCell.self, forCellReuseIdentifier: ReuseIdentifier.detailInfoCell)
-        tableView.register(DetailButtonCell.self, forCellReuseIdentifier: ReuseIdentifier.detailButtonCell)
-
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-        ])
     }
 }
 

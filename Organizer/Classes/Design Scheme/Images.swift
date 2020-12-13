@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-enum iconType: CaseIterable {
+enum iconType: String, CaseIterable {
     case box, shelf, storage, borrowed, lent
     
     var name: String {

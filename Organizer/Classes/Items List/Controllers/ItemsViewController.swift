@@ -8,111 +8,38 @@
 
 import UIKit
 
-class ItemsViewController: UIViewController, AddItemDelegate {
-
-    var viewModel: ItemListViewModel
+class ItemsViewController: UIViewController, AddItemDelegate, ItemsViewDelegate {
     
-    init(category: Category) {
-        viewModel = ItemListViewModel(category: category)
-        super.init(nibName: nil, bundle: nil)
+    private let mainView = ItemsView()
+    private var viewModel: ItemListViewModel
+    
+    override func loadView() {
+        super.loadView()
+        mainView.delegate = self
+        view = mainView
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.sectionHeadersPinToVisibleBounds = true
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = Color.primaryBackground
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.layer.masksToBounds = true
-        cv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        return cv
-    }()
-
-    private lazy var searchBar = UISearchBar()
-    private lazy var addCategoryButton: UIButton = { return AddButton() }()
-    private lazy var refreshControl: UIRefreshControl = { return CustomRefreshControl(frame: .zero) }()
-    
-    // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Color.primary
-
-        addSearchBar()
-        addCollectionView()
+        
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = self
+        
         addNavigation()
-        addNewItemButton()
     }
 
     // MARK: Delegate's
     func addItemDidSave(vm: ItemViewModel) {
         self.viewModel.addItemViewModel(vm)
-        self.collectionView.reloadData()
+        mainView.collectionView.reloadData()
     }
     
-    // MARK: AddNewCategoryButton
-    private func addNewItemButton() {
-        view.addSubview(addCategoryButton)
-        addCategoryButton.addTarget(self, action: #selector(newItemButtonTapped), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
-        ])
-    }
-
-    @IBAction private func newItemButtonTapped() {
-        checkCellType()
-    }
-
-    // MARK: AddCollectionView
-    private func addCollectionView() {
-        view.addSubview(collectionView)
-        addPullToRefresh()
-
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.isScrollEnabled = true
-        collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReuseIdentifier.headerCell)
-        collectionView.register(DetailedCell.self, forCellWithReuseIdentifier: ReuseIdentifier.detailedCell)
-        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: ReuseIdentifier.emptyCell)
-        collectionView.register(TitleCell.self, forCellWithReuseIdentifier: ReuseIdentifier.titleCell)
-
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-        ])
-    }
-
-    private func addPullToRefresh() {
-        collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
-    }
-
-    @objc private func refreshData(_ sender: Any) {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
-
-    // MARK: AddSearchBar
-    private func addSearchBar() {
-        searchBar.placeholder = "Search"
-        searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 64)
-        searchBar.backgroundColor = Color.primaryBackground
-        searchBar.barStyle = .default
-        searchBar.isTranslucent = false
-        searchBar.barTintColor = Color.primary
-        searchBar.backgroundImage = UIImage()
-        view.addSubview(searchBar)
-
-        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.backgroundColor = Color.primaryBackground
+    func addNewItemTapped() {
+        let modalViewController = AddItemViewController(cellType: viewModel.categoryCellType, category: viewModel.category)
+        modalViewController.addItemDelegate = self
+        modalViewController.modalPresentationStyle = .overCurrentContext
+        
+        present(modalViewController, animated: true, completion: nil)
     }
 
     // MARK: AddNavigation
@@ -124,22 +51,14 @@ class ItemsViewController: UIViewController, AddItemDelegate {
         navigationController?.navigationBar.tintColor = Color.primaryBackground
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
-
-    // MARK: Check Cell Type and show
-    private func checkCellType() {
-        let currentWindow: UIWindow? = UIApplication.shared.connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .map({$0 as? UIWindowScene})
-            .compactMap({$0})
-            .first?.windows
-            .filter({$0.isKeyWindow}).first
-        
-        let x = currentWindow?.rootViewController
-        let modalViewController = AddItemViewController(cellType: viewModel.categoryCellType, category: viewModel.category)
-        modalViewController.addItemDelegate = self
-        modalViewController.modalPresentationStyle = .overCurrentContext
-        
-        present(modalViewController, animated: true, completion: nil)
+    
+    init(category: Category) {
+        viewModel = ItemListViewModel(category: category)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -202,7 +121,7 @@ extension ItemsViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !viewModel.itemViewModels.isEmpty else {
-            checkCellType()
+            addNewItemTapped()
             return
         }
         let vm = viewModel.itemViewModels(at: indexPath.row)
