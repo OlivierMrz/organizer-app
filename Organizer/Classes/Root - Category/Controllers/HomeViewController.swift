@@ -206,9 +206,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         let vm = viewModel.categroyViewModels(at: indexPath.row)
+        let controller = ItemsViewController(category: vm.category)
+        controller.title = title
+        guard let nav = navigationController else { return }
+        nav.pushViewController(controller, animated: true)
         
-        pushToCategoryItemVC(category: vm.category,
-                            title: vm.name,
-                            cellType: vm.type)
+        
+//        pushToCategoryItemVC(category: vm.category,
+//                            title: vm.name,
+//                            cellType: vm.type)
     }
 }

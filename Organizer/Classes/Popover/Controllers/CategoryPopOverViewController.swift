@@ -74,7 +74,6 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-//        view.isOpaque = true
         
         addView()
         
@@ -318,14 +317,12 @@ class CategoryPopOverViewController: UIViewController, SelectIconDelegate, Selec
     
     @IBAction private func selectCellTapped() {
         let vc = SelectCellTypeViewController()
-//        let currentController = getCurrentViewController()
         vc.delegate = self
         self.present(vc, animated: true, completion: nil)
     }
 
     @IBAction private func selectIconTapped() {
         let vc = SelectIconViewController()
-//        let currentController = getCurrentViewController()
         vc.delegate = self
         self.present(vc, animated: true, completion: nil)
     }

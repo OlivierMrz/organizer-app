@@ -127,9 +127,18 @@ class ItemsViewController: UIViewController, AddItemDelegate {
 
     // MARK: Check Cell Type and show
     private func checkCellType() {
+        let currentWindow: UIWindow? = UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first
+        
+        let x = currentWindow?.rootViewController
         let modalViewController = AddItemViewController(cellType: viewModel.categoryCellType, category: viewModel.category)
         modalViewController.addItemDelegate = self
         modalViewController.modalPresentationStyle = .overCurrentContext
+        
         present(modalViewController, animated: true, completion: nil)
     }
 }
