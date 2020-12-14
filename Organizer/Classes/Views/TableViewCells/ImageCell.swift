@@ -24,7 +24,7 @@ class DetailImageCell: UITableViewCell {
         setupView()
     }
 
-    func setupView(imageid: String? = nil) {
+    func setupView(imageid: Data? = nil) {
         addSubview(imageview)
 
         NSLayoutConstraint.activate([
@@ -36,7 +36,7 @@ class DetailImageCell: UITableViewCell {
         guard let imageData = imageid else { return }
         
         DispatchQueue.main.async {
-            self.imageview.image = UIImage(data: Data(imageData.utf8))
+            self.imageview.image = UIImage(data: imageData)
         }
     }
 

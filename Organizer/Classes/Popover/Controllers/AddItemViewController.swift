@@ -54,7 +54,6 @@ class AddItemViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func addItemButtonTapped(itemName: String, storagePlace: String, storageNumber: String, itemSub: String?, itemExtraSub: String?) {
-        let imageData = itemImage?.pngData()
         
         let context = CoreDataManager.persistentContainer.viewContext
         let item = Item(context: context)
@@ -65,7 +64,7 @@ class AddItemViewController: UIViewController, UIImagePickerControllerDelegate, 
         item.borrowed = false
         item.subTitle = itemSub
         item.extraSubTitle = itemExtraSub
-        item.image = String(describing: imageData)
+        item.imageData = itemImage?.pngData()
         
         let itemVM = ItemViewModel(item: item)
         

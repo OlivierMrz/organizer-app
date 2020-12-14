@@ -6,6 +6,8 @@
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 
+import Foundation
+
 struct ItemViewModel {
     let item: Item
 }
@@ -44,8 +46,8 @@ extension ItemViewModel {
         return self.item.subTitle
     }
     
-    var image: String? {
-        return self.item.image
+    var image: Data? {
+        return self.item.imageData
     }
     
 }

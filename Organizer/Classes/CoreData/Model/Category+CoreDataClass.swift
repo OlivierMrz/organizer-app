@@ -2,7 +2,7 @@
 //  Category+CoreDataClass.swift
 //  Organizer
 //
-//  Created by Olivier Miserez on 08/12/2020.
+//  Created by Olivier Miserez on 14/12/2020.
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 //

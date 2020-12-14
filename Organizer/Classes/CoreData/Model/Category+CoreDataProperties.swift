@@ -2,7 +2,7 @@
 //  Category+CoreDataProperties.swift
 //  Organizer
 //
-//  Created by Olivier Miserez on 08/12/2020.
+//  Created by Olivier Miserez on 14/12/2020.
 //  Copyright © 2020 Olivier Miserez. All rights reserved.
 //
 //
@@ -17,9 +17,9 @@ extension Category {
         return NSFetchRequest<Category>(entityName: "Category")
     }
 
-    @NSManaged public var name: String
-    @NSManaged public var icon: String
     @NSManaged public var cellType: String
+    @NSManaged public var icon: String
+    @NSManaged public var name: String
     @NSManaged public var items: NSSet?
 
 }
