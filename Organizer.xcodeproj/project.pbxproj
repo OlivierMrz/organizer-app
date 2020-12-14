@@ -241,6 +241,16 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		69461C9F2586D71500F68670 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				69461CA02586D73700F68670 /* HomeView.swift */,
+				69461CA42586DC2100F68670 /* SelectIconView.swift */,
+				69461CA72586DE5500F68670 /* SelectCellTypeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		6953795023D6345300BA5F2F /* Labels */ = {
 			isa = PBXGroup;
 			children = (
