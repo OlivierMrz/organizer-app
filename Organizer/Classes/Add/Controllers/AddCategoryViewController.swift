@@ -1,5 +1,5 @@
 //
-//  CategoryPopOverViewController.swift
+//  AddCategoryViewController.swift
 //  Organizer
 //
 //  Created by Olivier Miserez on 09/12/2020.
@@ -12,7 +12,7 @@ protocol AddCategoryDelegate {
     func addCategoryDidSave(vm: CategoryViewModel)
 }
 
-class CategoryPopOverViewController: UIViewController, AddCategroyViewDelegate {
+class AddCategoryViewController: UIViewController, AddCategroyViewDelegate {
     
     func addButtonTapped(categoryName: String, cellType: cellType, cellIcon: iconType) {
         let context = CoreDataManager.persistentContainer.viewContext
@@ -31,7 +31,7 @@ class CategoryPopOverViewController: UIViewController, AddCategroyViewDelegate {
             addCatDelegate.addCategoryDidSave(vm: categoryVM)
             dismiss(animated: true)
         } catch {
-            fatalError(error.localizedDescription)
+            self.presentAlert(type: .error(error.localizedDescription), completion: nil)
         }
     }
     

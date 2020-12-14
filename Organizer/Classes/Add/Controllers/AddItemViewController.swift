@@ -48,9 +48,7 @@ class AddItemViewController: UIViewController, UIImagePickerControllerDelegate, 
             return
         }
 
-//        print(image.size)
         itemImage = image.resizeImage(200, opaque: false)
-//        print(itemImage!.size)
     }
     
     func addItemButtonTapped(itemName: String, storagePlace: String, storageNumber: String, itemSub: String?, itemExtraSub: String?) {
@@ -75,7 +73,7 @@ class AddItemViewController: UIViewController, UIImagePickerControllerDelegate, 
             addItmDelegate.addItemDidSave(vm: itemVM)
             dismiss(animated: true)
         } catch {
-            fatalError(error.localizedDescription)
+            self.presentAlert(type: .error(error.localizedDescription), completion: nil)
         }
     }
 
@@ -94,22 +92,3 @@ class AddItemViewController: UIViewController, UIImagePickerControllerDelegate, 
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-
-//func getCurrentViewController() -> UIViewController? {
-//    let currentWindow: UIWindow? = UIApplication.shared.connectedScenes
-//        .filter({$0.activationState == .foregroundActive})
-//        .map({$0 as? UIWindowScene})
-//        .compactMap({$0})
-//        .first?.windows
-//        .filter({$0.isKeyWindow}).first
-//
-//    if let sceneRootController = currentWindow {
-//        var currentController: UIViewController! = sceneRootController.rootViewController
-//        while currentController.presentedViewController != nil {
-//            currentController = currentController.presentedViewController
-//        }
-//        return currentController
-//    }
-//    return nil
-//}

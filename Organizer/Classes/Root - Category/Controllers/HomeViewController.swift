@@ -45,7 +45,7 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
     
     // MARK: - View Button actions
     func newCategoryButtonTapped() {
-        let modalViewController = CategoryPopOverViewController()
+        let modalViewController = AddCategoryViewController()
         modalViewController.addCategoryDelegate = self
         modalViewController.modalPresentationStyle = .overCurrentContext
         present(modalViewController, animated: true, completion: nil)
@@ -65,9 +65,11 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
     }
     
     @objc func trashButtonTapped() {
-        CoreDataManager.shared.deleteAllDBData()
-        self.viewModel.fetchCategories()
-        self.mainView?.collectionView.reloadData()
+        self.presentAlert(type: .warning) {
+            CoreDataManager.shared.deleteAllDBData()
+            self.viewModel.fetchCategories()
+            self.mainView?.collectionView.reloadData()
+        }
     }
 }
 
@@ -132,7 +134,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !viewModel.categoryViewModels.isEmpty else {
-            let modalViewController = CategoryPopOverViewController()
+            let modalViewController = AddCategoryViewController()
             modalViewController.addCategoryDelegate = self
             modalViewController.modalPresentationStyle = .overCurrentContext
             present(modalViewController, animated: true, completion: nil)
