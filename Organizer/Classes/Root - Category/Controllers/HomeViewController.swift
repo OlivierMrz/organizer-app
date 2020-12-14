@@ -25,11 +25,17 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
         mainView?.collectionView.dataSource = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel = HomeListViewModel()
+        self.mainView?.collectionView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = viewModel.title
         addNavigation()
-//        collectionView.reloadData()
     }
     
     func addCategoryDidSave(vm: CategoryViewModel) {
