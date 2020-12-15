@@ -35,6 +35,35 @@ class CoreDataManager {
         return container
     }()
     
+    func saveEdited(category: Category) {
+        let managedContext = CoreDataManager.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Category>(entityName: CoreDataManager.categoryEntityName)
+        fetchRequest.predicate = NSPredicate(format: "name == %@", category.name)
+        
+        
+        do {
+            var item = try managedContext.fetch(fetchRequest).first!
+            item = category
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func getItemWith(name: String, completion: (Category?) -> Void) {
+        let managedContext = CoreDataManager.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Category>(entityName: CoreDataManager.categoryEntityName)
+        fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        
+        
+        do {
+            let item = try managedContext.fetch(fetchRequest).first
+            completion(item)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
     func getItems(from category: Category, completion: ([Item]) -> Void) {
         let managedContext = CoreDataManager.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Item>(entityName: CoreDataManager.itemEntityName)

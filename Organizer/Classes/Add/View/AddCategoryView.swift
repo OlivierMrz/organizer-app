@@ -16,6 +16,7 @@ protocol AddCategroyViewDelegate {
 
 class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
     
+    var editCategory: Category?
     var delegate: AddCategroyViewDelegate?
     
     let scrollView: UIScrollView = {
@@ -65,7 +66,7 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
     
     private let notification = NotificationCenter.default
     private let categoryNameTextField = CustomTextField()
-    private let selectIconButton = UIImageView()
+    private let selectIconTypeButton = UIImageView()
     private let selectIcon = PopoverLabel(title: "Choose category icon")
     private let selectCellTypeButton = UIImageView()
     
@@ -99,8 +100,8 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
     
     func didSelectCell(icon: iconType) {
         selectedCellIcon = icon
-        selectIconButton.layer.borderColor = Color.lightGray.cgColor
-        selectIconButton.image = icon.image
+        selectIconTypeButton.layer.borderColor = Color.lightGray.cgColor
+        selectIconTypeButton.image = icon.image
         
         layoutSubviews()
     }
@@ -118,8 +119,8 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
         if let categoryText = categoryNameTextField.text, categoryText.isEmpty {
             errors.append(categoryNameTextField)
         }
-        if selectIconButton.image == UIImage(named: "placeholder") {
-            errors.append(selectIconButton)
+        if selectIconTypeButton.image == UIImage(named: "placeholder") {
+            errors.append(selectIconTypeButton)
         }
         if selectCellTypeButton.image == UIImage(named: "placeholder") {
             errors.append(selectCellTypeButton)
@@ -185,19 +186,19 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
 
         categoryNameTextField.setup(placeHolder: "Books")
 
-        selectIconButton.layer.cornerRadius = CornerRadius.xSmall
-        selectIconButton.layer.masksToBounds = true
-        selectIconButton.layer.borderWidth = BorderWidth.small
-        selectIconButton.layer.borderColor = Color.lightGray.cgColor
-        selectIconButton.backgroundColor = Color.lightGray
+        selectIconTypeButton.layer.cornerRadius = CornerRadius.xSmall
+        selectIconTypeButton.layer.masksToBounds = true
+        selectIconTypeButton.layer.borderWidth = BorderWidth.small
+        selectIconTypeButton.layer.borderColor = Color.lightGray.cgColor
+        selectIconTypeButton.backgroundColor = Color.lightGray
         
-        selectIconButton.image = selectedCellIcon == nil ? UIImage(named: "placeholder") : selectedCellIcon?.image
-        selectIconButton.contentMode = .scaleAspectFit
-        selectIconButton.isUserInteractionEnabled = true
-        selectIconButton.translatesAutoresizingMaskIntoConstraints = false
+        selectIconTypeButton.image = selectedCellIcon == nil ? UIImage(named: "placeholder") : selectedCellIcon?.image
+        selectIconTypeButton.contentMode = .scaleAspectFit
+        selectIconTypeButton.isUserInteractionEnabled = true
+        selectIconTypeButton.translatesAutoresizingMaskIntoConstraints = false
 
         let selectIconTap = UITapGestureRecognizer(target: self, action: #selector(selectIconTapped))
-        selectIconButton.addGestureRecognizer(selectIconTap)
+        selectIconTypeButton.addGestureRecognizer(selectIconTap)
 
         let selectCellTypeLabel = PopoverLabel(title: "Choose cell type")
 
@@ -217,7 +218,7 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
         dialogView.addSubview(categoryNameLabel)
         dialogView.addSubview(categoryNameTextField)
         dialogView.addSubview(selectIcon)
-        dialogView.addSubview(selectIconButton)
+        dialogView.addSubview(selectIconTypeButton)
         dialogView.addSubview(selectCellTypeLabel)
         dialogView.addSubview(selectCellTypeButton)
         dialogView.addSubview(addButton)
@@ -239,12 +240,12 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
             selectIcon.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             selectIcon.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
 
-            selectIconButton.topAnchor.constraint(equalTo: selectIcon.bottomAnchor, constant: Margins.xSmall),
-            selectIconButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
-            selectIconButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
-            selectIconButton.heightAnchor.constraint(equalToConstant: 116),
+            selectIconTypeButton.topAnchor.constraint(equalTo: selectIcon.bottomAnchor, constant: Margins.xSmall),
+            selectIconTypeButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
+            selectIconTypeButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+            selectIconTypeButton.heightAnchor.constraint(equalToConstant: 116),
 
-            selectCellTypeLabel.topAnchor.constraint(equalTo: selectIconButton.bottomAnchor, constant: Margins.medium),
+            selectCellTypeLabel.topAnchor.constraint(equalTo: selectIconTypeButton.bottomAnchor, constant: Margins.medium),
             selectCellTypeLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0),
             selectCellTypeLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
 
@@ -277,6 +278,19 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
         }
     }
     
+    private func editCategoryFunc() {
+        guard let category = editCategory else { return }
+        selectedCellType = cellType(rawValue: category.cellType)
+        selectCellTypeButton.layer.borderColor = Color.lightGray.cgColor
+        selectCellTypeButton.image = UIImage(named: category.cellType)
+        
+        selectedCellIcon = iconType(rawValue: category.icon)
+        selectIconTypeButton.layer.borderColor = Color.lightGray.cgColor
+        selectIconTypeButton.image = UIImage(named: category.icon)
+        
+        categoryNameTextField.text = category.name
+    }
+    
     private func addGuestures() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapGuesture(sender:)))
         tap.cancelsTouchesInView = false
@@ -293,9 +307,12 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
         addView(frame: self.frame)
     }
 
-    init() {
+    init(editCategory: Category? = nil) {
+        self.editCategory = editCategory
         super.init(frame: .zero)
         setup()
+        
+        editCategoryFunc()
     }
     
     required init?(coder: NSCoder) {

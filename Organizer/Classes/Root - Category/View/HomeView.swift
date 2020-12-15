@@ -10,11 +10,13 @@ import UIKit
 
 protocol HomeViewDelegate {
     func newCategoryButtonTapped()
+    func editExistingCategory(vm: CategoryViewModel)
 }
 
-class HomeView: UIView {
+class HomeView: UIView, UIGestureRecognizerDelegate {
     
     var delegate: HomeViewDelegate?
+    private var viewModel: HomeListViewModel
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -92,7 +94,26 @@ class HomeView: UIView {
         delegate?.newCategoryButtonTapped()
     }
     
-    private var viewModel: HomeListViewModel
+    private func setupLongGestureRecognizerOnCollection() {
+        let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
+        longPressedGesture.minimumPressDuration = 0.4
+        longPressedGesture.delegate = self
+        longPressedGesture.delaysTouchesBegan = true
+        collectionView.addGestureRecognizer(longPressedGesture)
+    }
+
+    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        if (gestureRecognizer.state != .began) {
+            return
+        }
+
+        let p = gestureRecognizer.location(in: collectionView)
+
+        if let indexPath = collectionView.indexPathForItem(at: p) {
+            print("Long press at item: \(indexPath.row)")
+            delegate?.editExistingCategory(vm: viewModel.categroyViewModels(at: indexPath.row))
+        }
+    }
     
     private func setup() {
         backgroundColor = viewModel.viewBackgroundColor
@@ -100,6 +121,8 @@ class HomeView: UIView {
         addSearchBar()
         addCollectionView()
         addNewCategoryButton()
+        
+        setupLongGestureRecognizerOnCollection()
     }
     
     override func layoutSubviews() {

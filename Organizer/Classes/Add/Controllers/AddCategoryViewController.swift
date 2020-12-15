@@ -9,29 +9,56 @@
 import UIKit
 
 protocol AddCategoryDelegate {
-    func addCategoryDidSave(vm: CategoryViewModel)
+    func addCategoryDidSave(vm: CategoryViewModel?)
 }
 
 class AddCategoryViewController: UIViewController, AddCategroyViewDelegate {
+        
+    var editCategory: Category?
+    var mainView: AddCategoryView?
+    var addCategoryDelegate: AddCategoryDelegate?
+    
+    override func loadView() {
+        super.loadView()
+        mainView = AddCategoryView(editCategory: editCategory)
+        mainView?.delegate = self
+        view = mainView
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
     
     func addButtonTapped(categoryName: String, cellType: cellType, cellIcon: iconType) {
-        let context = CoreDataManager.persistentContainer.viewContext
-        let category = Category(context: context)
-        category.name = categoryName.lowercased()
-        category.cellType = cellType.rawValue
-        category.icon = cellIcon.rawValue
-        category.items = []
-        
-        let categoryVM = CategoryViewModel(category: category)
-        
         guard let addCatDelegate = addCategoryDelegate else { return }
-
-        do {
-            try context.save()
-            addCatDelegate.addCategoryDidSave(vm: categoryVM)
+        
+        if let editedCategory = editCategory {
+            editedCategory.name = categoryName
+            editedCategory.cellType = cellType.rawValue
+            editedCategory.icon = cellIcon.rawValue
+            CoreDataManager.shared.saveEdited(category: editedCategory)
+            addCatDelegate.addCategoryDidSave(vm: nil)
             dismiss(animated: true)
-        } catch {
-            self.presentAlert(type: .error(error.localizedDescription), completion: nil)
+        } else {
+        
+            let context = CoreDataManager.persistentContainer.viewContext
+            let category = Category(context: context)
+            category.name = categoryName.lowercased()
+            category.cellType = cellType.rawValue
+            category.icon = cellIcon.rawValue
+            category.items = []
+            
+            let categoryVM = CategoryViewModel(category: category)
+
+            do {
+                try context.save()
+                addCatDelegate.addCategoryDidSave(vm: categoryVM)
+                dismiss(animated: true)
+            } catch {
+                self.presentAlert(type: .error(error.localizedDescription), completion: nil)
+            }
+            
         }
     }
     
@@ -47,25 +74,8 @@ class AddCategoryViewController: UIViewController, AddCategroyViewDelegate {
         self.present(vc, animated: true, completion: nil)
     }
     
-    
-    var mainView = AddCategoryView()
-    var addCategoryDelegate: AddCategoryDelegate?
-    
-    
-    
-    override func loadView() {
-        super.loadView()
-        mainView.delegate = self
-        view = mainView
-        
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
-    
-    init() {
+    init(category: Category? = nil) {
+        self.editCategory = category
         super.init(nibName: nil, bundle: nil)
     }
     

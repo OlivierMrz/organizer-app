@@ -45,9 +45,23 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
         addNavigation()
     }
     
-    func addCategoryDidSave(vm: CategoryViewModel) {
-        self.viewModel.addCategoryViewModel(vm)
+    // MARK: - Delegate Methods
+    
+    func addCategoryDidSave(vm: CategoryViewModel?) {
+        if let vm = vm {
+            self.viewModel.addCategoryViewModel(vm)
+        }
+        
         self.mainView?.collectionView.reloadData()
+    }
+    
+    func editExistingCategory(vm: CategoryViewModel) {
+        CoreDataManager.shared.getItemWith(name: vm.name) { (result) in
+            let modalViewController = AddCategoryViewController(category: result)
+            modalViewController.addCategoryDelegate = self
+            modalViewController.modalPresentationStyle = .overCurrentContext
+            present(modalViewController, animated: true, completion: nil)
+        }
     }
     
     // MARK: - View Button actions
