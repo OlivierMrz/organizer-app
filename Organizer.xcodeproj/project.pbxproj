@@ -64,6 +64,7 @@
 		699B52A423CE145400EAFE33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699B52A223CE145400EAFE33 /* LaunchScreen.storyboard */; };
 		699B52AC23CE14B300EAFE33 /* DeviceWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699B52AB23CE14B200EAFE33 /* DeviceWidth.swift */; };
 		69A079F323D7412F00E2A8F7 /* SelectCellTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A079F223D7412F00E2A8F7 /* SelectCellTypeViewController.swift */; };
+		69B1C99B258ABCD000C9B3DD /* ItemsListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B1C99A258ABCD000C9B3DD /* ItemsListCoordinator.swift */; };
 		69B919C62580D80500760332 /* AddCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B919C52580D80500760332 /* AddCategoryViewController.swift */; };
 		69B919CD2581069A00760332 /* SelectIconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B919CC2581069A00760332 /* SelectIconViewModel.swift */; };
 		69B919D025810A1600760332 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B919CF25810A1600760332 /* Images.swift */; };
@@ -72,6 +73,8 @@
 		69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404123D5ECBB00F25E5C /* AddButton.swift */; };
 		69D010B223D8AE7600DC20C9 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010B123D8AE7600DC20C9 /* EmptyCell.swift */; };
 		69E504A4258A4A3500543A1E /* StringProtocol+firstLetterUppercased.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E504A3258A4A3500543A1E /* StringProtocol+firstLetterUppercased.swift */; };
+		69E504AB258A650300543A1E /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E504AA258A650300543A1E /* Coordinator.swift */; };
+		69E504AE258A655700543A1E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E504AD258A655700543A1E /* MainCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +138,7 @@
 		699B52A523CE145400EAFE33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		699B52AB23CE14B200EAFE33 /* DeviceWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceWidth.swift; sourceTree = "<group>"; };
 		69A079F223D7412F00E2A8F7 /* SelectCellTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCellTypeViewController.swift; sourceTree = "<group>"; };
+		69B1C99A258ABCD000C9B3DD /* ItemsListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListCoordinator.swift; sourceTree = "<group>"; };
 		69B919C52580D80500760332 /* AddCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewController.swift; sourceTree = "<group>"; };
 		69B919CC2581069A00760332 /* SelectIconViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconViewModel.swift; sourceTree = "<group>"; };
 		69B919CF25810A1600760332 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
@@ -143,6 +147,8 @@
 		69CC404123D5ECBB00F25E5C /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 		69D010B123D8AE7600DC20C9 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
 		69E504A3258A4A3500543A1E /* StringProtocol+firstLetterUppercased.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol+firstLetterUppercased.swift"; sourceTree = "<group>"; };
+		69E504AA258A650300543A1E /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		69E504AD258A655700543A1E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,8 +383,10 @@
 		6972A88B257FCD2A00F6537C /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				69E504AD258A655700543A1E /* MainCoordinator.swift */,
 				699B529723CE145300EAFE33 /* AppDelegate.swift */,
 				699B529923CE145300EAFE33 /* SceneDelegate.swift */,
+				69E504AA258A650300543A1E /* Coordinator.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -438,6 +446,7 @@
 		698223A02582173600C632AD /* Items List */ = {
 			isa = PBXGroup;
 			children = (
+				69B1C999258ABCBC00C9B3DD /* Coordinator */,
 				694A30C4258776BB0069781C /* View */,
 				698223AF258224C600C632AD /* View Models */,
 				698223A5258217C200C632AD /* Controllers */,
@@ -565,6 +574,14 @@
 			path = Organizer;
 			sourceTree = "<group>";
 		};
+		69B1C999258ABCBC00C9B3DD /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				69B1C99A258ABCD000C9B3DD /* ItemsListCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -658,6 +675,7 @@
 				6972A8AE257FCFA400F6537C /* Popovertype.swift in Sources */,
 				694A30D025877DC10069781C /* Item+CoreDataProperties.swift in Sources */,
 				69461C4D2583E4C700F68670 /* CustomRefreshControl.swift in Sources */,
+				69E504AE258A655700543A1E /* MainCoordinator.swift in Sources */,
 				694A30F32587D15A0069781C /* ItemsDelegate.swift in Sources */,
 				69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */,
 				699B529823CE145300EAFE33 /* AppDelegate.swift in Sources */,
@@ -679,10 +697,12 @@
 				6953795223D6346D00BA5F2F /* PopoverLabel.swift in Sources */,
 				695461BE257FEE0F007908B5 /* CoreDataManager.swift in Sources */,
 				69461CA12586D73700F68670 /* HomeView.swift in Sources */,
+				69B1C99B258ABCD000C9B3DD /* ItemsListCoordinator.swift in Sources */,
 				6943187023D5D121002A673A /* DetailedCell.swift in Sources */,
 				694A30D225877DC10069781C /* Category+CoreDataProperties.swift in Sources */,
 				69461C9D2586C48400F68670 /* AddItemView.swift in Sources */,
 				690EB95723D9AB4A0038320C /* TitleCell.swift in Sources */,
+				69E504AB258A650300543A1E /* Coordinator.swift in Sources */,
 				694E2A0B25838CD3005D96B4 /* ItemViewModel.swift in Sources */,
 				694A30BE25875D290069781C /* ItemDetailView.swift in Sources */,
 				69B919C62580D80500760332 /* AddCategoryViewController.swift in Sources */,

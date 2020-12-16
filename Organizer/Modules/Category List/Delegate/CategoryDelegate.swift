@@ -50,9 +50,6 @@ class CategoryDelegate: NSObject, UICollectionViewDelegate, UICollectionViewDele
         }
         
         let vm = viewModel.categroyViewModels(at: indexPath.row)
-        let controller = ItemsViewController(category: vm.category)
-        controller.title = vc.title
-        guard let nav = vc.navigationController else { return }
-        nav.pushViewController(controller, animated: true)
+        vc.coordinator?.goToCategory(vm)
     }
 }

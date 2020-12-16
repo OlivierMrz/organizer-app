@@ -11,6 +11,7 @@ import UIKit
 class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegate {
         
     // MARK: - Properties
+    var coordinator: MainCoordinator?
     private var mainView: HomeView?
     var viewModel = HomeListViewModel()
     private var dataSource: CategoryDataSource!
