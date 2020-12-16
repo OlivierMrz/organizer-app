@@ -42,6 +42,11 @@ class AddCategoryViewController: UIViewController, AddCategroyViewDelegate {
             dismiss(animated: true)
         } else {
         
+            guard CoreDataManager.shared.doesCategoryAlreadyExist(categoryName) == false else {
+                self.presentAlert(type: .duplication(categoryName), completion: nil)
+                return
+            }
+            
             let context = CoreDataManager.persistentContainer.viewContext
             let category = Category(context: context)
             category.name = categoryName.lowercased()

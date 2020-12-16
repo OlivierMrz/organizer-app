@@ -50,6 +50,7 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
     func addCategoryDidSave(vm: CategoryViewModel?) {
         if let vm = vm {
             self.viewModel.addCategoryViewModel(vm)
+            self.mainView?.collectionView.reloadData()
         }
         
         self.mainView?.collectionView.reloadData()

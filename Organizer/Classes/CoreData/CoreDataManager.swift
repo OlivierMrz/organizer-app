@@ -35,6 +35,27 @@ class CoreDataManager {
         return container
     }()
     
+    func doesCategoryAlreadyExist(_ categoryName: String) -> Bool {
+        let managedContext = CoreDataManager.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Category>(entityName: CoreDataManager.categoryEntityName)
+        fetchRequest.predicate = NSPredicate(format: "name == %@", categoryName)
+        
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            
+            if results.isEmpty {
+                return false
+            } else {
+                return true
+            }
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        return false
+    }
+    
     func saveEdited(category: Category) {
         let managedContext = CoreDataManager.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Category>(entityName: CoreDataManager.categoryEntityName)

@@ -13,7 +13,7 @@ struct CategoryViewModel {
 extension CategoryViewModel {
     
     var name: String {
-        return self.category.name
+        return self.category.name.capitalized
     }
     
     var type: String {

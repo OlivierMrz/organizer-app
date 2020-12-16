@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "61892842-9D73-436D-B6FE-6976E7A6C25A"
+            uuid = "2146AC5B-0C44-4981-975F-1136B1B62BAC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Organizer/Classes/Add/View/AddCategoryView.swift"
+            filePath = "Organizer/Classes/Add/Controllers/AddCategoryViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "addButtonTapped()"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "addButtonTapped(categoryName:cellType:cellIcon:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

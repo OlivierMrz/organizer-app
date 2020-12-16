@@ -136,7 +136,7 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
         
         guard let icon = selectedCellIcon, let cell = selectedCellType else { return }
         
-        delegate?.addButtonTapped(categoryName: name, cellType: cell, cellIcon: icon)
+        delegate?.addButtonTapped(categoryName: name.lowercased(), cellType: cell, cellIcon: icon)
     }
     
     private func addView(frame: CGRect) {
