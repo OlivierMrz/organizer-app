@@ -71,6 +71,7 @@
 		69CC404023D5EBBE00F25E5C /* ItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC403F23D5EBBE00F25E5C /* ItemsViewController.swift */; };
 		69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC404123D5ECBB00F25E5C /* AddButton.swift */; };
 		69D010B223D8AE7600DC20C9 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D010B123D8AE7600DC20C9 /* EmptyCell.swift */; };
+		69E504A4258A4A3500543A1E /* StringProtocol+firstLetterUppercased.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E504A3258A4A3500543A1E /* StringProtocol+firstLetterUppercased.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -141,6 +142,7 @@
 		69CC403F23D5EBBE00F25E5C /* ItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsViewController.swift; sourceTree = "<group>"; };
 		69CC404123D5ECBB00F25E5C /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 		69D010B123D8AE7600DC20C9 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		69E504A3258A4A3500543A1E /* StringProtocol+firstLetterUppercased.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol+firstLetterUppercased.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -340,6 +342,7 @@
 				696B190623EDB92E00848383 /* UIViewController+pushToCategoryItemVC.swift */,
 				696B190823EDB99100848383 /* UIView+getCurrentViewController.swift */,
 				694A30D525878ADF0069781C /* UIViewController+Alert.swift */,
+				69E504A3258A4A3500543A1E /* StringProtocol+firstLetterUppercased.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				696B190923EDB99100848383 /* UIView+getCurrentViewController.swift in Sources */,
 				694A30DC2587BC890069781C /* CollectionViewDataSource.swift in Sources */,
 				6972A8A1257FCF1300F6537C /* Margins.swift in Sources */,
+				69E504A4258A4A3500543A1E /* StringProtocol+firstLetterUppercased.swift in Sources */,
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
 				69109BAC258A10A900F7CD61 /* MainViewModel.swift in Sources */,
 				699B52AC23CE14B300EAFE33 /* DeviceWidth.swift in Sources */,

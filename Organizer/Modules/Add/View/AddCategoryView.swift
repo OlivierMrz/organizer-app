@@ -132,11 +132,11 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
         
         guard errors.isEmpty else { return }
         
-        guard let name = categoryNameTextField.text else { return }
+        guard let name = categoryNameTextField.text?.lowercased() else { return }
         
         guard let icon = selectedCellIcon, let cell = selectedCellType else { return }
         
-        delegate?.addButtonTapped(categoryName: name.lowercased(), cellType: cell, cellIcon: icon)
+        delegate?.addButtonTapped(categoryName: name, cellType: cell, cellIcon: icon)
     }
     
     private func addView(frame: CGRect) {
@@ -288,7 +288,7 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
         selectIconTypeButton.layer.borderColor = Color.lightGray.cgColor
         selectIconTypeButton.image = UIImage(named: category.icon)
         
-        categoryNameTextField.text = category.name
+        categoryNameTextField.text = category.name.capitalized
     }
     
     private func addGuestures() {

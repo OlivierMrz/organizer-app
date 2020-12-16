@@ -47,7 +47,7 @@ class ItemsDelegate: NSObject, UICollectionViewDelegate, UICollectionViewDelegat
         let vm = viewModel.itemViewModels(at: indexPath.row)
 
         let vc = ItemDetailViewController(itemViewModel: vm)
-        vc.title = vm.name
+        vc.title = vm.name.capitalized
         mainVc.navigationController?.pushViewController(vc, animated: true)
     }
 }

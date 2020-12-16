@@ -24,7 +24,7 @@ class ItemsDataSource: NSObject, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if viewModel.itemViewModels.isEmpty {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReuseIdentifier.emptyCell, for: indexPath) as! EmptyCell
-            cell.title.text = "No items yes"
+            cell.title.text = "No items yet"
 
             return cell
         }
@@ -35,11 +35,11 @@ class ItemsDataSource: NSObject, UICollectionViewDataSource {
         
         let vm = viewModel.itemViewModels(at: indexPath.row)
 
-        cell.itemLabel.text = vm.name
-        cell.itemSubLabel.text = vm.subTitle
-        cell.itemSub2Label.text = vm.extraSubTitle
-        cell.placeLabel.text = vm.storagePlace
-        cell.placeStorageLabel.text = vm.storageNumber
+        cell.itemLabel.text = vm.name.firstUppercased
+        cell.itemSubLabel.text = vm.subTitle?.firstUppercased
+        cell.itemSub2Label.text = vm.extraSubTitle?.firstUppercased
+        cell.placeLabel.text = vm.storagePlace.capitalized
+        cell.placeStorageLabel.text = vm.storageNumber.uppercased()
 
         return cell
     }

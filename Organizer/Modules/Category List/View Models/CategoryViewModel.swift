@@ -34,6 +34,10 @@ extension CategoryViewModel {
     
     var itemCount: String {
         if let items = self.category.items?.allObjects as? [Item] {
+            if items.count == 1 {
+                return "\(items.count) item"
+            }
+            
             return "\(items.count) items"
         } else {
             return "0 items"

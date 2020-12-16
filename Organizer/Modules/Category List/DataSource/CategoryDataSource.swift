@@ -38,7 +38,7 @@ class CategoryDataSource: NSObject, UICollectionViewDataSource {
 
         let vm = viewModel.categroyViewModels(at: indexPath.row)
 
-        cell.categoryLabel.text = vm.name
+        cell.categoryLabel.text = vm.name.firstUppercased
         cell.icon.image = UIImage(named: vm.icon)
         cell.catItemCountLabel.text = vm.itemCount
 

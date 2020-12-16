@@ -234,9 +234,9 @@ class AddItemView: UIView {
 
         guard errors.isEmpty else { return }
         
-        guard let itemName = itemNameTextField.text,
-            let storagePlace = itemStoragePlaceTextField.text,
-            let storageNumber = itemStorageNumberTextField.text else { return }
+        guard let itemName = itemNameTextField.text?.lowercased(),
+              let storagePlace = itemStoragePlaceTextField.text?.lowercased(),
+              let storageNumber = itemStorageNumberTextField.text?.lowercased() else { return }
         
         
         delegate?.addItemButtonTapped(itemName: itemName, storagePlace: storagePlace, storageNumber: storageNumber, itemSub: itemSubTextField.text, itemExtraSub: itemExtraSubTextField.text)
@@ -282,8 +282,6 @@ class AddItemView: UIView {
                              selector: #selector(keyboardAdjust),
                              name: UIWindow.keyboardWillHideNotification,
                              object: nil)
-        
-        
         
         addGuestures()
     }
