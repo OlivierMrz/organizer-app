@@ -16,7 +16,7 @@ protocol HomeViewDelegate {
 class HomeView: UIView, UIGestureRecognizerDelegate {
     
     var delegate: HomeViewDelegate?
-    private var viewModel: HomeListViewModel
+    var viewModel: HomeListViewModel
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()

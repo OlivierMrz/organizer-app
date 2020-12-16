@@ -56,6 +56,7 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
     }
     
     private func updateCollectionView() {
+        mainView?.viewModel = viewModel
         dataSource.viewModel = viewModel
         delegate.viewModel = viewModel
         DispatchQueue.main.async {

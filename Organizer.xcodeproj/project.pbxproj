@@ -423,7 +423,6 @@
 		6982239F2582172800C632AD /* Category List */ = {
 			isa = PBXGroup;
 			children = (
-				69109BAB258A10A900F7CD61 /* MainViewModel.swift */,
 				69461C9F2586D71500F68670 /* View */,
 				698223A4258217B100C632AD /* View Models */,
 				698223A3258217A600C632AD /* Controllers */,
@@ -478,6 +477,7 @@
 		698223A4258217B100C632AD /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				69109BAB258A10A900F7CD61 /* MainViewModel.swift */,
 				69B919CC2581069A00760332 /* SelectIconViewModel.swift */,
 				6958BD672581240F004627E6 /* SelectCellListViewModel.swift */,
 				695461C5257FFF46007908B5 /* HomeListViewModel.swift */,
