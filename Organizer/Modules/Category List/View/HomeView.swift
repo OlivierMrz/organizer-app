@@ -103,15 +103,19 @@ class HomeView: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-        if (gestureRecognizer.state != .began) {
+        switch gestureRecognizer.state {
+        case .began:
+            let p = gestureRecognizer.location(in: collectionView)
+
+            if let indexPath = collectionView.indexPathForItem(at: p) {
+                if let _ = collectionView.cellForItem(at: indexPath) as? EmptyCell {
+                    return
+                }
+                
+                delegate?.editExistingCategory(vm: viewModel.categroyViewModels(at: indexPath.row))
+            }
+        default:
             return
-        }
-
-        let p = gestureRecognizer.location(in: collectionView)
-
-        if let indexPath = collectionView.indexPathForItem(at: p) {
-            print("Long press at item: \(indexPath.row)")
-            delegate?.editExistingCategory(vm: viewModel.categroyViewModels(at: indexPath.row))
         }
     }
     
