@@ -11,7 +11,7 @@ import UIKit
 
 class CategoryDataSource: NSObject, UICollectionViewDataSource {
     
-    private var viewModel: HomeListViewModel
+    var viewModel: HomeListViewModel
     
     init(_ homeListViewModel: HomeListViewModel) {
         self.viewModel = homeListViewModel

@@ -12,7 +12,7 @@ import UIKit
 class CategoryDelegate: NSObject, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     private var vc: HomeViewController
-    private var viewModel: HomeListViewModel
+    var viewModel: HomeListViewModel
     
     init(vc: HomeViewController, _ homeListViewModel: HomeListViewModel) {
         self.vc = vc

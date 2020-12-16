@@ -237,8 +237,8 @@
 		69461C972586B3A100F68670 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				69461C9C2586C48400F68670 /* AddItemView.swift */,
 				694A30C025875E090069781C /* AddCategoryView.swift */,
+				69461C9C2586C48400F68670 /* AddItemView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

@@ -50,10 +50,17 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
     func addCategoryDidSave(vm: CategoryViewModel?) {
         if let vm = vm {
             self.viewModel.addCategoryViewModel(vm)
-            self.mainView?.collectionView.reloadData()
         }
         
-        self.mainView?.collectionView.reloadData()
+        updateCollectionView()
+    }
+    
+    private func updateCollectionView() {
+        dataSource.viewModel = viewModel
+        delegate.viewModel = viewModel
+        DispatchQueue.main.async {
+            self.mainView?.collectionView.reloadData()
+        }
     }
     
     func editExistingCategory(vm: CategoryViewModel) {
@@ -90,7 +97,7 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
         self.presentAlert(type: .warning) {
             CoreDataManager.shared.deleteAllDBData()
             self.viewModel.fetchCategories()
-            self.mainView?.collectionView.reloadData()
+            self.updateCollectionView()
         }
     }
 }
