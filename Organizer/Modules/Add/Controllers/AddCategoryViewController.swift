@@ -67,6 +67,12 @@ class AddCategoryViewController: UIViewController, AddCategroyViewDelegate {
         }
     }
     
+    func backgroundViewTapped() {
+        presentAlert(type: .custom(title: "⚠️ Warning", text: "Are you sure you want to cancel?")) {
+            self.dismiss(animated: true)
+        }
+    }
+    
     func selectCellTapped() {
         let vc = SelectCellTypeViewController()
         vc.delegate = mainView

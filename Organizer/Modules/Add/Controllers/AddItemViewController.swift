@@ -82,6 +82,12 @@ class AddItemViewController: UIViewController, UIImagePickerControllerDelegate, 
         present(imagePicker, animated: true, completion: nil)
     }
     
+    func backgroundViewTapped() {
+        presentAlert(type: .custom(title: "⚠️ Warning", text: "Are you sure you want to cancel?")) {
+            self.dismiss(animated: true)
+        }
+    }
+    
     init(cellType: cellType, category: Category) {
         self.mainView = AddItemView(cellType: cellType, currentCategory: category)
         self.currentCategory = category

@@ -12,9 +12,10 @@ protocol AddCategroyViewDelegate {
     func selectCellTapped()
     func selectIconTapped()
     func addButtonTapped(categoryName: String, cellType: cellType, cellIcon: iconType)
+    func backgroundViewTapped()
 }
 
-class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
+class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate, UIGestureRecognizerDelegate {
     
     var editCategory: Category?
     var delegate: AddCategroyViewDelegate?
@@ -292,14 +293,18 @@ class AddCategoryView: UIView, SelectIconDelegate, SelectCellTypeDelegate {
     }
     
     private func addGuestures() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapGuesture(sender:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundViewTapped))
         tap.cancelsTouchesInView = false
         backgroundView.addGestureRecognizer(tap)
+        tap.delegate = self
     }
     
-    @objc func tapGuesture(sender: UITouch) {
-//        _ = sender.view
-//        self.dismiss(animated: true, completion: nil)
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return touch.view == gestureRecognizer.view
+    }
+    
+    @objc func backgroundViewTapped() {
+        delegate?.backgroundViewTapped()
     }
     
     override func layoutSubviews() {

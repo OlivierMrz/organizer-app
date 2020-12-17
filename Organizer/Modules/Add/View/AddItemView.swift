@@ -11,9 +11,10 @@ import UIKit
 protocol addItemViewDelegate {
     func addImageButtonTapped()
     func addItemButtonTapped(itemName: String, storagePlace: String, storageNumber: String, itemSub: String?, itemExtraSub: String?)
+    func backgroundViewTapped()
 }
 
-class AddItemView: UIView {
+class AddItemView: UIView, UIGestureRecognizerDelegate {
     
     var delegate: addItemViewDelegate?
 
@@ -206,12 +207,7 @@ class AddItemView: UIView {
     @IBAction private func addImageButtonTapped() {
         delegate?.addImageButtonTapped()
     }
-    
-    @objc func tapGuesture(sender: UITouch) {
-//        _ = sender.view
-//        self.dismiss(animated: true, completion: nil)
-    }
-    
+
     @IBAction private func addButtonTapped() {
         [itemNameTextField, itemStoragePlaceTextField, itemStorageNumberTextField].forEach {
             $0.layer.borderColor = Color.lightGray.cgColor
@@ -243,9 +239,18 @@ class AddItemView: UIView {
     }
     
     private func addGuestures() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapGuesture(sender:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundViewTapped))
         tap.cancelsTouchesInView = false
         backgroundView.addGestureRecognizer(tap)
+        tap.delegate = self
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return touch.view == gestureRecognizer.view
+    }
+    
+    @objc func backgroundViewTapped() {
+        delegate?.backgroundViewTapped()
     }
     
     @objc func keyboardAdjust(_ notification: NSNotification) {

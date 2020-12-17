@@ -13,6 +13,7 @@ extension UIViewController {
     enum AlertType {
         case warning
         case error(_ string: String), duplication(_ for: String)
+        case custom(title: String, text: String)
     }
     
     func presentAlert(type: AlertType, completion: (() -> Void)?) {
@@ -24,6 +25,8 @@ extension UIViewController {
             presentErrorAlert(title: "", text: error)
         case .duplication(let item):
             presentErrorAlert(title: "⚠️ WARNING", text: "\(item.capitalized) already exists.")
+        case .custom(let title, let text):
+            presentCustomAlert(title: title, text: text, completion: completion!)
         }
         
     }
@@ -40,6 +43,15 @@ extension UIViewController {
     private func presentErrorAlert(title: String?, text: String?) {
         let alertController = UIAlertController(title: title, message: text, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func presentCustomAlert(title: String, text: String?, completion: @escaping (() -> Void)) {
+        let alertController = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (_) in
+            completion()
+        }))
+        alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
     }
     
