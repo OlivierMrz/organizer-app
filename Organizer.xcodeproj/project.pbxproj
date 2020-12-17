@@ -470,8 +470,8 @@
 			children = (
 				694A30BC25875D090069781C /* View */,
 				698223A7258217D900C632AD /* Controllers */,
-				694A30F72587D67A0069781C /* DataSource */,
 				694A30F62587D6730069781C /* Delegate */,
+				694A30F72587D67A0069781C /* DataSource */,
 			);
 			path = "Item Detail";
 			sourceTree = "<group>";

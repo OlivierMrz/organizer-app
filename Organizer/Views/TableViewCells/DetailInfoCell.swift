@@ -9,10 +9,18 @@
 import UIKit
 
 class DetailInfoCell: UITableViewCell {
+    let titleLabel: UILabel = {
+        let l = UILabel()
+        l.textColor = Color.darkGray
+        l.font = UIFont.systemFont(ofSize: FontSize.xLarge + 4, weight: FontWeight.medium)
+        l.translatesAutoresizingMaskIntoConstraints = false
+        return l
+    }()
+    
+    
     let itemSubLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.darkGray
-        l.text = "item title test"
         l.font = UIFont.systemFont(ofSize: FontSize.xLarge, weight: FontWeight.medium)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -21,7 +29,6 @@ class DetailInfoCell: UITableViewCell {
     let itemExtraSubLabel: UILabel = {
         let l = UILabel()
         l.textColor = Color.midGray
-        l.text = "Sub title test"
         l.font = UIFont.systemFont(ofSize: FontSize.small, weight: FontWeight.regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -41,7 +48,6 @@ class DetailInfoCell: UITableViewCell {
         let l = UILabel()
         l.textColor = Color.midGray
         l.textAlignment = .center
-        l.text = "Garage"
         l.font = UIFont.systemFont(ofSize: FontSize.xSmall, weight: FontWeight.medium)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -53,7 +59,6 @@ class DetailInfoCell: UITableViewCell {
         l.backgroundColor = Color.darkGray
         l.layer.cornerRadius = CornerRadius.xSmall
         l.layer.masksToBounds = true
-        l.text = "A12"
         l.textAlignment = .center
         l.font = UIFont.systemFont(ofSize: FontSize.xSmall, weight: FontWeight.medium)
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -77,6 +82,7 @@ class DetailInfoCell: UITableViewCell {
     }
 
     private func setupView() {
+        itemStackView.addArrangedSubview(titleLabel)
         itemStackView.addArrangedSubview(itemSubLabel)
         itemStackView.addArrangedSubview(itemExtraSubLabel)
 

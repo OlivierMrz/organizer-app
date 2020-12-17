@@ -30,10 +30,11 @@ class ItemDetailDataSource: NSObject, UITableViewDataSource {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailInfoCell, for: indexPath) as! DetailInfoCell
-            cell.itemSubLabel.text = viewModel.subTitle
-            cell.itemExtraSubLabel.text = viewModel.extraSubTitle
-            cell.storageLabel.text = viewModel.storagePlace
-            cell.storageNumberLabel.text = viewModel.storageNumber
+            cell.titleLabel.text = viewModel.name.firstUppercased
+            cell.itemSubLabel.text = viewModel.subTitle?.firstUppercased
+            cell.itemExtraSubLabel.text = viewModel.extraSubTitle?.firstUppercased
+            cell.storageLabel.text = viewModel.storagePlace.firstUppercased
+            cell.storageNumberLabel.text = viewModel.storageNumber.uppercased()
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.detailButtonCell, for: indexPath) as! DetailButtonCell
