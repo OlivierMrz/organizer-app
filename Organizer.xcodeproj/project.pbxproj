@@ -43,6 +43,7 @@
 		695461BE257FEE0F007908B5 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695461BD257FEE0F007908B5 /* CoreDataManager.swift */; };
 		695461C6257FFF46007908B5 /* HomeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695461C5257FFF46007908B5 /* HomeListViewModel.swift */; };
 		6958BD682581240F004627E6 /* SelectCellListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6958BD672581240F004627E6 /* SelectCellListViewModel.swift */; };
+		6962800F258BB66B0098FDB3 /* ItemDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6962800E258BB66B0098FDB3 /* ItemDetailCoordinator.swift */; };
 		696B190523EDB75F00848383 /* UIImage+resizeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190423EDB75F00848383 /* UIImage+resizeImage.swift */; };
 		696B190723EDB92E00848383 /* UIViewController+pushToCategoryItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190623EDB92E00848383 /* UIViewController+pushToCategoryItemVC.swift */; };
 		696B190923EDB99100848383 /* UIView+getCurrentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190823EDB99100848383 /* UIView+getCurrentViewController.swift */; };
@@ -115,6 +116,7 @@
 		695461BD257FEE0F007908B5 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		695461C5257FFF46007908B5 /* HomeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListViewModel.swift; sourceTree = "<group>"; };
 		6958BD672581240F004627E6 /* SelectCellListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCellListViewModel.swift; sourceTree = "<group>"; };
+		6962800E258BB66B0098FDB3 /* ItemDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailCoordinator.swift; sourceTree = "<group>"; };
 		696B190423EDB75F00848383 /* UIImage+resizeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+resizeImage.swift"; sourceTree = "<group>"; };
 		696B190623EDB92E00848383 /* UIViewController+pushToCategoryItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+pushToCategoryItemVC.swift"; sourceTree = "<group>"; };
 		696B190823EDB99100848383 /* UIView+getCurrentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+getCurrentViewController.swift"; sourceTree = "<group>"; };
@@ -341,6 +343,14 @@
 			path = Labels;
 			sourceTree = "<group>";
 		};
+		6962800D258BB6550098FDB3 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				6962800E258BB66B0098FDB3 /* ItemDetailCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		696B190323EDB73100848383 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +478,7 @@
 		698223A22582178500C632AD /* Item Detail */ = {
 			isa = PBXGroup;
 			children = (
+				6962800D258BB6550098FDB3 /* Coordinator */,
 				694A30BC25875D090069781C /* View */,
 				698223A7258217D900C632AD /* Controllers */,
 				694A30F62587D6730069781C /* Delegate */,
@@ -688,6 +699,7 @@
 				6972A8A1257FCF1300F6537C /* Margins.swift in Sources */,
 				69E504A4258A4A3500543A1E /* StringProtocol+firstLetterUppercased.swift in Sources */,
 				697A853F23CF529F00ACC35C /* CustomButton.swift in Sources */,
+				6962800F258BB66B0098FDB3 /* ItemDetailCoordinator.swift in Sources */,
 				69109BAC258A10A900F7CD61 /* MainViewModel.swift in Sources */,
 				699B52AC23CE14B300EAFE33 /* DeviceWidth.swift in Sources */,
 				69461C6C2584223600F68670 /* AddItemViewController.swift in Sources */,

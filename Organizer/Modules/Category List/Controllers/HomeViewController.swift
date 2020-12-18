@@ -79,7 +79,8 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
         let modalViewController = AddCategoryViewController()
         modalViewController.addCategoryDelegate = self
         modalViewController.modalPresentationStyle = .overCurrentContext
-        present(modalViewController, animated: true, completion: nil)
+        
+        coordinator?.presentAddCategoryVc(modalViewController)
     }
     
 

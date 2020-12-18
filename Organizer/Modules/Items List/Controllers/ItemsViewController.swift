@@ -10,6 +10,7 @@ import UIKit
 
 class ItemsViewController: UIViewController, AddItemDelegate, ItemsViewDelegate {
     
+    weak var coordinator: ItemsListCoordinator?
     private let mainView = ItemsView()
     private var viewModel: ItemListViewModel
     private var dataSource: ItemsDataSource
@@ -41,7 +42,7 @@ class ItemsViewController: UIViewController, AddItemDelegate, ItemsViewDelegate 
         modalViewController.addItemDelegate = self
         modalViewController.modalPresentationStyle = .overCurrentContext
         
-        present(modalViewController, animated: true, completion: nil)
+        coordinator?.newItemTapped(controller: modalViewController)
     }
 
     // MARK: AddNavigation

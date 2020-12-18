@@ -11,6 +11,7 @@ import CoreData
 
 class ItemDetailViewController: UIViewController {
     
+    weak var coordinator: ItemDetailCoordinator?
     private let mainView = ItemDetailView()
     var viewModel: ItemViewModel
     private var dataSource: ItemDetailDataSource
