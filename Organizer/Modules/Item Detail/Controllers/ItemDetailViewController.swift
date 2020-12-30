@@ -12,21 +12,23 @@ import CoreData
 class ItemDetailViewController: UIViewController {
     
     weak var coordinator: ItemDetailCoordinator?
-    private let mainView = ItemDetailView()
+    private let mainView = ItemDetailViewV2()
     var viewModel: ItemViewModel
     private var dataSource: ItemDetailDataSource
     private var delegate: ItemDetailDelegate
     
     override func loadView() {
         super.loadView()
+        
         view = mainView
+//        view.frame = CGRect(x: 20, y: 0, width: view.frame.width - 40, height: view.frame.height)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        mainView.tableView.delegate = delegate
-        mainView.tableView.dataSource = dataSource
+//        mainView.tableView.delegate = delegate
+//        mainView.tableView.dataSource = dataSource
     }
     
     init(itemViewModel: ItemViewModel) {

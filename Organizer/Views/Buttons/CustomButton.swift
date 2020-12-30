@@ -15,6 +15,13 @@ class CustomButton: UIButton {
         i.translatesAutoresizingMaskIntoConstraints = false
         return i
     }()
+    
+//    func roundedCorner(side: c) {
+//        if corners.contains(.topLeft) { masked.insert(.layerMinXMinYCorner) }
+//        if corners.contains(.topRight) { masked.insert(.layerMaxXMinYCorner) }
+//        if corners.contains(.bottomLeft) { masked.insert(.layerMinXMaxYCorner) }
+//        if corners.contains(.bottomRight) { masked.insert(.layerMaxXMaxYCorner) }
+//    }
 
     func setup(icon: Bool = false, iconImage: UIImage = UIImage(), title: String, backgroundColor: UIColor, borderColor: UIColor) {
         setTitle(title, for: .normal)
@@ -41,6 +48,8 @@ class CustomButton: UIButton {
         self.backgroundColor = backgroundColor
         layer.borderWidth = BorderWidth.large
         layer.borderColor = borderColor.cgColor
+        layer.cornerRadius = CornerRadius.large
+        layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     }
 
     func setup() {
@@ -49,7 +58,7 @@ class CustomButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    convenience init(icon: Bool = false, iconImage: UIImage = UIImage(), title: String, backgroundColor: UIColor, borderColor: UIColor) {
+    convenience init(icon: Bool = false, iconImage: UIImage = UIImage(), title: String, backgroundColor: UIColor, borderColor: UIColor, hasRoundedBorder: Bool = true) {
         self.init()
         
         setTitle(title, for: .normal)
@@ -76,6 +85,13 @@ class CustomButton: UIButton {
         self.backgroundColor = backgroundColor
         layer.borderWidth = BorderWidth.large
         layer.borderColor = borderColor.cgColor
+        
+        if hasRoundedBorder {
+            layer.cornerRadius = CornerRadius.xSmall
+        } else {
+            layer.cornerRadius = 0
+        }
+        
     }
 
     override init(frame: CGRect) {
