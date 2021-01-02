@@ -32,6 +32,33 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         navigationController.pushViewController(vc, animated: false)
     }
     
+    func goToItemDetail() {
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        let category = Category(context: context)
+        category.name = "Dev Cat"
+        category.cellType = cellType.basic.name
+        category.icon = iconType.box.name
+        
+        
+        
+        let item = Item(context: context)
+        item.borrowed = false
+        item.borrowedBy = "No body"
+        item.extraSubTitle = "Extra sub title"
+        item.name = "Item detail"
+        item.storageNumber = "A1"
+        item.storagePlace = "Garage"
+        item.subTitle = "Sub title"
+        item.category = category
+        
+        category.items = NSSet(array: [item])
+        
+        let vm = ItemViewModel(item: item)
+        let controller = ItemDetailViewController(itemViewModel: vm)
+        controller.title = vm.name.capitalized
+        navigationController.pushViewController(controller, animated: true)
+    }
+    
     func presentAddCategoryVc(_ controller: AddCategoryViewController) {
         presenter?.present(controller, animated: true, completion: nil)
     }

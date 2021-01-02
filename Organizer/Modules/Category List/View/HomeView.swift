@@ -16,6 +16,7 @@ protocol HomeViewDelegate {
 class HomeView: UIView, UIGestureRecognizerDelegate {
     
     var delegate: HomeViewDelegate?
+    var devDelegate: DevModeDelegate?
     var viewModel: HomeListViewModel
 
     let collectionView: UICollectionView = {
@@ -32,6 +33,19 @@ class HomeView: UIView, UIGestureRecognizerDelegate {
         return cv
     }()
 
+    private let devModeView: DevModeView = {
+        let v = DevModeView()
+        v.backgroundColor = .gray
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    
+    private lazy var devModeButton: UIButton = {
+        return CustomButton(title: "DEV", backgroundColor: .systemRed, borderColor: .systemRed)
+    }()
+    private var isDevModeViewVisible = false
+    private var devModeViewLeadingContraint: NSLayoutConstraint?
+    
     private let searchBar = UISearchBar()
     private lazy var addCategoryButton: UIButton = { return AddButton() }()
     private let refreshControl: UIRefreshControl = { return CustomRefreshControl(frame: .zero) }()
@@ -66,6 +80,56 @@ class HomeView: UIView, UIGestureRecognizerDelegate {
             addCategoryButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Margins.addButton),
             addCategoryButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Margins.addButton),
         ])
+    }
+    
+    private enum devModeViewType {
+        case visible, notVisible
+        
+        var value: CGFloat {
+            switch self {
+            case .visible:
+                return 0
+            case .notVisible:
+                return -300
+            }
+        }
+    }
+    
+    private func addDevModeView(bounds: CGRect) {
+        addSubview(devModeView)
+        NSLayoutConstraint.activate([
+            devModeViewLeadingContraint!,
+            devModeView.widthAnchor.constraint(equalToConstant: 300),
+            devModeView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            devModeView.heightAnchor.constraint(equalToConstant: bounds.height)
+        ])
+        
+        addSubview(devModeButton)
+        devModeButton.addTarget(self, action: #selector(devModeButtonTapped), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            devModeButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            devModeButton.widthAnchor.constraint(equalToConstant: 60),
+            devModeButton.heightAnchor.constraint(equalToConstant: 40),
+            devModeButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -30)
+        ])
+        
+        devModeView.delegate = devDelegate
+    }
+    
+    @objc private func devModeButtonTapped() {
+        
+        if !isDevModeViewVisible {
+            devModeViewLeadingContraint?.constant = devModeViewType.visible.value
+            isDevModeViewVisible = true
+        } else {
+            devModeViewLeadingContraint?.constant = devModeViewType.notVisible.value
+            isDevModeViewVisible = false
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut) {
+            self.layoutIfNeeded()
+        }
+
     }
 
     private func addSearchBar() {
@@ -127,12 +191,16 @@ class HomeView: UIView, UIGestureRecognizerDelegate {
         addNewCategoryButton()
         
         setupLongGestureRecognizerOnCollection()
+//        addDevModeView(bounds: self.bounds)
+        devModeViewLeadingContraint = devModeView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: devModeViewType.notVisible.value)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
         searchBar.frame = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: 64)
+        
+        addDevModeView(bounds: self.bounds)
     }
     
     init(viewModel: HomeListViewModel) {

@@ -8,8 +8,8 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegate {
-        
+class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegate, DevModeDelegate {
+
     // MARK: - Properties
     var coordinator: MainCoordinator?
     private var mainView: HomeView?
@@ -39,6 +39,7 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
         self.delegate = CategoryDelegate(vc: self, viewModel)
         
         mainView?.delegate = self
+        mainView?.devDelegate = self
         mainView?.collectionView.delegate = delegate
         mainView?.collectionView.dataSource = dataSource
         
@@ -47,6 +48,11 @@ class HomeViewController: UIViewController, AddCategoryDelegate, HomeViewDelegat
     }
     
     // MARK: - Delegate Methods
+    
+    func devGoToItemDetail() {
+        print("-- DEV item detail tapped received on Controller")
+        coordinator?.goToItemDetail()
+    }
     
     func addCategoryDidSave(vm: CategoryViewModel?) {
         if let vm = vm {
