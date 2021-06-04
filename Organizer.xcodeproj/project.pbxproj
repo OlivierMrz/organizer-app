@@ -44,6 +44,7 @@
 		695461BE257FEE0F007908B5 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695461BD257FEE0F007908B5 /* CoreDataManager.swift */; };
 		695461C6257FFF46007908B5 /* HomeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695461C5257FFF46007908B5 /* HomeListViewModel.swift */; };
 		6958BD682581240F004627E6 /* SelectCellListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6958BD672581240F004627E6 /* SelectCellListViewModel.swift */; };
+		695AA24E25A0967A0024D533 /* ItemDetailViewV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695AA24D25A0967A0024D533 /* ItemDetailViewV3.swift */; };
 		6962800F258BB66B0098FDB3 /* ItemDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6962800E258BB66B0098FDB3 /* ItemDetailCoordinator.swift */; };
 		696B190523EDB75F00848383 /* UIImage+resizeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190423EDB75F00848383 /* UIImage+resizeImage.swift */; };
 		696B190723EDB92E00848383 /* UIViewController+pushToCategoryItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B190623EDB92E00848383 /* UIViewController+pushToCategoryItemVC.swift */; };
@@ -119,6 +120,7 @@
 		695461BD257FEE0F007908B5 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		695461C5257FFF46007908B5 /* HomeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListViewModel.swift; sourceTree = "<group>"; };
 		6958BD672581240F004627E6 /* SelectCellListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCellListViewModel.swift; sourceTree = "<group>"; };
+		695AA24D25A0967A0024D533 /* ItemDetailViewV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewV3.swift; sourceTree = "<group>"; };
 		6962800E258BB66B0098FDB3 /* ItemDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailCoordinator.swift; sourceTree = "<group>"; };
 		696B190423EDB75F00848383 /* UIImage+resizeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+resizeImage.swift"; sourceTree = "<group>"; };
 		696B190623EDB92E00848383 /* UIViewController+pushToCategoryItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+pushToCategoryItemVC.swift"; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 			children = (
 				694A30BD25875D290069781C /* ItemDetailView.swift */,
 				69CBD8C1258CD9F000001B0D /* ItemDetailViewV2.swift */,
+				695AA24D25A0967A0024D533 /* ItemDetailViewV3.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -696,6 +699,7 @@
 				69E504AE258A655700543A1E /* MainCoordinator.swift in Sources */,
 				694A30F32587D15A0069781C /* ItemsDelegate.swift in Sources */,
 				69CC404223D5ECBB00F25E5C /* AddButton.swift in Sources */,
+				695AA24E25A0967A0024D533 /* ItemDetailViewV3.swift in Sources */,
 				699B529823CE145300EAFE33 /* AppDelegate.swift in Sources */,
 				6912171123DF1FB500E4D643 /* DetailInfoCell.swift in Sources */,
 				694A30FC2587D7750069781C /* ItemDetailDelegate.swift in Sources */,

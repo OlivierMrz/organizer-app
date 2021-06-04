@@ -12,7 +12,7 @@ import CoreData
 class ItemDetailViewController: UIViewController {
     
     weak var coordinator: ItemDetailCoordinator?
-    private let mainView = ItemDetailViewV2()
+    private let mainView = ItemDetailViewV3()
     var viewModel: ItemViewModel
     private var dataSource: ItemDetailDataSource
     private var delegate: ItemDetailDelegate
